@@ -1,11 +1,11 @@
-CREATE TABLE categories (
+CREATE TABLE IF NOT EXISTS categories (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL UNIQUE
+    name TEXT NOT NULL UNIQUE,
     parent_id INTEGER,
     FOREIGN KEY(parent_id) REFERENCES categories(id)
 );
 
-CREATE TABLE things (
+CREATE TABLE IF NOT EXISTS things (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     category_id INTEGER,
     name TEXT NOT NULL UNIQUE,
@@ -14,7 +14,7 @@ CREATE TABLE things (
     FOREIGN KEY(category_id) REFERENCES categories(id)
 );
 
-CREATE TABLE tickets (
+CREATE TABLE IF NOT EXISTS tickets (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     thing_id INTEGER,
     category_id INTEGER,
@@ -27,7 +27,7 @@ CREATE TABLE tickets (
     FOREIGN KEY(category_id) REFERENCES categories(id)
 );
 
-CREATE TABLE comments (
+CREATE TABLE IF NOT EXISTS comments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     ticket_id INTEGER,
     content TEXT NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE comments (
     FOREIGN KEY(ticket_id) REFERENCES tickets(id)
 );
 
-CREATE TABLE actions (
+CREATE TABLE IF NOT EXISTS actions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     ticket_id INTEGER,
     action_type TEXT NOT NULL,
