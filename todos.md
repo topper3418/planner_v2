@@ -15,7 +15,8 @@
 
 ## API
 
-- [ ]  set up proxy in vite that will be plug and play for nginx
+- [X]  set up proxy in vite that will be plug and play for nginx
+- [ ] figure out why the view query works in the raw but not in the api
 
 
 ## USAGE
