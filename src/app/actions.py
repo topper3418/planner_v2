@@ -1,15 +1,10 @@
-from typing import Optional
-from fastapi import APIRouter, HTTPException, status
-from ..db import database
+from fastapi import APIRouter, HTTPException, Query, status
+from ..db import controller
 
 
 router = APIRouter(prefix="/actions", tags=["actions"])
 
 
-controller = database.controller
-
-
-# Actions Routes
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_action(action: controller.Action):
     """
@@ -48,7 +43,7 @@ async def get_action(action_id: int):
 
 
 @router.get("/", response_model=list[controller.Action])
-async def list_actions(filters: Optional[controller.ActionFilter] = None):
+async def list_actions(filters: controller.ActionFilter = Query()):
     """
     List actions with optional filters (fuzzy search on action_type).
     """

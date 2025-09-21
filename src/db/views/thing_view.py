@@ -1,8 +1,9 @@
 from typing import Optional
-from pydantic import BaseModel
+
+from fastapi import Query
 
 from ..util import get_db_connection
-from ..controller import Thing, Category, ThingFilter
+from ..controller import Thing, ThingFilter
 
 
 class ThingView(Thing):
@@ -15,13 +16,15 @@ class ThingViewFilter(ThingFilter):
 
 class ThingViewManager:
     @staticmethod
-    def list_thing_view(
-        filters: Optional[ThingViewFilter] = None,
+    def list(
+        filters: ThingViewFilter = Query(),
     ) -> list[ThingView]:
-        query = """SELECT t.id, t.category_id, c.name as category_name, t.name, t.description, t.docs_link 
-                   FROM things t
-                   LEFT JOIN categories c ON t.category_id = c.id
-                   WHERE t.name LIKE ?"""
+        query = """
+        SELECT t.id, t.category_id, c.name as category_name, t.name, t.description, t.docs_link 
+        FROM things t
+        LEFT JOIN categories c ON t.category_id = c.id
+        LIKE ?
+        """
         args = [f"%{filters.name}%" if filters and filters.name else "%"]
         if filters and filters.category_id is not None:
             query += " AND t.category_id = ?"

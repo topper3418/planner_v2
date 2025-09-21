@@ -1,12 +1,10 @@
-from typing import Optional
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Query, status
 from ..db import controller as db
 
 
 router = APIRouter(prefix="/tickets", tags=["tickets"])
 
 
-# Tickets Routes
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_ticket(ticket: db.Ticket):
     """
@@ -45,11 +43,11 @@ async def get_ticket(ticket_id: int):
 
 
 @router.get("/", response_model=list[db.Ticket])
-async def list_tickets(filters: Optional[db.TicketFilter] = None):
+async def list_tickets(filters: db.TicketFilter = Query()):
     """
     List tickets with optional filters (fuzzy search on description).
     """
-    return db.TicketManager.list_tickets(filters)
+    return db.TicketManager.list(filters)
 
 
 @router.delete("/{ticket_id}")

@@ -1,12 +1,11 @@
 from typing import Optional
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Query, status
 from ..db import controller as db
 
 
 router = APIRouter(prefix="/things", tags=["things"])
 
 
-# Things Routes
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_thing(thing: db.Thing):
     """
@@ -45,7 +44,7 @@ async def get_thing(thing_id: int):
 
 
 @router.get("/", response_model=list[db.Thing])
-async def list_things(filters: Optional[db.ThingFilter] = None):
+async def list_things(filters: db.ThingFilter = Query()):
     """
     List things with optional filters (fuzzy search on name).
     """

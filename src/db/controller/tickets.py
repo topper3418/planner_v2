@@ -118,7 +118,7 @@ class TicketManager:
             return Ticket(**row) if row else None
 
     @staticmethod
-    def list_tickets(
+    def list(
         filters: Optional[TicketFilter] = None,
     ) -> List[Ticket]:
         """
