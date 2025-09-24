@@ -16,7 +16,7 @@
 ## API
 
 - [X]  set up proxy in vite that will be plug and play for nginx
-- [ ] figure out why the view query works in the raw but not in the api
+- [X] figure out why the view query works in the raw but not in the api
 
 
 ## USAGE
@@ -30,3 +30,4 @@
   - [ ] first and foremost, they should go into a message buffer. 
 - [ ] ugh there should be a frontend too. I guess try to make it with a react project
   - [ ] keep it no more complicated than topperud-todos
+  - [ ] should be able to see a list of all things, and click each to see its tickets

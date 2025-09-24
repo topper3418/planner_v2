@@ -10,4 +10,5 @@ async def list_things(filters: views.ThingViewFilter = Query()):
     """
     List things with optional filters (fuzzy search on name).
     """
-    return views.ThingViewManager.list(filters)
+    data = views.ThingViewManager.list(filters)
+    return data

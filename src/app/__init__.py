@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from .actions import router as actions_router
 from .categories import router as categories_router
@@ -10,9 +11,24 @@ from .thingView import router as thing_view_router
 
 app = FastAPI()
 
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Frontend origin
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
 app.include_router(actions_router)
 app.include_router(categories_router)
 app.include_router(comments_router)
 app.include_router(things_router)
 app.include_router(tickets_router)
 app.include_router(thing_view_router)
+
+
+# healthcheck endpoint
+@app.get("/healthcheck")
+async def healthcheck():
+    return {"status": "ok"}

@@ -23,7 +23,7 @@ class ThingViewManager:
         SELECT t.id, t.category_id, c.name as category_name, t.name, t.description, t.docs_link 
         FROM things t
         LEFT JOIN categories c ON t.category_id = c.id
-        LIKE ?
+        WHERE t.name LIKE ?
         """
         args = [f"%{filters.name}%" if filters and filters.name else "%"]
         if filters and filters.category_id is not None:
