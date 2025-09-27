@@ -1,6 +1,6 @@
 # LEARNING TODOS
 
-- [ ] make a clean pydantic integration with .env
+- [X] make a clean pydantic integration with .env
 - [/] make a clean pydantic integration with db, using orm mode or whatever
   - [X] proompt a CRUD interface for each model
 - [X] integrate it all with fastapi
