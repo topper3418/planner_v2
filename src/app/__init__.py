@@ -6,7 +6,7 @@ from .comments import router as comments_router
 from .things import router as things_router
 from .tickets import router as tickets_router
 
-from .thingView import router as thing_view_router
+from .thing_view import router as thing_view_router
 
 app = FastAPI()
 

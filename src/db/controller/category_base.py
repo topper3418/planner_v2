@@ -33,6 +33,7 @@ class CategoryManager:
             unique_constraint_error=f"{cls.__category_model__.__name__} name '{category.name}' already exists"
         )
         last_row_id = DbCore.run_create(query, params, exception_package)
+        category.id = last_row_id
         return last_row_id
 
     @classmethod

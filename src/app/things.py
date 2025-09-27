@@ -1,8 +1,7 @@
-from typing import Optional
 from fastapi import APIRouter, HTTPException, Query, status
 from ..db import controller as controller
 from .thing_categories import router as categories_router
-from .thingView import router as thing_view_router
+from .thing_view import router as thing_view_router
 
 
 router = APIRouter(prefix="/things", tags=["things"])

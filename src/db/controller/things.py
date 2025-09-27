@@ -1,8 +1,6 @@
 import logging
 from pydantic import BaseModel, Field
-from typing import Literal, Optional, List
-
-from .thing_categories import ThingCategory
+from typing import TYPE_CHECKING, Literal, Optional, List
 
 from ..core import DbCore, ExceptionPackage
 
@@ -10,14 +8,20 @@ from ..core import DbCore, ExceptionPackage
 logger = logging.getLogger(__name__)
 
 
+if TYPE_CHECKING:
+    from .thing_categories import ThingCategory
+
+
 # Pydantic model for Thing
 class Thing(BaseModel):
     id: Optional[int] = None
-    category_id: Optional[int] = None
     name: str
     description: Optional[str] = None
     docs_link: Optional[str] = None
+
+    category_id: Optional[int] = None
     parent_id: Optional[int] = None
+
     category: Optional["ThingCategory"] = None
     parent: Optional["Thing"] = None
     children: Optional[List["Thing"]] = None
@@ -26,25 +30,31 @@ class Thing(BaseModel):
         from_attributes = True
 
     @classmethod
-    def from_row(cls, row) -> "Thing":
+    def from_row(cls, **row) -> "Thing":
+        row = dict(row)
         thing = cls(
             id=row["id"],
             category_id=row["category_id"],
             name=row["name"],
             description=row["description"],
             docs_link=row["docs_link"],
-            parent_id=row["parent_id"],
+            parent_id=row.get("parent_id"),
         )
         if "category_name" in row.keys():
+            from .thing_categories import ThingCategory
+
             thing.category = ThingCategory(
                 id=row["category_id"],
-                name=row.get("category_name", None),
-                description=row.get("category_description", None),
+                name=row.get("category_name", ""),
+                description=row.get("category_description", ""),
             )
-        if "parent_name" in row.keys():
+        if (
+            "parent_name" in row.keys()
+            and row.get("parent_id") is not None
+        ):
             thing.parent = Thing(
-                id=row["parent_id"],
-                name=row.get("parent_name", None),
+                id=row.get("parent_id"),
+                name=row.get("parent_name", ""),
                 description=row.get("parent_description", None),
                 docs_link=row.get("parent_docs_link", None),
             )
@@ -69,6 +79,8 @@ class ThingParams(BaseModel):
     )
     search: Optional[str] = None
     include: list[Literal["category", "parent", "children"]] = []
+    page_number: Optional[int] = Field(default=1, ge=1)
+    page_size: Optional[int] = Field(default=10, ge=1, le=1000)
 
 
 class ThingManager:
@@ -85,7 +97,9 @@ class ThingManager:
             unique_constraint_error=f"Thing name '{thing.name}' already exists",
             foreign_key_constraint_error=f"Invalid category_id: {thing.category_id}",
         )
-        return DbCore.run_create(query, params, exception_package)
+        thing_id = DbCore.run_create(query, params, exception_package)
+        thing.id = thing_id
+        return thing_id
 
     @staticmethod
     def update(thing: Thing) -> None:
@@ -108,8 +122,18 @@ class ThingManager:
 
     @staticmethod
     def get_by_id(thing_id: int) -> Optional[Thing]:
-        query = "SELECT id, category_id, name, description, docs_link FROM things WHERE id = ?"
-        return DbCore.run_get_by_id(query, thing_id, Thing)
+        query = (
+            "SELECT"
+            " t.id, t.category_id, t.name, t.description, t.docs_link,"
+            " c.name AS category_name, c.description AS category_description"
+            " FROM things t"
+            " LEFT JOIN thing_categories c ON t.category_id = c.id"
+            " WHERE t.id = ?"
+        )
+        thing = DbCore.run_get_by_id(query, thing_id, Thing.from_row)
+        if thing:
+            thing.populate_children()
+        return thing
 
     @staticmethod
     def list_things(
@@ -151,6 +175,12 @@ class ThingManager:
                 query += " AND (t.name LIKE ? OR t.description LIKE ?)"
                 search_param = f"%{query_params.search}%"
                 params.extend([search_param, search_param])
+            if query_params.page_number and query_params.page_size:
+                offset = (
+                    query_params.page_number - 1
+                ) * query_params.page_size
+                query += " LIMIT ? OFFSET ?"
+                params.extend([str(query_params.page_size), str(offset)])
         things = DbCore.run_list(query, tuple(params), Thing.from_row)
         if query_params and "children" in query_params.include:
             for thing in things:

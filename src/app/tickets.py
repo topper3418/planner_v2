@@ -44,7 +44,7 @@ async def get_ticket(ticket_id: int):
 
 
 @router.get("/", response_model=list[controller.Ticket])
-async def list_tickets(filters: controller.TicketFilter = Query()):
+async def list_tickets(filters: controller.TicketParams = Query()):
     """
     List tickets with optional filters (fuzzy search on description).
     """

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
 
@@ -20,6 +20,8 @@ class Comment(BaseModel):
 class CommentFilter(BaseModel):
     content: Optional[str] = None
     ticket_id: Optional[int] = None
+    page_number: Optional[int] = Field(1, ge=1)
+    page_size: Optional[int] = Field(10, ge=1, le=100)
 
 
 # Manager class for CRUD operations
@@ -32,6 +34,7 @@ class CommentManager:
             foreign_key_constraint_error=f"Invalid ticket_id: {comment.ticket_id}"
         )
         last_row_id = DbCore.run_create(query, params, exception_package)
+        comment.id = last_row_id
         return last_row_id
 
     @staticmethod
@@ -59,9 +62,18 @@ class CommentManager:
             f"%{filters.content if filters and filters.content else ''}%"
         ]
 
-        if filters and filters.ticket_id is not None:
-            query += " AND ticket_id = ?"
-            params.append(str(filters.ticket_id))
+        if filters:
+            if filters.ticket_id is not None:
+                query += " AND ticket_id = ?"
+                params.append(str(filters.ticket_id))
+            if (
+                filters.page_number is not None
+                and filters.page_size is not None
+            ):
+                offset = (filters.page_number - 1) * filters.page_size
+                query += " LIMIT ? OFFSET ?"
+                params.append(str(filters.page_size))
+                params.append(str(offset))
         return DbCore.run_list(query, tuple(params), Comment)
 
     @staticmethod

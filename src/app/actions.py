@@ -43,7 +43,7 @@ async def get_action(action_id: int):
 
 
 @router.get("/", response_model=list[controller.Action])
-async def list_actions(filters: controller.ActionFilter = Query()):
+async def list_actions(filters: controller.ActionParams = Query()):
     """
     List actions with optional filters (fuzzy search on action_type).
     """
