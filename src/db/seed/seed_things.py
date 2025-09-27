@@ -1,11 +1,11 @@
-from ..controller import Controller
+from .. import Database
 
 
-ThingCategory = Controller.Objects.ThingCategory
-Thing = Controller.Objects.Thing
+ThingCategory = Database.Controller.Objects.ThingCategory
+Thing = Database.Controller.Objects.Thing
 
-ThingCategoryManager = Controller.Managers.ThingCategory
-ThingManager = Controller.Managers.Thing
+ThingCategoryManager = Database.Controller.Managers.ThingCategory
+ThingManager = Database.Controller.Managers.Thing
 
 
 def seed_things():

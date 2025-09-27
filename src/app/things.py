@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, Query, status
 from ..db import controller as controller
 from .thing_categories import router as categories_router
-from .thing_view import router as thing_view_router
 
 
 router = APIRouter(prefix="/things", tags=["things"])
@@ -65,4 +64,3 @@ async def delete_thing(thing_id: int):
 
 
 router.include_router(categories_router)
-router.include_router(thing_view_router)

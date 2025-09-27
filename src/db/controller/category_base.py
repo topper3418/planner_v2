@@ -1,4 +1,5 @@
 import sqlite3
+import logging
 from pydantic import BaseModel
 from typing import Optional, List
 from ..core import DbCore, ExceptionPackage
@@ -24,9 +25,13 @@ class CategoryFilter(BaseModel):
 class CategoryManager:
     __table_name__ = "categories"
     __category_model__ = Category
+    logger = logging.getLogger(__name__)
 
     @classmethod
     def create(cls, category: Category) -> int:
+        cls.logger.info(
+            f"Creating new {cls.__category_model__.__name__}: {category}"
+        )
         query = f"INSERT INTO {cls.__table_name__} (name, description) VALUES (?, ?)"
         params = (category.name, category.description)
         exception_package = ExceptionPackage(
@@ -38,6 +43,9 @@ class CategoryManager:
 
     @classmethod
     def update(cls, category: Category) -> None:
+        cls.logger.info(
+            f"Updating {cls.__category_model__.__name__}: {category}"
+        )
         if category.id is None:
             raise ValueError(
                 f"{cls.__category_model__.__name__} ID is required for update"
@@ -52,6 +60,9 @@ class CategoryManager:
 
     @classmethod
     def get_by_id(cls, category_id: int) -> Optional[Category]:
+        cls.logger.info(
+            f"Fetching {cls.__category_model__.__name__} with ID {category_id}"
+        )
         query = f"SELECT * FROM {cls.__table_name__} WHERE id = ?"
         return DbCore.run_get_by_id(query, category_id, Category)
 
@@ -60,6 +71,9 @@ class CategoryManager:
         cls,
         filters: Optional[CategoryFilter] = None,
     ) -> List[Category]:
+        cls.logger.info(
+            f"Listing {cls.__category_model__.__name__}s with filters: {filters}"
+        )
         query = f"SELECT c.* FROM {cls.__table_name__} c WHERE name LIKE ?"
         params = [f"%{filters.name if filters and filters.name else ''}%"]
 
@@ -72,6 +86,9 @@ class CategoryManager:
 
     @classmethod
     def delete(cls, category_id: int) -> None:
+        cls.logger.info(
+            f"Deleting {cls.__category_model__.__name__} with ID {category_id}"
+        )
         query = f"DELETE FROM {cls.__table_name__} WHERE id = ?"
         exception_package = ExceptionPackage(
             not_found_error=f"{cls.__category_model__.__name__} with ID {category_id} not found",

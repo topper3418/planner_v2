@@ -1,13 +1,13 @@
 from typing import Optional
-from ..controller import Controller
+from .. import Database
 
 
-TicketCategory = Controller.Objects.TicketCategory
-Thing = Controller.Objects.Thing
-Ticket = Controller.Objects.Ticket
+TicketCategory = Database.Controller.Objects.TicketCategory
+Thing = Database.Controller.Objects.Thing
+Ticket = Database.Controller.Objects.Ticket
 
-TicketCategoryManager = Controller.Managers.TicketCategory
-TicketManager = Controller.Managers.Ticket
+TicketCategoryManager = Database.Controller.Managers.TicketCategory
+TicketManager = Database.Controller.Managers.Ticket
 
 
 def seed_tickets(thing_id_lookup):

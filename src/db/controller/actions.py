@@ -1,6 +1,8 @@
-from pydantic import BaseModel
 from typing import TYPE_CHECKING, Literal, Optional, List
 from datetime import datetime
+import logging
+
+from pydantic import BaseModel, Field
 
 from ..core import DbCore, ExceptionPackage
 
@@ -8,6 +10,10 @@ from ..core import DbCore, ExceptionPackage
 if TYPE_CHECKING:
     from .tickets import Ticket
     from .action_types import ActionType
+
+logger = logging.getLogger(__name__)
+
+DbCore.logger = logger
 
 
 # Pydantic model for Action
@@ -69,6 +75,7 @@ class ActionParams(BaseModel):
 class ActionManager:
     @staticmethod
     def create(action: Action) -> int:
+        logger.info(f"Creating action {action}")
         query = "INSERT INTO actions (action_text, ticket_id, action_type_id) VALUES (?, ?, ?)"
         params = (
             action.action_text,
@@ -84,6 +91,7 @@ class ActionManager:
 
     @staticmethod
     def update(action: Action) -> None:
+        logger.info(f"Updating action: {action}")
         if action.id is None:
             raise ValueError("Action ID is required for update")
         query = "UPDATE actions SET ticket_id = ?, action_type_id = ? WHERE id = ?"
@@ -96,6 +104,7 @@ class ActionManager:
 
     @staticmethod
     def get_by_id(action_id: int) -> Optional[Action]:
+        logger.info(f"Getting action by ID: {action_id}")
         query = (
             "SELECT"
             " a.id, a.ticket_id, a.action_type_id, a.performed_at,"
@@ -112,6 +121,7 @@ class ActionManager:
     def list_actions(
         filters: Optional[ActionParams] = None,
     ) -> List[Action]:
+        logger.info(f"Listing actions with filters: {filters}")
         select_clause = (
             "SELECT"
             " a.id, a.action_text, a.ticket_id, a.action_type_id, a.performed_at"
@@ -169,6 +179,7 @@ class ActionManager:
 
     @staticmethod
     def delete(action_id: int) -> None:
+        logger.info(f"Deleting action with ID: {action_id}")
         query = "DELETE FROM actions WHERE id = ?"
         exception_package = ExceptionPackage(
             not_found_error=f"Action with ID {action_id} not found"

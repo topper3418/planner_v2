@@ -1,22 +1,25 @@
 import logging
 import os
 from logging.handlers import RotatingFileHandler
+from .config import settings
 
 
 def setup_logging():
+    print("SETTING UP LOGGING")
     # Setting up logger
-    logger = logging.getLogger("planner")
+    logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
 
     # Prevent duplicate handlers
     if not logger.handlers:
+        print("Configuring new logging handlers")
         # Creating formatter
         formatter = logging.Formatter(
             "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
 
         # Console handler (togglable via env var)
-        if os.getenv("CONSOLE_LOGGING", "true").lower() == "true":
+        if settings.CONSOLE_LOGGING:
             console_handler = logging.StreamHandler()
             console_handler.setLevel(logging.DEBUG)
             console_handler.setFormatter(formatter)
@@ -30,5 +33,4 @@ def setup_logging():
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
 
-
-__all__ = ["setup_logging"]
+    logger.info("Logging is set up.")

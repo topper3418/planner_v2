@@ -1,8 +1,12 @@
+import logging
 from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
 
 from ..core import DbCore, ExceptionPackage
+
+
+logger = logging.getLogger(__name__)
 
 
 # Pydantic model for Comment
@@ -28,6 +32,7 @@ class CommentFilter(BaseModel):
 class CommentManager:
     @staticmethod
     def create(comment: Comment) -> int:
+        logger.info(f"Creating new Comment: {comment}")
         query = "INSERT INTO comments (ticket_id, content) VALUES (?, ?)"
         params = (comment.ticket_id, comment.content)
         exception_package = ExceptionPackage(
@@ -39,6 +44,7 @@ class CommentManager:
 
     @staticmethod
     def update(comment: Comment) -> None:
+        logger.info(f"Updating Comment: {comment}")
         if comment.id is None:
             raise ValueError("Comment ID is required for update")
         query = "UPDATE comments SET content = ? WHERE id = ?"
@@ -50,6 +56,7 @@ class CommentManager:
 
     @staticmethod
     def get_by_id(comment_id: int) -> Optional[Comment]:
+        logger.info(f"Getting Comment by ID: {comment_id}")
         query = "SELECT id, ticket_id, content, created_at FROM comments WHERE id = ?"
         return DbCore.run_get_by_id(query, comment_id, Comment)
 
@@ -57,6 +64,7 @@ class CommentManager:
     def list_comments(
         filters: Optional[CommentFilter] = None,
     ) -> List[Comment]:
+        logger.info(f"Listing Comments with filters: {filters}")
         query = "SELECT id, ticket_id, content, created_at FROM comments WHERE content LIKE ?"
         params = [
             f"%{filters.content if filters and filters.content else ''}%"
@@ -78,6 +86,7 @@ class CommentManager:
 
     @staticmethod
     def delete(comment_id: int) -> None:
+        logger.info(f"Deleting Comment with ID: {comment_id}")
         query = "DELETE FROM comments WHERE id = ?"
         exception_package = ExceptionPackage(
             not_found_error=f"Comment with ID {comment_id} not found"

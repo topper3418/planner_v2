@@ -1,11 +1,11 @@
 from typing import Optional
 
-from ..controller import Controller
+from .. import Database
 
-Action = Controller.Objects.Action
-ActionType = Controller.Objects.ActionType
-ActionManager = Controller.Managers.Action
-ActionTypeManager = Controller.Managers.ActionType
+Action = Database.Controller.Objects.Action
+ActionType = Database.Controller.Objects.ActionType
+ActionManager = Database.Controller.Managers.Action
+ActionTypeManager = Database.Controller.Managers.ActionType
 
 
 def seed_actions(ticket_id_lookup):

@@ -86,6 +86,7 @@ class ThingParams(BaseModel):
 class ThingManager:
     @staticmethod
     def create(thing: Thing) -> int:
+        logger.info(f"Creating new Thing: {thing}")
         query = "INSERT INTO things (category_id, name, description, docs_link) VALUES (?, ?, ?, ?)"
         params = (
             thing.category_id,
@@ -103,6 +104,7 @@ class ThingManager:
 
     @staticmethod
     def update(thing: Thing) -> None:
+        logger.info(f"Updating Thing: {thing}")
         if thing.id is None:
             raise ValueError("Thing ID is required for update")
         query = "UPDATE things SET category_id = ?, name = ?, description = ?, docs_link = ? WHERE id = ?"
@@ -122,6 +124,7 @@ class ThingManager:
 
     @staticmethod
     def get_by_id(thing_id: int) -> Optional[Thing]:
+        logger.info(f"Getting Thing by ID: {thing_id}")
         query = (
             "SELECT"
             " t.id, t.category_id, t.name, t.description, t.docs_link,"
@@ -139,6 +142,7 @@ class ThingManager:
     def list_things(
         query_params: Optional[ThingParams] = None,
     ) -> List[Thing]:
+        logger.info(f"Listing Things with params: {query_params}")
         select = "SELECT t.id, t.category_id, t.name, t.description, t.docs_link"
         from_clause = "FROM things t"
         where_seed = "WHERE 1=1"
@@ -189,6 +193,7 @@ class ThingManager:
 
     @staticmethod
     def delete(thing_id: int) -> None:
+        logger.info(f"Deleting Thing with ID: {thing_id}")
         query = "DELETE FROM things WHERE id = ?"
         exception_package = ExceptionPackage(
             not_found_error=f"Thing with ID {thing_id} not found",

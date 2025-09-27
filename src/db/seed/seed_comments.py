@@ -1,8 +1,8 @@
-from ..controller import Controller
+from .. import Database
 
 
-Comment = Controller.Objects.Comment
-CommentManager = Controller.Managers.Comment
+Comment = Database.Controller.Objects.Comment
+CommentManager = Database.Controller.Managers.Comment
 
 
 def seed_comments(ticket_id_lookup):

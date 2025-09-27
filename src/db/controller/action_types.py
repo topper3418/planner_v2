@@ -1,4 +1,8 @@
+import logging
 from .category_base import Category, CategoryManager
+
+
+logger = logging.getLogger(__name__)
 
 
 # Pydantic model for Category
@@ -10,3 +14,4 @@ class ActionType(Category):
 class ActionTypeManager(CategoryManager):
     __table_name__ = "action_types"
     __category_model__ = ActionType
+    logger = logger
