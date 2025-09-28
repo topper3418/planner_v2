@@ -1,11 +1,4 @@
-from typing import TYPE_CHECKING
-
-
 from .base import Ticket
-
-
-if TYPE_CHECKING:
-    from .base import Ticket
 
 
 def from_row(cls, row) -> Ticket:

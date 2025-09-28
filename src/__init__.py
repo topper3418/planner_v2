@@ -1,6 +1,6 @@
 import os
 
-from .db import Database
+from .db import Controller, DbCore
 from .app import app
 from .logging import setup_logging
 
@@ -13,4 +13,4 @@ os.makedirs("data", exist_ok=True)
 setup_logging()
 
 
-__all__ = ["Controller", "app"]
+__all__ = ["Controller", "app", "DbCore"]

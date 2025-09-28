@@ -1,10 +1,8 @@
 import logging
-from typing import TYPE_CHECKING
 
 from ...core import DbCore
 
-if TYPE_CHECKING:
-    from .base import Ticket
+from .base import Ticket
 
 
 logger = logging.getLogger(__name__)

@@ -1,11 +1,9 @@
 import logging
-from typing import TYPE_CHECKING
 
 from ...core import DbCore
 
 
-if TYPE_CHECKING:
-    from .base import Thing
+from .base import Thing
 
 
 logger = logging.getLogger(__name__)
@@ -14,7 +12,7 @@ logger = logging.getLogger(__name__)
 DbCore.logger = logger
 
 
-def populate_children(thing: Thing) -> None:
+def populate_children(thing: "Thing") -> None:
     if thing.id is None:
         thing.children = []
         return

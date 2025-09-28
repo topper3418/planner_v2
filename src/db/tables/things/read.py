@@ -1,12 +1,11 @@
 import logging
-from typing import TYPE_CHECKING, Optional, List
+from typing import Optional, List
 
 from ...core import DbCore
 
+from .base import Thing
+from .params import ThingParams
 
-if TYPE_CHECKING:
-    from .base import Thing
-    from .params import ThingParams
 
 logger = logging.getLogger(__name__)
 

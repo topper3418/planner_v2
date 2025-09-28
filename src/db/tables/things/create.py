@@ -1,11 +1,9 @@
 import logging
-from typing import TYPE_CHECKING
 
 from ...core import DbCore, ExceptionPackage
 
 
-if TYPE_CHECKING:
-    from .base import Thing
+from .base import Thing
 
 
 logger = logging.getLogger(__name__)
