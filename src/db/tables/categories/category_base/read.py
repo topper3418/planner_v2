@@ -10,7 +10,9 @@ def read(
     cls,
     filters: Optional[CategoryParams] = None,
 ) -> List[Category]:
-    cls.__logger__.info(f"Listing {cls.__name__}s with filters: {filters}")
+    cls.__logger__.info(
+        f"Listing {cls.__class__}s with filters: {filters}"
+    )
     query = f"SELECT c.* FROM {cls.__table_name__} c WHERE name LIKE ?"
     params = [f"%{filters.name if filters and filters.name else ''}%"]
 

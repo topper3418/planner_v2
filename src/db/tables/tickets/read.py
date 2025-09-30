@@ -17,7 +17,7 @@ DbCore.logger = logger
 def read(
     query_params: Optional[TicketParams] = None,
 ) -> List[Ticket]:
-    select = "SELECT t.id, t.thing_id, t.category_id, t.description, t.created_at, t.open, t.updated_at, t.completed_at"
+    select = "SELECT t.id, t.title, t.thing_id, t.category_id, t.parent_id, t.description, t.created_at, t.open, t.updated_at, t.completed_at"
     from_clause = "FROM tickets t"
     where_seed = "WHERE 1=1"
     params = []
@@ -48,12 +48,21 @@ def read(
         if query_params.thing_id is not None:
             query += " AND t.thing_id = ?"
             params.append(str(query_params.thing_id))
+        if query_params.thing_ids is not None:
+            placeholders = ",".join("?" * len(query_params.thing_ids))
+            query += f" AND t.thing_id IN ({placeholders})"
+            params.extend(str(tid) for tid in query_params.thing_ids)
         if query_params.category_id is not None:
             query += " AND t.category_id = ?"
             params.append(str(query_params.category_id))
+        if query_params.parent_id == 0:
+            query += " AND t.parent_id IS NULL"
+        elif query_params.parent_id is not None:
+            query += " AND t.parent_id = ?"
+            params.append(str(query_params.parent_id))
         if query_params.open is not None:
             query += " AND t.open = ?"
-            params.append(str(query_params.open).upper())
+            params.append(int(query_params.open))
         if query_params.search is not None:
             query += " AND (t.description LIKE ? OR t.title LIKE ?)"
             search_param = f"%{query_params.search}%"

@@ -15,7 +15,7 @@ async def create_comment(comment: Comment):
     Returns the ID of the created comment.
     """
     try:
-        comment_id = Comment.create(comment)
+        comment_id = comment.create()
         return {"id": comment_id}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

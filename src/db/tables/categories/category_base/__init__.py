@@ -17,7 +17,7 @@ from .read import read
 from .delete import delete
 
 
-setattr(Category, "create", as_classmethod(create))
+setattr(Category, "create", create)
 setattr(Category, "update", as_classmethod(update))
 setattr(Category, "get_by_id", as_classmethod(get_by_id))
 setattr(Category, "read", as_classmethod(read))

@@ -1,17 +1,24 @@
-import { Breadcrumb, Layout, Menu, theme, Typography } from 'antd';
-
-const { Header, Content, Footer } = Layout;
+import { useEffect, useState } from 'react';
+import { Flex } from 'antd';
+import ThingTree from './thingTree';
+import IssueTable from './ticketTable';
 
 const HomeView = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const [selectedThingIds, setSelectedThingIds] = useState([]);
+  useEffect(() => {
+    console.log('Selected thing IDs changed:', selectedThingIds);
+  }, [selectedThingIds]);
 
-  return (
-    <Typography.Title style={{ color: 'black', margin: 0 }} level={2}>
-      Home View
-    </Typography.Title>
-  );
+  return (<>
+    <Flex
+      gap="10px"
+      style={{ height: '100%', width: '100%' }}>
+      <ThingTree
+        selectedThingIds={selectedThingIds}
+        setSelectedThingIds={setSelectedThingIds} />
+      <IssueTable selectedThingIds={selectedThingIds} />
+    </Flex>
+  </>);
 }
 
 

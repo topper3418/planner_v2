@@ -1,7 +1,6 @@
 from .base import Thing
 
 
-@classmethod
 def from_row(cls, **row) -> "Thing":
     row = dict(row)
     thing = cls(

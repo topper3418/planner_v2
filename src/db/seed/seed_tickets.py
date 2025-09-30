@@ -19,7 +19,7 @@ def seed_tickets(thing_id_lookup):
 
     ticket_category_id_lookup = {}
     for cat in ticket_categories:
-        cat_id = TicketCategory.create(cat)
+        cat_id = cat.create()
         ticket_category_id_lookup[cat.name] = cat_id
         print(f"Created ticket category: {cat.name} (ID: {cat_id})")
 
@@ -47,7 +47,7 @@ def seed_tickets(thing_id_lookup):
             open=open,
             parent_id=parent_id,
         )
-        ticket_id = Ticket.create(ticket)
+        ticket_id = ticket.create()
         ticket_id_lookup[ticket.title] = ticket_id
         print(f"Created ticket: {ticket.title} (ID: {ticket_id})")
         return ticket_id

@@ -1,4 +1,4 @@
-from ..util import as_staticmethod
+from ..util import as_staticmethod, as_classmethod
 
 from .base import Ticket
 from .from_row import from_row
@@ -15,9 +15,9 @@ from .delete import delete
 setattr(Ticket, "create", create)
 setattr(Ticket, "update", update)
 setattr(Ticket, "populate_children", populate_children)
-setattr(Ticket, "from_row", from_row)
+setattr(Ticket, "from_row", as_classmethod(from_row))
 setattr(Ticket, "get_by_id", as_staticmethod(get_by_id))
-setattr(Ticket, "list_tickets", as_staticmethod(read))
+setattr(Ticket, "read", as_staticmethod(read))
 setattr(Ticket, "delete", as_staticmethod(delete))
 
 

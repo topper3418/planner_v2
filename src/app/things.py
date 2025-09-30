@@ -17,10 +17,21 @@ async def create_thing(thing: Thing):
     Returns the ID of the created thing.
     """
     try:
-        thing_id = Thing.create(thing)
+        thing_id = thing.create()
         return {"id": thing_id}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/tree", response_model=list[Thing])
+async def get_thing_tree():
+    """
+    Get the hierarchical tree of things.
+    """
+    things = Thing.read(ThingParams(parent_id=0))
+    for thing in things:
+        thing.populate_children(recursive=True)
+    return things
 
 
 @router.put("/{thing_id}")

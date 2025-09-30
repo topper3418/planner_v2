@@ -1,7 +1,7 @@
 from .base import Ticket
 
 
-def from_row(cls, row) -> Ticket:
+def from_row(cls, **row) -> Ticket:
     ticket = cls(
         id=row["id"],
         title=row["title"],
@@ -19,7 +19,7 @@ def from_row(cls, row) -> Ticket:
 
         ticket.thing = Thing(
             id=row["thing_id"],
-            name=row.get("thing_name", None),
+            name=row.get("thing_name", ""),
             description=row.get("thing_description", None),
             docs_link=row.get("thing_docs_link", None),
             parent_id=row.get("thing_parent_id", None),
@@ -30,7 +30,7 @@ def from_row(cls, row) -> Ticket:
 
         ticket.category = TicketCategory(
             id=row["category_id"],
-            name=row.get("category_name", None),
+            name=row.get("category_name", ""),
             description=row.get("category_description", None),
         )
     return ticket

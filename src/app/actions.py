@@ -17,7 +17,7 @@ async def create_action(action: Action):
     Returns the ID of the created action.
     """
     try:
-        action_id = Action.create(action)
+        action_id = action.create()
         return {"id": action_id}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

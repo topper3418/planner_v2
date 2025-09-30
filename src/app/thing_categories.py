@@ -16,7 +16,7 @@ async def create_category(category: ThingCategory):
     Returns the ID of the created category.
     """
     try:
-        category_id = ThingCategory.create(category)
+        category_id = category.create()
         return {"id": category_id}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

@@ -17,7 +17,7 @@ def seed_things():
     ]
     thing_category_id_lookup = {}
     for cat in thing_categories:
-        cat_id = ThingCategory.create(cat)
+        cat_id = cat.create()
         thing_category_id_lookup[cat.name] = cat_id
         print(f"Created category: {cat.name} (ID: {cat_id})")
 
@@ -26,6 +26,7 @@ def seed_things():
     def add_thing(name, category, description, docs_link, parent=None):
         category_id = thing_category_id_lookup.get(category)
         parent_id = thing_id_lookup.get(parent) if parent else None
+        print("RESULT OF PARENT ID LOOKUP:", parent, parent_id)
         thing = Thing(
             name=name,
             category_id=category_id,
@@ -33,7 +34,7 @@ def seed_things():
             docs_link=docs_link,
             parent_id=parent_id,
         )
-        thing_id = Thing.create(thing)
+        thing_id = thing.create()
         thing_id_lookup[thing.name] = thing_id
         print(f"Created thing: {thing.name} (ID: {thing_id})")
         return thing_id

@@ -11,7 +11,7 @@ def seed_actions(ticket_id_lookup):
 
     def add_action_type(name: str, description: Optional[str] = None):
         action_type = ActionType(name=name, description=description)
-        action_type_id = ActionType.create(action_type)
+        action_type_id = action_type.create()
         action_type_lookup[name] = action_type_id
         print(f"Created action type: {name} (ID: {action_type_id})")
         return action_type_id
@@ -39,7 +39,7 @@ def seed_actions(ticket_id_lookup):
             ticket_id=ticket_id,
             action_type_id=action_type_id,
         )
-        action_id = Action.create(action)
+        action_id = action.create()
         action_id_lookup[f"{ticket_title}-{action_type_name}"] = action_id
         print(f"Created action: {action_text} (ID: {action_id})")
         return action_id

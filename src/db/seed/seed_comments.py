@@ -10,7 +10,7 @@ def seed_comments(ticket_id_lookup):
     def add_comment(ticket_title: str, content: str):
         ticket_id = ticket_id_lookup.get(ticket_title)
         comment = Comment(ticket_id=ticket_id, content=content)
-        comment_id = Comment.create(comment)
+        comment_id = comment.create()
         comment_id_lookup[f"{ticket_title}_{len(comment_id_lookup)+1}"] = (
             comment_id
         )

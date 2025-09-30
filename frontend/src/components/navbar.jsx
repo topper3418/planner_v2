@@ -19,7 +19,6 @@ const items = [
 
 const NavBar = () => {
   const location = useLocation();
-  console.log("Current location:", location.pathname);
   const item = items.find((i) => i.href === location.pathname);
   const [selectedKey, setSelectedKey] = useState(item ? item.key : 'home');
   const navigate = useNavigate();

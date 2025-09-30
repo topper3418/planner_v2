@@ -17,7 +17,7 @@ async def create_ticket(ticket: Ticket):
     Returns the ID of the created ticket.
     """
     try:
-        ticket_id = Ticket.create(ticket)
+        ticket_id = ticket.create()
         return {"id": ticket_id}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

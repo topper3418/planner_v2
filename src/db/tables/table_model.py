@@ -4,8 +4,7 @@ from pydantic import BaseModel
 
 
 class TableModel(BaseModel):
-    @classmethod
-    def create(cls, _: "TableModel") -> int:
+    def create(self) -> int:
         raise NotImplementedError("Create method not implemented")
 
     def update(self) -> None:
@@ -29,7 +28,7 @@ class TableModel(BaseModel):
     def from_row(_: dict) -> "TableModel":
         raise NotImplementedError("From row method not implemented")
 
-    def populate_children(self) -> None:
+    def populate_children(self, recursive: Optional[bool] = False) -> None:
         raise NotImplementedError(
             "Populate children method not implemented"
         )

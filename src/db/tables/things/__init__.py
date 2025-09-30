@@ -1,4 +1,4 @@
-from ..util import as_staticmethod
+from ..util import as_classmethod, as_staticmethod
 
 
 from .base import Thing
@@ -17,9 +17,9 @@ setattr(Thing, "create", create)
 setattr(Thing, "update", update)
 setattr(Thing, "populate_children", populate_children)
 setattr(Thing, "get_by_id", as_staticmethod(get_by_id))
-setattr(Thing, "list_things", as_staticmethod(read))
+setattr(Thing, "read", as_staticmethod(read))
 setattr(Thing, "delete", as_staticmethod(delete))
-setattr(Thing, "from_row", as_staticmethod(from_row))
+setattr(Thing, "from_row", as_classmethod(from_row))
 
 
 __all__ = ["Thing", "ThingParams"]

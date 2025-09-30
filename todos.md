@@ -19,6 +19,12 @@
 - [X] figure out why the view query works in the raw but not in the api
 
 
+## BUGS
+
+- [ ] make it so that the thing tree starts with everything checked and expanded
+- [ ] make it so that the table responds to the checking of the tree
+
+
 ## USAGE
 
 - [ ] ticketview

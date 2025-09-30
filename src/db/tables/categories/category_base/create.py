@@ -3,13 +3,13 @@ from ....core import DbCore, ExceptionPackage
 from .base import Category
 
 
-def create(cls, category: Category) -> int:
-    cls.__logger__.info(f"Creating new {cls.__name__}: {category}")
-    query = f"INSERT INTO {cls.__table_name__} (name, description) VALUES (?, ?)"
-    params = (category.name, category.description)
+def create(self: Category) -> int:
+    self.__logger__.info(f"Creating new {self.__class__}: {self}")
+    query = f"INSERT INTO {self.__table_name__} (name, description) VALUES (?, ?)"
+    params = (self.name, self.description)
     exception_package = ExceptionPackage(
-        unique_constraint_error=f"{cls.__name__} name '{category.name}' already exists"
+        unique_constraint_error=f"{self.__class__} name '{self.name}' already exists"
     )
     last_row_id = DbCore.run_create(query, params, exception_package)
-    category.id = last_row_id
+    self.id = last_row_id
     return last_row_id
