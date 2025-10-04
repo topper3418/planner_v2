@@ -9,7 +9,8 @@ from .base import Thing
 logger = logging.getLogger(__name__)
 
 
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def get_by_id(thing_id: int) -> Optional[Thing]:
@@ -22,7 +23,7 @@ def get_by_id(thing_id: int) -> Optional[Thing]:
         " LEFT JOIN thing_categories c ON t.category_id = c.id"
         " WHERE t.id = ?"
     )
-    thing = DbCore.run_get_by_id(query, thing_id, Thing.from_row)
+    thing = core.run_get_by_id(query, thing_id, Thing.from_row)
     if thing:
         thing.populate_children()
     return thing

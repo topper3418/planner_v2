@@ -10,7 +10,8 @@ from .base import Ticket
 logger = logging.getLogger(__name__)
 
 
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def get_by_id(ticket_id: int) -> Optional[Ticket]:
@@ -26,7 +27,7 @@ def get_by_id(ticket_id: int) -> Optional[Ticket]:
         " JOIN tickets p ON t.parent_id = p.id"
         " WHERE id = ?"
     )
-    ticket = DbCore.run_get_by_id(query, ticket_id, Ticket.from_row)
+    ticket = core.run_get_by_id(query, ticket_id, Ticket.from_row)
     if ticket:
         ticket.populate_children()
     return ticket

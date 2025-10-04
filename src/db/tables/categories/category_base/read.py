@@ -13,6 +13,8 @@ def read(
     cls.__logger__.info(
         f"Listing {cls.__class__}s with filters: {filters}"
     )
+    core = DbCore()
+    core.logger = cls.__logger__
     query = f"SELECT c.* FROM {cls.__table_name__} c WHERE name LIKE ?"
     params = [f"%{filters.name if filters and filters.name else ''}%"]
 
@@ -21,4 +23,4 @@ def read(
         search_param = f"%{filters.search}%"
         params.extend([search_param, search_param])
 
-    return DbCore.run_list(query, tuple(params), Category)
+    return core.run_list(query, tuple(params), Category)

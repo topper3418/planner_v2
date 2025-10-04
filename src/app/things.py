@@ -1,3 +1,4 @@
+import logging
 from fastapi import APIRouter, HTTPException, Query, status
 from ..db import Controller
 from .thing_categories import router as categories_router
@@ -5,6 +6,9 @@ from .thing_categories import router as categories_router
 
 Thing = Controller.Tables.Thing
 ThingParams = Controller.Params.Thing
+
+
+logger = logging.getLogger(__name__)
 
 
 router = APIRouter(prefix="/things", tags=["things"])
@@ -16,6 +20,7 @@ async def create_thing(thing: Thing):
     Create a new thing.
     Returns the ID of the created thing.
     """
+    logger.info(f"Creating Thing: {thing}")
     try:
         thing_id = thing.create()
         return {"id": thing_id}
@@ -28,6 +33,7 @@ async def get_thing_tree():
     """
     Get the hierarchical tree of things.
     """
+    logger.debug("Fetching thing tree")
     things = Thing.read(ThingParams(parent_id=0))
     for thing in things:
         thing.populate_children(recursive=True)
@@ -39,10 +45,11 @@ async def update_thing(thing_id: int, thing: Thing):
     """
     Update a thing by ID.
     """
+    logger.info(f"Updating Thing ID {thing_id} with data: {thing}")
     thing.id = thing_id
     try:
-        Thing.update(thing)
-        return {"message": "Thing updated"}
+        thing.update()
+        return {"message": "Thing updated", "thing": thing.model_dump()}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -52,6 +59,7 @@ async def get_thing(thing_id: int):
     """
     Get a thing by ID.
     """
+    logger.debug(f"Fetching Thing ID {thing_id}")
     thing = Thing.get_by_id(thing_id)
     if not thing:
         raise HTTPException(status_code=404, detail="Thing not found")
@@ -63,6 +71,7 @@ async def list_things(filters: ThingParams = Query()):
     """
     List things with optional filters (fuzzy search on name).
     """
+    logger.debug(f"Listing Things with filters: {filters}")
     return Thing.read(filters)
 
 
@@ -71,6 +80,7 @@ async def delete_thing(thing_id: int):
     """
     Delete a thing by ID.
     """
+    logger.info(f"Deleting Thing ID {thing_id}")
     try:
         Thing.delete(thing_id)
         return {"message": "Thing deleted"}

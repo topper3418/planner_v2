@@ -8,7 +8,8 @@ from .base import Ticket
 logger = logging.getLogger(__name__)
 
 
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def update(ticket: Ticket) -> None:
@@ -38,4 +39,4 @@ def update(ticket: Ticket) -> None:
         foreign_key_constraint_error=f"Invalid thing_id: {ticket.thing_id} or category_id: {ticket.category_id}",
         not_found_error=f"Ticket with ID {ticket.id} not found",
     )
-    DbCore.run_update(query, params, exception_package)
+    core.run_update(query, params, exception_package)

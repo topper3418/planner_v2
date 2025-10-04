@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Flex, Layout, Typography } from 'antd';
 
 const { Header, Content } = Layout;
-import ThingsView from './views/things'
 import HomeView from './views/home'
 import NavBar from './components/navbar';
 
@@ -22,7 +21,6 @@ const App = () => {
           <Content style={{ padding: '0px' }}>
             <Routes>
               <Route path="/" element={<HomeView />} />
-              <Route path="/things" element={<ThingsView />} />
             </Routes>
           </Content>
         </Layout>

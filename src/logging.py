@@ -8,7 +8,6 @@ def setup_logging():
     print("SETTING UP LOGGING")
     # Setting up logger
     logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
 
     # Prevent duplicate handlers
     if not logger.handlers:

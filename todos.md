@@ -23,6 +23,7 @@
 
 - [ ] make it so that the thing tree starts with everything checked and expanded
 - [ ] make it so that the table responds to the checking of the tree
+- [ ] fix the way that dbcore attaches the logger
 
 
 ## USAGE

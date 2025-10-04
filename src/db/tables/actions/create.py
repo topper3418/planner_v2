@@ -7,7 +7,8 @@ from .base import Action
 
 logger = logging.getLogger(__name__)
 
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def create(action: Action) -> int:
@@ -21,6 +22,6 @@ def create(action: Action) -> int:
     exception_package = ExceptionPackage(
         foreign_key_constraint_error=f"Invalid ticket_id: {action.ticket_id}"
     )
-    last_row_id = DbCore.run_create(query, params, exception_package)
+    last_row_id = core.run_create(query, params, exception_package)
     action.id = last_row_id
     return last_row_id

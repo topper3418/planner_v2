@@ -9,6 +9,7 @@ const dataToTree = (data) => {
     const treeItem = {
       title: item.name,
       key: item.id,
+      thing: item,
     };
     if (item.children && item.children.length > 0) {
       treeItem.children = dataToTree(item.children);

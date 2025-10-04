@@ -8,7 +8,8 @@ from .base import Ticket
 logger = logging.getLogger(__name__)
 
 
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def populate_children(ticket: Ticket) -> None:
@@ -16,4 +17,4 @@ def populate_children(ticket: Ticket) -> None:
         ticket.children = []
         return
     query = "SELECT id, thing_id, category_id, description, created_at, open, updated_at, completed_at FROM tickets WHERE parent_id = ?"
-    ticket.children = DbCore.run_list(query, (ticket.id,), Ticket)
+    ticket.children = core.run_list(query, (ticket.id,), Ticket)

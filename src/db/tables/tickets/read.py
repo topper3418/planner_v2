@@ -11,7 +11,8 @@ from .params import TicketParams
 logger = logging.getLogger(__name__)
 
 
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def read(
@@ -91,7 +92,7 @@ def read(
             ) * query_params.page_size
             query += " LIMIT ? OFFSET ?"
             params.extend([str(query_params.page_size), str(offset)])
-    tickets = DbCore.run_list(query, tuple(params), Ticket.from_row)
+    tickets = core.run_list(query, tuple(params), Ticket.from_row)
     if query_params and "children" in query_params.include:
         for ticket in tickets:
             ticket.populate_children()

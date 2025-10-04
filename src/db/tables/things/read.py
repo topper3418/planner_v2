@@ -10,6 +10,10 @@ from .params import ThingParams
 logger = logging.getLogger(__name__)
 
 
+core = DbCore()
+core.logger = logger
+
+
 def read(
     query_params: Optional[ThingParams] = None,
 ) -> List[Thing]:
@@ -58,7 +62,7 @@ def read(
             ) * query_params.page_size
             query += " LIMIT ? OFFSET ?"
             params.extend([str(query_params.page_size), str(offset)])
-    things = DbCore.run_list(query, tuple(params), Thing.from_row)
+    things = core.run_list(query, tuple(params), Thing.from_row)
     if query_params and "children" in query_params.include:
         for thing in things:
             thing.populate_children()

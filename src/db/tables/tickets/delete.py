@@ -5,8 +5,8 @@ from ...core import DbCore, ExceptionPackage
 
 logger = logging.getLogger(__name__)
 
-
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def delete(ticket_id: int) -> None:
@@ -14,4 +14,4 @@ def delete(ticket_id: int) -> None:
     exception_package = ExceptionPackage(
         not_found_error=f"Ticket with ID {ticket_id} not found"
     )
-    return DbCore.run_delete(query, ticket_id, exception_package)
+    return core.run_delete(query, ticket_id, exception_package)

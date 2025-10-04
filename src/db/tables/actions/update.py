@@ -7,7 +7,8 @@ from .base import Action
 
 logger = logging.getLogger(__name__)
 
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def update(action: Action) -> None:
@@ -22,4 +23,4 @@ def update(action: Action) -> None:
         foreign_key_constraint_error=f"Invalid ticket_id: {action.ticket_id}",
         not_found_error=f"Action with ID {action.id} not found",
     )
-    DbCore.run_update(query, params, exception_package)
+    core.run_update(query, params, exception_package)

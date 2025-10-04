@@ -7,7 +7,8 @@ from .base import Comment
 
 logger = logging.getLogger(__name__)
 
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def update(comment: Comment) -> None:
@@ -19,4 +20,4 @@ def update(comment: Comment) -> None:
     exception_package = ExceptionPackage(
         not_found_error=f"Comment with ID {comment.id} not found"
     )
-    DbCore.run_update(query, params, exception_package)
+    core.run_update(query, params, exception_package)

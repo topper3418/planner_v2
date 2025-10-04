@@ -8,7 +8,8 @@ from .base import Action
 
 logger = logging.getLogger(__name__)
 
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def get_by_id(action_id: int) -> Optional[Action]:
@@ -23,4 +24,4 @@ def get_by_id(action_id: int) -> Optional[Action]:
         " LEFT JOIN action_types at ON a.action_type = at.id"
         " WHERE id = ?"
     )
-    return DbCore.run_get_by_id(query, action_id, Action.from_row)
+    return core.run_get_by_id(query, action_id, Action.from_row)

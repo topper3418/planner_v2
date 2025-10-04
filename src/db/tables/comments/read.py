@@ -9,7 +9,8 @@ from .params import CommentParams
 
 logger = logging.getLogger(__name__)
 
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def read(
@@ -33,4 +34,4 @@ def read(
             query += " LIMIT ? OFFSET ?"
             params.append(str(filters.page_size))
             params.append(str(offset))
-    return DbCore.run_list(query, tuple(params), Comment)
+    return core.run_list(query, tuple(params), Comment)

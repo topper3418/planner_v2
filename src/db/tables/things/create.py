@@ -8,7 +8,8 @@ from .base import Thing
 logger = logging.getLogger(__name__)
 
 
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def create(thing: Thing) -> int:
@@ -25,5 +26,5 @@ def create(thing: Thing) -> int:
         unique_constraint_error=f"Thing name '{thing.name}' already exists",
         foreign_key_constraint_error=f"Invalid category_id: {thing.category_id}",
     )
-    thing_id = DbCore.run_create(query, params, exception_package)
+    thing_id = core.run_create(query, params, exception_package)
     return thing_id

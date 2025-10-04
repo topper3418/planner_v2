@@ -9,7 +9,8 @@ from .params import ActionParams
 
 logger = logging.getLogger(__name__)
 
-DbCore.logger = logger
+core = DbCore()
+core.logger = logger
 
 
 def read_actions(
@@ -69,4 +70,4 @@ def read_actions(
             params.append(str(query_params.page_size))
             params.append(str(offset))
 
-    return DbCore.run_list(query, tuple(params), Action.from_row)
+    return core.run_list(query, tuple(params), Action.from_row)

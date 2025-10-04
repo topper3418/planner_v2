@@ -4,6 +4,9 @@ from ...core import DbCore, ExceptionPackage
 
 logger = logging.getLogger(__name__)
 
+core = DbCore()
+core.logger = logger
+
 
 def delete(comment_id: int) -> None:
     logger.info(f"Deleting Comment with ID: {comment_id}")
@@ -11,4 +14,4 @@ def delete(comment_id: int) -> None:
     exception_package = ExceptionPackage(
         not_found_error=f"Comment with ID {comment_id} not found"
     )
-    DbCore.run_delete(query, comment_id, exception_package)
+    core.run_delete(query, comment_id, exception_package)
