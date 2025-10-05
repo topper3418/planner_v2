@@ -5,9 +5,10 @@ import NewThingModal from './newThingModel';
 import useUpdateThing from './updateThing';
 
 
-const ThingTree = ({ selectedThingIds, setSelectedThingIds }) => {
+const ThingTree = ({ checkedThingIds, setCheckedThingIds }) => {
   const [keysChanged, setKeysChanged] = useState(false);
   const [createThingModalOpen, setCreateThingModalOpen] = useState(false);
+  const [selectedKey, setSelectedKey] = useState(null);
   const {
     data: treeData,
     allIds,
@@ -20,13 +21,13 @@ const ThingTree = ({ selectedThingIds, setSelectedThingIds }) => {
   } = useUpdateThing();
 
   useEffect(() => {
-    if (allIds.length > 0 && selectedThingIds.length === 0 && !keysChanged) {
-      setSelectedThingIds(allIds);
+    if (allIds.length > 0 && checkedThingIds.length === 0 && !keysChanged) {
+      setCheckedThingIds(allIds);
     }
   }, [allIds]);
   const onCheck = (checkedKeys) => {
     setKeysChanged(true);
-    setSelectedThingIds(checkedKeys);
+    setCheckedThingIds(checkedKeys);
   };
 
   const onDrop = async (info) => {
@@ -55,6 +56,12 @@ const ThingTree = ({ selectedThingIds, setSelectedThingIds }) => {
     }
   };
 
+  const onSelect = (selectedKeys) => {
+    console.log('Selected: ', selectedKeys);
+    console.log("setting to selectedKey", selectedKeys[selectedKeys.length - 1]);
+    setSelectedKey(selectedKeys[selectedKeys.length - 1]);
+  }
+
   return (<>
     <Flex
       vertical
@@ -64,6 +71,16 @@ const ThingTree = ({ selectedThingIds, setSelectedThingIds }) => {
         height: "100%",
       }}>
       <Flex justify='end'>
+        {checkedThingIds.length > 0 &&
+          <Button
+            style={{ marginRight: '10px' }}
+            onClick={() => {
+              setSelectedKeys(null);
+              setKeysChanged(true);
+            }}>
+            Clear Selection
+          </Button>
+        }
         <Button type="primary" onClick={() => setCreateThingModalOpen(true)}>
           New Thing
         </Button>
@@ -72,9 +89,12 @@ const ThingTree = ({ selectedThingIds, setSelectedThingIds }) => {
         checkable
         draggable
         onDrop={onDrop}
-        checkedKeys={selectedThingIds}
+        checkedKeys={checkedThingIds}
         onCheck={onCheck}
         defaultExpandAll={true}
+        selectedKeys={selectedKey !== null ? [selectedKey] : []}
+        onSelect={onSelect}
+        multiple
         error={treeDataError}
         loading={treeDataLoading}
         treeData={treeData}

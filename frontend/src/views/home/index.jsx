@@ -4,16 +4,16 @@ import ThingTree from './thingTree';
 import IssueTable from './ticketTable';
 
 const HomeView = () => {
-  const [selectedThingIds, setSelectedThingIds] = useState([]);
+  const [checkedThingIds, setCheckedThingIds] = useState([]);
 
   return (<>
     <Flex
       gap="10px"
       style={{ height: '100%', width: '100%' }}>
       <ThingTree
-        selectedThingIds={selectedThingIds}
-        setSelectedThingIds={setSelectedThingIds} />
-      <IssueTable selectedThingIds={selectedThingIds} />
+        checkedThingIds={checkedThingIds}
+        setCheckedThingIds={setCheckedThingIds} />
+      <IssueTable selectedThingIds={checkedThingIds} />
     </Flex>
   </>);
 }
