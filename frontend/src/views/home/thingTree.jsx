@@ -76,11 +76,12 @@ const ThingTree = ({
         height: "100%",
       }}>
       <Flex justify='end'>
-        {checkedThingIds.length > 0 &&
+        {(checkedThingIds.length > 0 || selectedThingId !== null) &&
           <Button
             style={{ marginRight: '10px' }}
             onClick={() => {
-              setSelectedKeys(null);
+              setCheckedThingIds([]);
+              setSelectedThingId(null);
               setKeysChanged(true);
             }}>
             Clear Selection

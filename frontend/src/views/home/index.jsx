@@ -4,6 +4,7 @@ import ThingTree from './thingTree';
 import IssueTable from './ticketTable';
 import ThingDetails from './thingDetails';
 import useGetThing from "./getThing";
+import ChilrenTable from './childrenTable';
 
 const HomeView = () => {
   const [checkedThingIds, setCheckedThingIds] = useState([]);
@@ -12,10 +13,14 @@ const HomeView = () => {
 
   console.log("selectedThingId in HomeView:", selectedThingId);
 
-  useEffect(() => {
+  const fetchThing = () => {
     if (selectedThingId) {
       getThing(selectedThingId);
     }
+  }
+
+  useEffect(() => {
+    fetchThing();
   }, [selectedThingId]);
 
   return (<>
@@ -28,12 +33,15 @@ const HomeView = () => {
         selectedThingId={selectedThingId}
         setSelectedThingId={setSelectedThingId} />
       <Flex gap="10px" style={{ height: '100%' }}>
-        {selectedThingId &&
+        {selectedThingId && <>
           <ThingDetails
             thing={data}
             loading={loading}
-            error={error} />
-        }
+            error={error}
+            refreshThing={fetchThing} />
+          <ChilrenTable
+            selectedThingId={selectedThingId} />
+        </>}
         <IssueTable
           checkedThingIds={checkedThingIds}
           selectedThingId={selectedThingId} />
