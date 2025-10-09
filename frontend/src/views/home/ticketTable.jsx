@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { Table } from "antd";
-import issueHook from "./ticketHook"
+import { useFetchTickets } from "../../api/";
 
 
-const IssueTable = ({ checkedThingIds, selectedThingId }) => {
-  const { data, loading, error, refetch } = issueHook(checkedThingIds);
+const TicketTable = ({ checkedThingIds, selectedThingId }) => {
+  const { data, loading, error, refetch } = useFetchTickets(checkedThingIds);
 
   const [tableMode, setTableMode] = useState("full");
 
-  console.log("Selected Thing ID in IssueTable:", selectedThingId);
+  console.log("Selected Thing ID in TicketTable:", selectedThingId);
   useEffect(() => {
     if (!selectedThingId) {
-      console.log('Checked Thing IDs changed in IssueTable:', checkedThingIds);
+      console.log('Checked Thing IDs changed in TicketTable:', checkedThingIds);
       setTableMode("full");
       refetch(checkedThingIds)
     }
@@ -20,7 +20,7 @@ const IssueTable = ({ checkedThingIds, selectedThingId }) => {
   useEffect(() => {
     console.log("effect triggered")
     if (selectedThingId) {
-      console.log('Selected Thing ID changed in IssueTable:', selectedThingId);
+      console.log('Selected Thing ID changed in TicketTable:', selectedThingId);
       setTableMode("compact");
       refetch([selectedThingId])
     } else {
@@ -31,7 +31,7 @@ const IssueTable = ({ checkedThingIds, selectedThingId }) => {
 
   return (
     <Table
-      title={() => `Issues (${data ? data.length : 0})`}
+      title={() => `Tickets (${data ? data.length : 0})`}
       dataSource={data ? data : []}
       columns={getColumns(tableMode)}
       loading={loading}
@@ -75,4 +75,4 @@ const getColumns = (mode = "full") => {
   return columns;
 }
 
-export default IssueTable;
+export default TicketTable;

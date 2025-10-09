@@ -1,24 +1,23 @@
-import { Button, Descriptions, Flex, Input } from "antd"
+import { Button, Checkbox, Descriptions, Flex, Input } from "antd"
 import { useEffect, useState } from "react";
-import useUpdateThing from "../api/useUpdateThing";
-import ThingDropdown from "./thingDropdown";
+import useUpdateTicket from "../api/useUpdateTicket";
 
 
-const ThingDetails = ({ thing, loading, error, refreshThing }) => {
+const TicketDetails = ({ ticket, loading, error, refreshThing: refreshTicket }) => {
   const {
     mode,
     setMode,
     changeHandler,
     getValue,
     resetChanges
-  } = detailsHooks(thing);
+  } = detailsHooks(ticket);
 
   const {
     data: updateData,
     loading: updateLoading,
     error: updateError,
     updateThing
-  } = useUpdateThing();
+  } = useUpdateTicket();
 
   // when going to view mode, reset unsaved changes
   useEffect(() => {
@@ -33,7 +32,7 @@ const ThingDetails = ({ thing, loading, error, refreshThing }) => {
   useEffect(() => {
     if (updateData) {
       console.log("Thing updated:", updateData);
-      refreshThing();
+      refreshTicket();
       setMode("view");
     }
   }, [updateLoading])
@@ -41,7 +40,7 @@ const ThingDetails = ({ thing, loading, error, refreshThing }) => {
   return (
     <Flex vertical>
       <Descriptions
-        title="Thing Details"
+        title="Ticket Details"
         column={1}
         loading={loading}
         error={error}
@@ -56,47 +55,37 @@ const ThingDetails = ({ thing, loading, error, refreshThing }) => {
           width: '250px',
         }}
         size="small">
-        <Descriptions.Item label="Name">
+        <Descriptions.Item label="Title">
           {mode === "view" ?
-            thing?.name :
+            ticket?.title :
             <Input
-              value={getValue("name")}
-              onChange={changeHandler("name")} />}
+              value={getValue("title")}
+              onChange={changeHandler("title")} />}
         </Descriptions.Item>
-        <Descriptions.Item label="Docs Link">
+        <Descriptions.Item label="Open">
           {mode === "view" ?
-            (thing?.docs_link ?
-              <a
-                href={thing?.docs_link}
-                target="_blank"
-                rel="noopener noreferrer">
-                {thing?.docs_link}
-              </a> :
-              'No link') :
-            <Input
-              value={getValue("docs_link")}
-              onChange={changeHandler("docs_link")} />}
+            (ticket?.open ? 'Yes' : 'No') :
+            <Checkbox
+              checked={getValue("open")}
+              onChange={changeHandler("open")} />}
         </Descriptions.Item>
         <Descriptions.Item label="category">
           {mode === "view" ?
-            (thing?.category ? thing.category.name : 'No category') :
+            (ticket?.category ? ticket.category.name : 'No category') :
             <Input
               value={getValue("category")}
               onChange={changeHandler("category")} />}
         </Descriptions.Item>
         <Descriptions.Item label="Parent">
           {mode === "view" ?
-            (thing?.parent ? thing.parent.name : 'No parent') :
-            <ThingDropdown
-              selectedThingId={getValue("parent")}
-              setSelectedThingId={(value) => {
-                const e = { target: { value } };
-                changeHandler("parent")(e);
-              }} />}
+            (ticket?.parent ? ticket.parent.name : 'No parent') :
+            <Input
+              value={getValue("parent")}
+              onChange={changeHandler("parent")} />}
         </Descriptions.Item>
         <Descriptions.Item label="Description">
           {mode === "view" ?
-            (thing?.description ? thing.description : 'No description') :
+            (ticket?.description ? ticket.description : 'No description') :
             <Input.TextArea
               value={getValue("description")}
               onChange={changeHandler("description")}
@@ -110,7 +99,7 @@ const ThingDetails = ({ thing, loading, error, refreshThing }) => {
             loading={updateLoading}
             onClick={() => {
               const updatedThing = {
-                id: thing.id,
+                id: ticket.id,
                 name: getValue("name"),
                 docs_link: getValue("docs_link"),
                 category: getValue("category"),
@@ -154,6 +143,15 @@ const detailsHooks = (thing) => {
   console.log("mode is ", mode);
 
   const changeHandler = (field) => {
+    if (field === "open") {
+      return (e) => {
+        const newValue = e.target.checked;
+        setUnsavedChanges({
+          ...unsavedChanges,
+          [field]: newValue,
+        });
+      }
+    }
     return (e) => {
       const newValue = e.target.value;
       setUnsavedChanges({
@@ -173,4 +171,4 @@ const detailsHooks = (thing) => {
   return { mode, setMode, changeHandler, getValue, resetChanges };
 }
 
-export default ThingDetails;
+export default TicketDetails;

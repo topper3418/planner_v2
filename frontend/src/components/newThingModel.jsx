@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Input, message, Modal } from 'antd';
-import useCreateThing from './createThingHook';
+import useCreateThing from '../api/useCreateThing';
 
 
 const NewThingModal = ({ open, setOpen, onSubmit }) => {

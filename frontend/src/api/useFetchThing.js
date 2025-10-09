@@ -1,10 +1,8 @@
 import { useState } from "react";
 
+const THING_GET_URL = "/api/things";
 
-const THING_GET_URL = '/api/things';
-
-
-const useGetThing = () => {
+const useFetchThing = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -13,17 +11,17 @@ const useGetThing = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(THING_GET_URL + '/' + thingId, {
-        method: 'GET',
+      const response = await fetch(THING_GET_URL + "/" + thingId, {
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
       if (!response.ok) {
         throw new Error(`HTTP error on get thing! status: ${response.status}`);
       }
       const result = await response.json();
-      console.log('Fetched thing:', result);
+      console.log("Fetched thing:", result);
       setData(result);
       return result;
     } catch (err) {
@@ -35,6 +33,6 @@ const useGetThing = () => {
   };
 
   return { data, loading, error, getThing };
-}
+};
 
-export default useGetThing;
+export default useFetchThing;

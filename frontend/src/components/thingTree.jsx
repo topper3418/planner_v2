@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Button, Flex, Tree } from 'antd';
-import useTreeData from './thingTreeHook';
-import NewThingModal from './newThingModel';
-import useUpdateThing from './updateThing';
+import useFetchThingTree from '../api/useFetchThingTree';
+import NewThingModal from '../components/newThingModel';
+import useUpdateThing from '../api/useUpdateThing';
 
 
 const ThingTree = ({
@@ -13,13 +13,15 @@ const ThingTree = ({
 }) => {
   const [keysChanged, setKeysChanged] = useState(false);
   const [createThingModalOpen, setCreateThingModalOpen] = useState(false);
+
   const {
     data: treeData,
     allIds,
     loading: treeDataLoading,
     error: treeDataError,
     refetch: treeDataRefetch
-  } = useTreeData();
+  } = useFetchThingTree();
+
   const {
     updateThing
   } = useUpdateThing();
@@ -29,6 +31,7 @@ const ThingTree = ({
       setCheckedThingIds(allIds);
     }
   }, [allIds]);
+
   const onCheck = (checkedKeys) => {
     setKeysChanged(true);
     setCheckedThingIds(checkedKeys);

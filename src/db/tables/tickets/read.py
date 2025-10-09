@@ -86,6 +86,10 @@ def read(
         if query_params.completed_before is not None:
             query += " AND t.completed_at <= ?"
             params.append(query_params.completed_before.isoformat())
+        if query_params.exclude_ids is not None:
+            placeholders = ",".join("?" * len(query_params.exclude_ids))
+            query += f" AND t.id NOT IN ({placeholders})"
+            params.extend(str(eid) for eid in query_params.exclude_ids)
         if query_params.page_number and query_params.page_size:
             offset = (
                 query_params.page_number - 1

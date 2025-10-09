@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import useFetchState from "../../util/useFetchState";
+import useFetchState from "../util/useFetchState";
 
 const THINGS_URL = "/api/things/";
 
-const useFetchThings = ({ parent_id, include }) => {
+const useFetchThings = ({ parent_id, include } = {}) => {
   const { data, setData, loading, setLoading, error, setError, reset } =
     useFetchState(null);
 

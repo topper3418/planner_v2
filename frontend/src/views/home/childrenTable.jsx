@@ -1,11 +1,34 @@
 import { Table } from "antd";
-import issueHook from "./ticketHook"
-import useFetchThings from "./useFetchThings";
+import useFetchThings from "../../api/";
+import { useEffect } from "react";
 
 
 
-const ChilrenTable = ({ selectedThingId }) => {
-  const { data, loading, error, refetch } = useFetchThings({ parent_id: selectedThingId, include: ['category'] });
+const ChilrenTable = ({ selectedThingId, setSelectedThingId }) => {
+  const {
+    data,
+    loading,
+    error,
+    refetch
+  } = useFetchThings({
+    parent_id: selectedThingId,
+    include: ['category']
+  });
+
+  useEffect(() => {
+    refetch({
+      parent_id: selectedThingId,
+      include: ['category']
+    });
+  }, [selectedThingId]);
+
+  const onRow = (record) => {
+    return {
+      onClick: () => {
+        setSelectedThingId(record.id);
+      },
+    };
+  }
 
   return (
     <Table
@@ -14,6 +37,7 @@ const ChilrenTable = ({ selectedThingId }) => {
       columns={columns}
       loading={loading}
       error={error}
+      onRow={onRow}
       rowKey="id" />
   )
 }

@@ -3,6 +3,9 @@ from typing import Literal, Optional
 from datetime import datetime
 
 
+# TODO: merge thing id and thing ids, should be easy
+
+
 class TicketParams(BaseModel):
     thing_id: Optional[int] = None
     thing_ids: Optional[list[int]] = None
@@ -19,3 +22,4 @@ class TicketParams(BaseModel):
     include: list[Literal["thing", "category", "parent", "children"]] = []
     page_number: Optional[int] = Field(1, ge=1)
     page_size: Optional[int] = Field(10, ge=1, le=100)
+    exclude_ids: Optional[list[int]] = None
