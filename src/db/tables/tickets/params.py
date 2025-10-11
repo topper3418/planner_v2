@@ -7,7 +7,6 @@ from datetime import datetime
 
 
 class TicketParams(BaseModel):
-    thing_id: Optional[int] = None
     thing_ids: Optional[list[int]] = None
     category_id: Optional[int] = None
     parent_id: Optional[int] = None

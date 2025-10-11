@@ -8,7 +8,8 @@ const ThingTree = ({
   checkedThingIds,
   setCheckedThingIds,
   selectedThingId,
-  setSelectedThingId
+  setSelectedThingId,
+  rorderable
 }) => {
   const [keysChanged, setKeysChanged] = useState(false);
   const [createThingModalOpen, setCreateThingModalOpen] = useState(false);
@@ -28,7 +29,7 @@ const ThingTree = ({
   } = api.useUpdateThing();
 
   useEffect(() => {
-    if (allIds.length > 0 && checkedThingIds.length === 0 && !keysChanged) {
+    if (allIds?.length > 0 && checkedThingIds?.length === 0 && !keysChanged) {
       setCheckedThingIds(allIds);
     }
   }, [allIds]);
@@ -87,7 +88,7 @@ const ThingTree = ({
         height: "100%",
       }}>
       <Flex justify='end'>
-        {(checkedThingIds.length > 0 || selectedThingId !== null) &&
+        {(checkedThingIds?.length > 0 || selectedThingId !== null) &&
           <Button
             style={{ marginRight: '10px' }}
             onClick={() => {
@@ -103,8 +104,8 @@ const ThingTree = ({
         </Button>
       </Flex>
       <Tree
-        checkable
-        draggable
+        checkable={checkedThingIds !== undefined && setCheckedThingIds !== undefined}
+        draggable={rorderable}
         onDrop={onDrop}
         checkedKeys={checkedThingIds}
         onCheck={onCheck}

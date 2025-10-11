@@ -3,11 +3,11 @@ import useFetchState from "../util/useFetchState";
 
 const TICKETS_URL = "/api/tickets/";
 
-const useFetchTickets = ({ parent_id, include, thing_ids }) => {
+const useFetchTickets = ({ parent_id, include, thing_ids } = {}) => {
   const { data, setData, loading, setLoading, error, setError, reset } =
     useFetchState(null);
 
-  const fetchData = async ({ parent_id, include }) => {
+  const fetchData = async ({ parent_id, include, thing_ids } = {}) => {
     // reset state
     reset();
     // build url
@@ -54,7 +54,7 @@ const useFetchTickets = ({ parent_id, include, thing_ids }) => {
   };
 
   useEffect(() => {
-    fetchData({ parent_id, include });
+    fetchData({ parent_id, include, thing_ids });
   }, []);
 
   return { data, loading, error, refetch: fetchData };

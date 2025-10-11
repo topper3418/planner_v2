@@ -25,12 +25,10 @@ const NavBar = () => {
 
   // Effect to update highlight on location change
   useEffect(() => {
-    console.log("Location changed:", location.pathname);
     // first rank order the items by length of href descending
     const sortedItems = items.slice().sort((a, b) => b.href.length - a.href.length);
     // then find the first item that matches the start of the pathname
     const matchingItem = sortedItems.find((i) => location.pathname.startsWith(i.href));
-    console.log("Matching item:", matchingItem.key);
     setSelectedKey(matchingItem ? matchingItem.key : 'home'); // Fallback to 'home'
   }, [location.pathname]); // Depend on pathname changes
 

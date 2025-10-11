@@ -46,9 +46,6 @@ def read(
         query = f"{select} {from_clause} {where_seed}"
 
     if query_params:
-        if query_params.thing_id is not None:
-            query += " AND t.thing_id = ?"
-            params.append(str(query_params.thing_id))
         if query_params.thing_ids is not None:
             placeholders = ",".join("?" * len(query_params.thing_ids))
             query += f" AND t.thing_id IN ({placeholders})"

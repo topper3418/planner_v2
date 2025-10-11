@@ -11,7 +11,6 @@ const {
 } = components;
 
 const ThingView = () => {
-  const [checkedThingIds, setCheckedThingIds] = useState([]);
   const [selectedThingId, setSelectedThingId] = useState(null);
   const [selectedTicketId, setSelectedTicketId] = useState(null);
   const {
@@ -49,23 +48,22 @@ const ThingView = () => {
       gap="10px"
       style={{ height: '100%', width: '100%' }}>
       <ThingTree
-        checkedThingIds={checkedThingIds}
-        setCheckedThingIds={setCheckedThingIds}
         selectedThingId={selectedThingId}
         setSelectedThingId={setSelectedThingId} />
       <Flex gap="10px" style={{ height: '100%' }} wrap>
         {selectedThingId && <>
-          <ThingDetails
-            thing={thingData}
-            loading={thingLoading}
-            error={thingError}
-            refreshThing={fetchThing} />
-          <ChilrenTable
-            selectedThingId={selectedThingId}
-            setSelectedThingId={setSelectedThingId} />
+          <Flex vertical gap="10px">
+            <ThingDetails
+              thing={thingData}
+              loading={thingLoading}
+              error={thingError}
+              refreshThing={fetchThing} />
+            <ChilrenTable
+              selectedThingId={selectedThingId}
+              setSelectedThingId={setSelectedThingId} />
+          </Flex>
         </>}
         <TicketTable
-          checkedThingIds={checkedThingIds}
           selectedThingId={selectedThingId} />
       </Flex>
     </Flex>

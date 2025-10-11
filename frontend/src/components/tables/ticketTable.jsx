@@ -4,30 +4,32 @@ import api from "../../api/";
 
 
 const TicketTable = ({ checkedThingIds, selectedThingId }) => {
-  const { data, loading, error, refetch } = api.useFetchTickets(checkedThingIds);
+  const queryParams = {
+    thing_ids: selectedThingId || checkedThingIds,
+    include: ["thing", "category"]
+  }
+  const { data, loading, error, refetch } = api.useFetchTickets(queryParams);
+
+  const doRefetch = () => {
+    refetch(queryParams);
+  }
+
+
+  console.log("Ticket data: ", data);
 
   const [tableMode, setTableMode] = useState("full");
 
   useEffect(() => {
     if (!selectedThingId) {
       setTableMode("full");
-      refetch(checkedThingIds)
     }
+    doRefetch();
   }, [checkedThingIds, selectedThingId])
-
-  useEffect(() => {
-    if (selectedThingId) {
-      setTableMode("compact");
-      refetch([selectedThingId])
-    } else {
-      setTableMode("full");
-      refetch(checkedThingIds)
-    }
-  }, [selectedThingId])
 
   return (
     <Table
       title={() => `Tickets (${data ? data.length : 0})`}
+      style={{ marginTop: "10px" }}
       dataSource={data ? data : []}
       columns={getColumns(tableMode)}
       loading={loading}
@@ -38,6 +40,18 @@ const TicketTable = ({ checkedThingIds, selectedThingId }) => {
 
 
 const getColumns = (mode = "full") => {
+
+  const formatDate = (dateString) => {
+    const options = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  }
+
   const columns = [
     {
       title: 'Title',
@@ -60,11 +74,13 @@ const getColumns = (mode = "full") => {
     title: 'Created',
     dataIndex: 'created_at',
     key: 'created_at',
+    render: (text) => formatDate(text),
   }
   const updatedColumn = {
     title: 'Updated',
     dataIndex: 'updated_at',
     key: 'updated_at',
+    render: (text) => formatDate(text),
   }
   columns.push(createdColumn);
   columns.push(updatedColumn);

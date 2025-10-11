@@ -47,6 +47,7 @@ const HomeView = () => {
       gap="10px"
       style={{ height: '100%', width: '100%' }}>
       <ThingTree
+        rorderable={true}
         checkedThingIds={checkedThingIds}
         setCheckedThingIds={setCheckedThingIds}
         selectedThingId={selectedThingId}
