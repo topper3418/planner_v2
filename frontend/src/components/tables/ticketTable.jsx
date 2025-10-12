@@ -1,12 +1,20 @@
 import { useEffect } from "react";
-import { Table } from "antd";
+import { Button, Card, Table } from "antd";
 import api from "../../api/";
 
 
-const TicketTable = ({ checkedThingIds, selectedThingId, tableMode, onRow, selectedTicketId }) => {
+const TicketTable = ({
+  checkedThingIds,
+  selectedThingId,
+  tableMode,
+  onRow,
+  selectedTicketId,
+  beginAddTicket,
+  scrollHeight
+}) => {
   // initialize query params for consistency throughout component
   const queryParams = {
-    thing_ids: selectedThingId || checkedThingIds,
+    thing_ids: String(selectedThingId) !== 'undefined' ? [selectedThingId] : checkedThingIds ? checkedThingIds : [],
     include: ["thing", "category"]
   }
   // initialize state
@@ -26,15 +34,30 @@ const TicketTable = ({ checkedThingIds, selectedThingId, tableMode, onRow, selec
   }, [checkedThingIds, selectedThingId])
 
   return (
-    <Table
-      title={() => `Tickets (${data ? data.length : 0})`}
-      style={{ marginTop: "10px" }}
-      dataSource={data ? data : []}
-      columns={getColumns(tableMode)}
-      loading={loading}
-      error={error}
-      onRow={onRow}
-      rowKey="id" />
+    <Card
+      title={`Tickets (${data ? data.length : 0})`}
+      style={{
+        marginTop: "10px",
+        width: tableMode === "compact" ? 500 : 800
+      }}
+      extra={beginAddTicket && <Button
+        type="primary"
+        onClick={beginAddTicket}>
+        Add Ticket
+
+      </Button>}>
+      <Table
+        dataSource={data ? data : []}
+        columns={getColumns(tableMode)}
+        scroll={{ y: scrollHeight ? scrollHeight : 600 }}
+        rowClassName={(record) => {
+          return record.id === Number(selectedTicketId) ? 'ant-table-row-selected' : ''
+        }}
+        loading={loading}
+        error={error}
+        onRow={onRow}
+        rowKey="id" />
+    </Card>
   )
 }
 

@@ -46,7 +46,10 @@ def read(
         query = f"{select} {from_clause} {where_seed}"
 
     if query_params:
-        if query_params.thing_ids is not None:
+        if (
+            query_params.thing_ids is not None
+            and query_params.thing_ids != 0
+        ):
             placeholders = ",".join("?" * len(query_params.thing_ids))
             query += f" AND t.thing_id IN ({placeholders})"
             params.extend(str(tid) for tid in query_params.thing_ids)

@@ -81,7 +81,6 @@ const ThingTree = ({
     setSelectedThingId(newSelectedThingId);
   }
 
-  console.log("thing id from params:", thingId);
 
   return (<>
     <Flex

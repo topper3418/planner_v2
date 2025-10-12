@@ -5,7 +5,13 @@ import TicketCategoryDropdown from "../inputs/ticketCategoryDropdown";
 import TicketDropdown from "../inputs/ticketDropdown";
 
 
-const TicketDetails = ({ ticket, loading, error, refreshTicket }) => {
+const TicketDetails = ({
+  ticket,
+  loading,
+  error,
+  refreshTicket,
+  addMode = false,
+}) => {
   const {
     mode,
     setMode,
@@ -15,13 +21,17 @@ const TicketDetails = ({ ticket, loading, error, refreshTicket }) => {
     updateData,
     updateLoading,
     updateError,
-    updateThing
-  } = detailsHooks(ticket, refreshTicket, loading, error);
+    updateThing,
+    createData,
+    createLoading,
+    createError,
+    createTicket
+  } = detailsHooks(ticket, refreshTicket, addMode);
 
 
   return (
     <Card
-      title="Ticket Details"
+      title="Ticket"
       extra={
         <ModeButton
           mode={mode}
@@ -46,13 +56,13 @@ const TicketDetails = ({ ticket, loading, error, refreshTicket }) => {
                 value={getValue("title")}
                 onChange={changeHandler("title")} />}
           </Descriptions.Item>
-          <Descriptions.Item label="Open">
+          {mode !== "add" && <Descriptions.Item label="Open">
             {mode === "view" ?
               (ticket?.open ? 'Yes' : 'No') :
               <Checkbox
                 checked={getValue("open")}
                 onChange={changeHandler("open")} />}
-          </Descriptions.Item>
+          </Descriptions.Item>}
           <Descriptions.Item label="category">
             {mode === "view" ?
               (ticket?.category ? ticket.category.name : 'Uncategorized') :
@@ -63,7 +73,7 @@ const TicketDetails = ({ ticket, loading, error, refreshTicket }) => {
                   changeHandler("category_id")(e);
                 }} />}
           </Descriptions.Item>
-          <Descriptions.Item label="Parent">
+          {false && <Descriptions.Item label="Parent">
             {mode === "view" ?
               (ticket?.parent ? ticket.parent.name : 'No parent') :
               <TicketDropdown
@@ -72,7 +82,7 @@ const TicketDetails = ({ ticket, loading, error, refreshTicket }) => {
                   const e = { target: { value } };
                   changeHandler("parent_id")(e);
                 }} />}
-          </Descriptions.Item>
+          </Descriptions.Item>}
           <Descriptions.Item label="Description">
             {mode === "view" ?
               (ticket?.description ? ticket.description : 'No description') :
@@ -102,7 +112,7 @@ const TicketDetails = ({ ticket, loading, error, refreshTicket }) => {
             </Button>}
         </Flex>
       </Flex>
-    </Card>
+    </Card >
   )
 }
 
@@ -114,6 +124,7 @@ const ModeButton = ({ mode, setMode }) => {
       setMode("view");
     }
   }
+  console.log("mode in ModeButton:", mode);
   return (
     <Button type="primary" onClick={onClick}>
       {mode === "view" ? "Edit" : "Cancel"}
@@ -121,8 +132,8 @@ const ModeButton = ({ mode, setMode }) => {
   )
 }
 
-const detailsHooks = (thing, refreshTicket, loading, error) => {
-  const [mode, setMode] = useState("view"); // "view" or "edit"
+const detailsHooks = (ticket = {}, refreshTicket = () => { }, addMode = false) => {
+  const [mode, setMode] = useState(addMode ? "add" : "view"); // "view" or "edit"
   const [unsavedChanges, setUnsavedChanges] = useState({});
 
   const {
@@ -132,6 +143,13 @@ const detailsHooks = (thing, refreshTicket, loading, error) => {
     updateThing
   } = api.useUpdateTicket();
 
+  const {
+    data: createData,
+    loading: createLoading,
+    error: createError,
+    createTicket
+  } = api.useCreateTicket();
+
   // when going to view mode, reset unsaved changes
   useEffect(() => {
     if (mode === "view") {
@@ -140,10 +158,17 @@ const detailsHooks = (thing, refreshTicket, loading, error) => {
     }
   }, [mode])
 
-  // when updateData is available, refresh the thing details
+  console.log("addMode in detailsHooks:", addMode);
+
+  useEffect(() => {
+    console.log("effect triggering")
+    setMode(addMode ? "add" : "view");
+  }, [addMode])
+
+  // when updateData is available, refresh the ticket details
   useEffect(() => {
     if (updateData) {
-      console.log("Thing updated:", updateData);
+      console.log("Ticket updated:", updateData);
       refreshTicket();
       setMode("view");
     }
@@ -173,7 +198,7 @@ const detailsHooks = (thing, refreshTicket, loading, error) => {
   }
 
   const getValue = (field) => {
-    return isChanged(field) ? unsavedChanges[field] : thing ? thing[field] : '';
+    return isChanged(field) ? unsavedChanges[field] : ticket ? ticket[field] : '';
   }
 
   const resetChanges = () => {
@@ -188,8 +213,11 @@ const detailsHooks = (thing, refreshTicket, loading, error) => {
     updateData,
     updateLoading,
     updateError,
-    updateThing
-
+    updateThing,
+    createData,
+    createLoading,
+    createError,
+    createTicket
   };
 }
 

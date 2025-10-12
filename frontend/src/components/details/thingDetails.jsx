@@ -21,7 +21,7 @@ const ThingDetails = ({ thing, loading, error, refreshThing }) => {
 
   return (
     <Card
-      title="Thing Details"
+      title="Thing"
       extra={
         <ModeButton
           mode={mode}

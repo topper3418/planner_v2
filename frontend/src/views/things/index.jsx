@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Flex } from 'antd';
+import { Flex, Modal } from 'antd';
 import api from '../../api/';
 
 import components from '../../components/';
@@ -35,6 +35,8 @@ const ThingView = () => {
     location,
     fetchTicket,
     navToTicket,
+    beginAddTicket,
+    setBeginAddTicket
   } = useThingViewHooks()
 
   return (<>
@@ -43,7 +45,7 @@ const ThingView = () => {
         rorderable={true}
         checkedThingIds={checkedThingIds}
         setCheckedThingIds={setCheckedThingIds}
-        selectedThingId={selectedThingId}
+        selectedThingId={thingId}
         setSelectedThingId={selectThing} />
       <Flex gap="10px" style={{ height: '100%', minHeight: 0 }} wrap>
         {selectedThingId && <>
@@ -54,28 +56,32 @@ const ThingView = () => {
               error={thingError}
               refreshThing={fetchThing} />
             <ChilrenTable
-              selectedThingId={selectedThingId}
+              selectedThingId={thingId}
               setSelectedThingId={setSelectedThingId} />
           </Flex>
         </>}
         <Flex vertical>
           <Flex style={{
-            maxHeight: selectedThingId ? '50%' : '100%',
-            minHeight: selectedThingId ? '50%' : '100%'
+            maxHeight: thingId || ticketId ? '50%' : '100%',
+            minHeight: thingId || ticketId ? '50%' : '100%'
           }}>
             <TicketTable
-              checkedThingIds={selectedThingId ? undefined : checkedThingIds}
-              selectedThingId={selectedThingId}
-              tableMode={selectedTicketId ? "compact" : "full"}
+              checkedThingIds={thingId ? undefined : checkedThingIds}
+              selectedThingId={thingId}
+              tableMode={ticketId ? "compact" : "full"}
+              selectedTicketId={ticketId}
+              beginAddTicket={() => setBeginAddTicket(true)}
+              scrollHeight={thingId || ticketId ? 110 : 400}
               onRow={navToTicket} />
           </Flex>
           {ticketId && <TicketDetails
-            ticket={ticketData}
+            addMode={beginAddTicket}
+            ticket={beginAddTicket ? {} : ticketData}
             loading={ticketLoading}
             error={ticketError}
             refreshTicket={fetchTicket} />}
         </Flex>
-        {selectedTicketId && <Flex
+        {ticketId && <Flex
           vertical
           gap="10px"
           style={{ flex: 1, height: "100%" }}>
@@ -83,13 +89,13 @@ const ThingView = () => {
             maxHeight: '50%',
             minHeight: '50%'
           }}>
-            <CommentPanel ticketId={selectedTicketId} />
+            <CommentPanel ticketId={ticketId} />
           </Flex>
           <Flex style={{
             maxHeight: '50%',
             minHeight: '50%'
           }}>
-            <ActionPanel ticketId={selectedTicketId} />
+            <ActionPanel ticketId={ticketId} />
           </Flex>
         </Flex>
         }
@@ -103,8 +109,8 @@ const useThingViewHooks = () => {
   const [selectedThingId, setSelectedThingId] = useState(null);
   const [selectedTicketId, setSelectedTicketId] = useState(null);
   const [checkedThingIds, setCheckedThingIds] = useState([]);
+  const [beginAddTicket, setBeginAddTicket] = useState(false);
   const { thingId, ticketId } = useParams();
-  console.log({ thingId, ticketId });
   const {
     data: thingData,
     loading: thingLoading,
@@ -188,7 +194,9 @@ const useThingViewHooks = () => {
     ticketError,
     location,
     fetchTicket,
-    navToTicket
+    navToTicket,
+    beginAddTicket,
+    setBeginAddTicket
   }
 
 }
