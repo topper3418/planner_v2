@@ -1,9 +1,9 @@
 import { Select } from "antd";
 import { useEffect } from "react";
-import api from "../../api/";
+import useApi from "../../api/";
 
 const ActionTypeDropdown = ({ selectedActionTypeId, setSelectedActionTypeId }) => {
-  const { data, loading, error, refetch } = api.useFetchActionTypes();
+  const { data, loading, error, refetch } = useApi.action.fetchMany();
 
   const handleChange = (value) => {
     console.log("value selected in ActionTepeDropdown:", value);

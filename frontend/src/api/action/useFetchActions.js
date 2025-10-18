@@ -1,20 +1,23 @@
 import { useEffect } from "react";
-import useFetchState from "../util/useFetchState";
+import useFetchState from "../../util/useFetchState";
 
-const THINGS_URL = "/api/things/";
+const ACTIONS_URL = "/api/actions/";
 
-const useFetchThings = ({ parent_id, include } = {}) => {
+const useFetchActions = (
+  { ticket_id, include } = {},
+  { lazy = false } = {},
+) => {
   const { data, setData, loading, setLoading, error, setError, reset } =
     useFetchState(null);
 
-  const fetchData = async ({ parent_id, include } = {}) => {
+  const fetchData = async ({ ticket_id, include } = {}) => {
     // reset state
     reset();
     // build url
-    const url = new URL(THINGS_URL, window.location.origin);
+    const url = new URL(ACTIONS_URL, window.location.origin);
     // set the parent_id param if provided
-    if (parent_id !== undefined) {
-      url.searchParams.append("parent_id", parent_id);
+    if (ticket_id !== undefined) {
+      url.searchParams.append("ticket_id", ticket_id);
     }
 
     // set the include param if provided
@@ -32,7 +35,7 @@ const useFetchThings = ({ parent_id, include } = {}) => {
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(
-          `HTTP error on fetch tree view! status: ${response.status}`,
+          `HTTP error on fetch actions! status: ${response.status}`,
         );
       }
       const result = await response.json();
@@ -45,10 +48,12 @@ const useFetchThings = ({ parent_id, include } = {}) => {
   };
 
   useEffect(() => {
-    fetchData({ parent_id, include });
+    if (!lazy) {
+      fetchData({ ticket_id, include });
+    }
   }, []);
 
   return { data, loading, error, refetch: fetchData };
 };
 
-export default useFetchThings;
+export default useFetchActions;

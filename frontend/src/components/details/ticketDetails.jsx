@@ -1,6 +1,6 @@
 import { Button, Card, Checkbox, Descriptions, Flex, Input } from "antd"
 import { useEffect, useState } from "react";
-import api from "../../api/";
+import useApi from "../../api/";
 import TicketCategoryDropdown from "../inputs/ticketCategoryDropdown";
 import TicketDropdown from "../inputs/ticketDropdown";
 
@@ -154,14 +154,14 @@ const detailsHooks = (ticket = {}, refreshTicket = () => { }, addMode = false) =
     loading: updateLoading,
     error: updateError,
     updateTicket
-  } = api.useUpdateTicket();
+  } = useApi.ticket.update();
 
   const {
     data: createData,
     loading: createLoading,
     error: createError,
     createTicket
-  } = api.useCreateTicket();
+  } = useApi.ticket.create();
 
   // when going to view mode, reset unsaved changes
   useEffect(() => {

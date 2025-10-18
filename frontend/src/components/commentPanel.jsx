@@ -1,11 +1,11 @@
 import { Button, Card, Flex, Input, Table } from "antd";
-import api from "../api";
+import useApi from "../api";
 import { useState } from "react";
 import { formatDate } from "../util/formatting";
 
 
 const CommentPanel = ({ ticketId }) => {
-  const { data, loading, error, refetch } = api.useFetchComments({ ticket_id: ticketId });
+  const { data, loading, error, refetch } = useApi.comment.fetchMany({ ticket_id: ticketId });
   const [newCommentText, setNewCommentText] = useState("");
 
   return (
@@ -44,7 +44,7 @@ const CommentPanel = ({ ticketId }) => {
             style={{ marginTop: '10px' }}
             onClick={async () => {
               if (newCommentText.trim() === "") return;
-              await api.addComment({ ticket_id: ticketId, content: newCommentText });
+              await useApi.comment.create({ ticket_id: ticketId, content: newCommentText });
               setNewCommentText("");
               refetch({ ticket_id: ticketId });
             }} >

@@ -1,9 +1,9 @@
 import { Select } from "antd";
 import { useEffect } from "react";
-import api from "../../api/";
+import useApi from "../../api/";
 
 const TicketDropdown = ({ selectedTicketId, setSelectedTicketId, filters }) => {
-  const { data, loading, error, refetch } = api.useFetchTickets(filters);
+  const { data, loading, error, refetch } = useApi.ticket.fetchMany(filters);
   const handleChange = (value) => {
     setSelectedTicketId(value);
   };

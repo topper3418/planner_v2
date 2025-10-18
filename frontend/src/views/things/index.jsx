@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Flex, Modal } from 'antd';
-import api from '../../api/';
+import useApi from '../../api/';
 
 import components from '../../components/';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -119,13 +119,13 @@ const useThingViewHooks = () => {
     loading: thingLoading,
     error: thingError,
     getThing
-  } = api.useFetchThing(selectedThingId);
+  } = useApi.thing.fetchOne(selectedThingId);
   const {
     data: ticketData,
     loading: ticketLoading,
     error: ticketError,
     getTicket
-  } = api.useFetchTicket(selectedTicketId);
+  } = useApi.ticket.fetchOne(selectedTicketId);
   console.log("ticketData:", ticketData)
 
   // helpers for fetching data

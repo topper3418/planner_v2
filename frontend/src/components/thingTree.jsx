@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Flex, Tree } from 'antd';
 import NewThingModal from '../components/newThingModel';
-import api from '../api/';
+import useApi from '../api/';
 import { useParams } from 'react-router-dom';
 
 
@@ -24,11 +24,11 @@ const ThingTree = ({
     loading: treeDataLoading,
     error: treeDataError,
     refetch: treeDataRefetch
-  } = api.useFetchThingTree();
+  } = useApi.thing.fetchTree();
 
   const {
     updateThing
-  } = api.useUpdateThing();
+  } = useApi.thing.update();
 
   useEffect(() => {
     if (allIds?.length > 0 && checkedThingIds?.length === 0 && !keysChanged) {

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Button, Card, Table } from "antd";
-import api from "../../api/";
+import useApi from "../../api/";
 
 
 const TicketTable = ({
@@ -100,7 +100,7 @@ const useTicketTableHooks = (checkedThingIds, selectedThingId, tableMode) => {
   }
   console.log("fetching with queryParams:", queryParams);
   // initialize state
-  const { data, loading, error, refetch } = api.useFetchTickets(queryParams, { lazy: true });
+  const { data, loading, error, refetch } = useApi.ticket.fetchMany(queryParams, { lazy: true });
 
   // set default table mode
   if (!tableMode) tableMode = "full"; // other option is "compact"

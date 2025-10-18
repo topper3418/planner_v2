@@ -1,12 +1,12 @@
 import { Button, Card, Flex, Input, Table } from "antd";
-import api from "../api";
+import useApi from "../api";
 import { useState } from "react";
 import ActionTypeDropdown from "./inputs/actionTypeDropdown";
 import { formatDate } from "../util/formatting";
 
 
 const ActionPanel = ({ ticketId }) => {
-  const { data, loading, error, refetch } = api.useFetchActions({ ticket_id: ticketId });
+  const { data, loading, error, refetch } = useApi.action.fetchMany({ ticket_id: ticketId });
   const [newActionText, setNewActionText] = useState("");
   const [newActionTypeId, setNewActionTypeId] = useState(null);
 
@@ -52,7 +52,7 @@ const ActionPanel = ({ ticketId }) => {
               style={{ marginTop: '10px' }}
               onClick={async () => {
                 if (newActionText.trim() === "") return;
-                await api.addAction({ ticket_id: ticketId, content: newActionText });
+                await useApi.action.create({ ticket_id: ticketId, content: newActionText });
                 setNewActionText("");
                 refetch({ ticket_id: ticketId });
               }} >

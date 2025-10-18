@@ -1,7 +1,7 @@
 import { Button, Card, Descriptions, Flex, Input } from "antd"
 import { useEffect, useState } from "react";
 import ThingDropdown from "../inputs/thingDropdown";
-import api from "../../api/";
+import useApi from "../../api/";
 import ThingCategoryDropdown from "../inputs/thingCategoryDropdown";
 
 
@@ -153,7 +153,7 @@ const detailsHooks = (thing, refreshThing) => {
     loading: updateLoading,
     error: updateError,
     updateThing
-  } = api.useUpdateThing();
+  } = useApi.thing.update();
 
   const getValue = (field) => {
     return isChanged(field) ? unsavedChanges[field] : thing ? thing[field] : '';

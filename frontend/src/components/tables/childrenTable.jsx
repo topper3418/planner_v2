@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Table } from "antd";
-import api from "../../api";
+import useApi from "../../api";
 
 
 
@@ -10,7 +10,7 @@ const ChilrenTable = ({ selectedThingId, setSelectedThingId }) => {
     loading,
     error,
     refetch
-  } = api.useFetchThings({
+  } = useApi.thing.fetchMany({
     parent_id: selectedThingId,
     include: ['category']
   });

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useFetchState from "../util/useFetchState";
+import useFetchState from "../../util/useFetchState";
 
 const ACTION_TYPES_URL = "/api/actions/types/";
 

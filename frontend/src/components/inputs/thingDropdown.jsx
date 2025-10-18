@@ -1,9 +1,9 @@
 import { Select } from "antd";
 import { useEffect } from "react";
-import api from "../../api/";
+import useApi from "../../api/";
 
 const ThingDropdown = ({ selectedThingId, setSelectedThingId, filters }) => {
-  const { data, loading, error, refetch } = api.useFetchThings(filters);
+  const { data, loading, error, refetch } = useApi.thing.fetchMany(filters);
 
   const handleChange = (value) => {
     console.log("value selected in ThingDropdown:", value);

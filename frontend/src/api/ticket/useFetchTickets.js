@@ -1,23 +1,23 @@
 import { useEffect } from "react";
-import useFetchState from "../util/useFetchState";
+import useFetchState from "../../util/useFetchState";
 
-const ACTIONS_URL = "/api/actions/";
+const TICKETS_URL = "/api/tickets/";
 
-const useFetchActions = (
-  { ticket_id, include } = {},
+const useFetchTickets = (
+  { parent_id, include, thing_ids } = {},
   { lazy = false } = {},
 ) => {
   const { data, setData, loading, setLoading, error, setError, reset } =
     useFetchState(null);
 
-  const fetchData = async ({ ticket_id, include } = {}) => {
+  const fetchData = async ({ parent_id, include, thing_ids } = {}) => {
     // reset state
     reset();
     // build url
-    const url = new URL(ACTIONS_URL, window.location.origin);
+    const url = new URL(TICKETS_URL, window.location.origin);
     // set the parent_id param if provided
-    if (ticket_id !== undefined) {
-      url.searchParams.append("ticket_id", ticket_id);
+    if (parent_id !== undefined) {
+      url.searchParams.append("parent_id", parent_id);
     }
 
     // set the include param if provided
@@ -30,12 +30,21 @@ const useFetchActions = (
       }
     }
 
+    // set the thing_ids param if provided
+    if (thing_ids) {
+      if (Array.isArray(thing_ids)) {
+        thing_ids.forEach((id) => url.searchParams.append("thing_ids", id));
+      } else {
+        url.searchParams.append("thing_ids", thing_ids);
+      }
+    }
+
     // fetch data, manage state
     try {
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(
-          `HTTP error on fetch actions! status: ${response.status}`,
+          `HTTP error on fetch tree view! status: ${response.status}`,
         );
       }
       const result = await response.json();
@@ -49,11 +58,11 @@ const useFetchActions = (
 
   useEffect(() => {
     if (!lazy) {
-      fetchData({ ticket_id, include });
+      fetchData({ parent_id, include, thing_ids });
     }
   }, []);
 
   return { data, loading, error, refetch: fetchData };
 };
 
-export default useFetchActions;
+export default useFetchTickets;

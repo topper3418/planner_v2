@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Flex } from 'antd';
-import api from '../../api/';
+import useApi from '../../api/';
 
 import components from '../../components/';
 import { useLocation, useNavigate } from "react-router-dom";
@@ -19,7 +19,7 @@ const HomeView = () => {
     loading: thingLoading,
     error: thingError,
     getThing
-  } = api.useFetchThing();
+  } = useApi.thing.fetchOne();
   const navigate = useNavigate();
 
   const selectThing = (thingId) => {
