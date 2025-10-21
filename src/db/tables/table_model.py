@@ -1,6 +1,10 @@
 # base class for db tables
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 from pydantic import BaseModel
+from src.db.tables.util import ColumnField, ForeignKeyField
+
+if TYPE_CHECKING:
+    from .util import RelationshipField
 
 
 class TableModel(BaseModel):
@@ -35,3 +39,27 @@ class TableModel(BaseModel):
         raise NotImplementedError(
             "Populate children method not implemented"
         )
+
+    @property
+    def orm_fields(self) -> dict[str, ColumnField]:
+        return {
+            field_name: field
+            for field_name, field in self.__fields__.items()
+            if field.field_info.extra.get("column_field", False)
+        }
+
+    @property
+    def foreign_key_fields(self) -> dict[str, ForeignKeyField]
+        return {
+            field_name: field
+            for field_name, field in self.__fields__.items()
+            if field.field_info.extra.get("foreign_key_field", False)
+        }
+
+    @property
+    def relationship_fields(self) -> dict[str, RelationshipField]:
+        return {
+            field_name: field
+            for field_name, field in self.__fields__.items()
+            if field.field_info.extra.get("relationship_field", False)
+        }

@@ -1,13 +1,14 @@
 from pydantic import BaseModel, Field
 from typing import Literal, Optional
 from datetime import datetime
+from ..util import FilterParam
 
 
 # TODO: merge thing id and thing ids, should be easy
 
 
 class TicketParams(BaseModel):
-    thing_ids: Optional[list[int]] = None
+    thing_ids: Optional[list[int]] = FilterParam(None)
     category_id: Optional[int] = None
     parent_id: Optional[int] = None
     open: Optional[bool] = None

@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING, Optional, List
 from datetime import datetime
 
 from ..table_model import TableModel
+from ..util import ColumnField, ForeignKeyField, RelationshipField
 
 if TYPE_CHECKING:
     from ..things import Thing
@@ -10,22 +11,24 @@ if TYPE_CHECKING:
 
 # Pydantic model for Ticket
 class Ticket(TableModel):
-    id: Optional[int] = None
-    title: Optional[str] = None
-    description: Optional[str] = None
-    open: Optional[bool] = True
+    id: Optional[int] = ColumnField(None)
+    title: Optional[str] = ColumnField(None)
+    description: Optional[str] = ColumnField(None)
+    open: Optional[bool] = ColumnField(True)
 
-    thing_id: Optional[int] = None
-    category_id: Optional[int] = None
-    parent_id: Optional[int] = None
+    created_at: Optional[datetime] = ColumnField(None)
+    updated_at: Optional[datetime] = ColumnField(None)
+    completed_at: Optional[datetime] = ColumnField(None)
 
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
+    thing_id: Optional[int] = ForeignKeyField(on="id")
+    category_id: Optional[int] = ForeignKeyField(on="id")
+    parent_id: Optional[int] = ForeignKeyField(on="id")
 
-    thing: Optional["Thing"] = None
-    category: Optional["TicketCategory"] = None
-    parent: Optional["Ticket"] = None
+    thing: Optional["Thing"] = RelationshipField(table_model="Thing")
+    category: Optional["TicketCategory"] = RelationshipField(
+        table_model="TicketCategory"
+    )
+    parent: Optional["Ticket"] = RelationshipField(table_model="Ticket")
     children: Optional[List["Ticket"]] = None
 
     class Config:
