@@ -41,7 +41,7 @@ def ForeignKeyField(
     Returns A Pydantic Field subclass that indicates the field is intended as a foreign key.
     """
 
-    return Field(
+    return ColumnField(
         default=default,
         *args,
         **kwargs,

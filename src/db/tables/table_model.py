@@ -42,8 +42,8 @@ class TableModel(BaseModel):
         return {
             field_name: field
             for field_name, field in cls.__fields__.items()
-            if field.json_schema_extra
-            and field.json_schema_extra.get("colunn_field", False)
+            if field.json_schema_extra is not None
+            and field.json_schema_extra.get("column_field", False)
         }
 
     @classmethod

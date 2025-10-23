@@ -3,6 +3,7 @@ import logging
 
 from .query_params import QueryParams
 from .table_model import TableModel
+from .table_directory import table_directory
 
 
 logger = logging.getLogger(__name__)
@@ -29,17 +30,18 @@ class QueryBuilder:
         self.add_full_select()
         self.add_join()
         self.add_where()
+        self.add_pagination()
 
     @property
     def query(self) -> str:
         """Constructs the full SQL query."""
         query = "SELECT "
         query += ", ".join(self.select) if self.select else "*"
-        query += f" FROM {self.table_model.__table_name__}"
+        query += f"\nFROM {self.table_model.__table_name__}"
         if self.join:
             query += " ".join(self.join) + " "
         if self.where:
-            query += " WHERE " + " AND ".join(self.where)
+            query += "\nWHERE " + "\n  AND ".join(self.where)
         if self.pagination:
             query += self.pagination
         query += ";"
@@ -58,19 +60,22 @@ class QueryBuilder:
     def add_full_select(self) -> None:
         """Adds all columns from the main table and optionally from related tables."""
         if self.query_params:
+            # getattr is safer, not all params will have include
             include = getattr(self.query_params, "include", [])
         else:
             include = []
         # add the main table columns as table_name.field_name
         for field_name in self.table_model.get_column_fields().keys():
+            # print(f"Adding column field: {field_name}")
             self.select.append(
-                f"{self.table_model.__table_name__}.{field_name}"
+                f"\n   {self.table_model.__table_name__}.{field_name}"
             )
         # if there is no include, early return
         if not include:
+            print("no include")
             return
         # add the included table columns as table_name.{table_name}_field_name
-        relationship_fields = self.table_model.relationship_fields
+        relationship_fields = self.table_model.get_relationship_fields()
         for model_str in include:
             # children will be handled separately
             if model_str == "children":
@@ -82,11 +87,22 @@ class QueryBuilder:
                     f"Include '{model_str}' not found in relationship fields for {self.table_model.__table_name__}"
                 )
             # get the table model from that field
-            related_model = relationship_field.table_model
+            related_model = relationship_field.json_schema_extra[
+                "table_model"
+            ]
+            related_model = table_directory.get(related_model)
+            if related_model is None:
+                raise ValueError(
+                    f"Related model '{model_str}' not found in table directory"
+                )
+            print(
+                f"Adding select fields for related model: {related_model}"
+            )
             # get the keys and append them to the select
-            for field_name in related_model.get_orm_fields().keys():
+            for field_name in related_model.get_column_fields().keys():
+                print("Adding related column field:", field_name)
                 self.select.append(
-                    f"{related_model.__table_name__}.{field_name} AS {related_model.__table_name__}_{field_name}"
+                    f"\n   {related_model.__table_name__}.{field_name} AS {model_str}_{field_name}"
                 )
 
     def add_join(self) -> None:
@@ -110,18 +126,26 @@ class QueryBuilder:
                     f"Include '{include_str}' not found in relationship fields for {self.table_model.__table_name__}"
                 )
             # get the foreign key field that corresponds to this include
-            foreign_key_field = foreign_key_fields.get(f"{include_str}_id")
+            foreign_key = f"{include_str}_id"
+            foreign_key_field = foreign_key_fields.get(foreign_key)
             if not foreign_key_field:
                 raise ValueError(
                     f"Foreign key field for include '{include_str}' not found in {self.table_model.__table_name__}"
                 )
             # get the table model from that field
-            related_model = relationship_field.table_model
+            related_model = relationship_field.json_schema_extra[
+                "table_model"
+            ]
+            related_model = table_directory.get(related_model)
+            if related_model is None:
+                raise ValueError(
+                    f"Related model '{include_str}' not found in table directory"
+                )
             # construct the join clause
             join_clause = (
-                f"LEFT JOIN {related_model.__table_name__} "
-                f"ON {self.table_model.__table_name__}.{foreign_key_field.name} "
-                f"= {related_model.__table_name__}.{foreign_key_field.on}"
+                f"\nLEFT JOIN {related_model.__table_name__} "
+                f"ON {self.table_model.__table_name__}.{foreign_key} "
+                f"= {related_model.__table_name__}.{foreign_key_field.json_schema_extra['on']}"
             )
             self.join.append(join_clause)
 
@@ -161,5 +185,5 @@ class QueryBuilder:
         page_size = getattr(self.query_params, "page_size", None)
         if page_number is not None and page_size is not None:
             offset = (page_number - 1) * page_size
-            pagination_clause = f" LIMIT {page_size} OFFSET {offset}"
+            pagination_clause = f"\nLIMIT {page_size} OFFSET {offset}"
             self.pagination = pagination_clause

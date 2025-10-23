@@ -2,6 +2,7 @@ import logging
 from typing import TYPE_CHECKING, Optional, List
 
 from ..table_model import TableModel
+from ..util import ColumnField, ForeignKeyField, RelationshipField
 
 
 logger = logging.getLogger(__name__)
@@ -13,17 +14,21 @@ if TYPE_CHECKING:
 
 # Pydantic model for Thing
 class Thing(TableModel):
-    id: Optional[int] = None
-    name: str
-    description: Optional[str] = None
-    docs_link: Optional[str] = None
+    id: Optional[int] = ColumnField(None)
+    name: Optional[str] = ColumnField(None)
+    description: Optional[str] = ColumnField(None)
+    docs_link: Optional[str] = ColumnField(None)
 
-    category_id: Optional[int] = None
-    parent_id: Optional[int] = None
+    category_id: Optional[int] = ForeignKeyField(None, on="id")
+    parent_id: Optional[int] = ForeignKeyField(None, on="id")
 
-    category: Optional["ThingCategory"] = None
-    parent: Optional["Thing"] = None
-    children: Optional[List["Thing"]] = None
+    category: Optional["ThingCategory"] = RelationshipField(
+        table_model="ThingCategory"
+    )
+    parent: Optional["Thing"] = RelationshipField(table_model="Thing")
+    children: Optional[List["Thing"]] = RelationshipField(
+        table_model="Thing"
+    )
 
     class Config:
         from_attributes = True
