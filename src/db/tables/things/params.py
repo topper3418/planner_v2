@@ -2,16 +2,28 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
+from ..fields import FilterParam
+from ..query_params import QueryParams
 
-class ThingParams(BaseModel):
-    name: Optional[str] = None
-    category_id: Optional[int] = None
-    parent_id: Optional[int] = Field(
+
+class ThingParams(QueryParams):
+    name: Optional[str] = FilterParam(
         default=None,
-        description="Filter by parent thing ID, 0 for top level things",
-        ge=0,
+        where_clause='things.name LIKE "%?%"',
     )
-    search: Optional[str] = None
+    category_id: Optional[int] = FilterParam(
+        default=None, where_clause="things.category_id = ?"
+    )
+    parent_id: Optional[int] = FilterParam(
+        default=None,
+        where_clause="things.parent_id = ?",
+        special_case=(0, "things.parent_id IS NULL"),
+    )
+    search: Optional[str] = FilterParam(
+        default=None,
+        where_clause='(things.name LIKE "%?%" OR things.description LIKE "%?%")',
+        repeat_arg=2,
+    )
     include: list[Literal["category", "parent", "children"]] = []
     page_number: Optional[int] = Field(default=1, ge=1)
     page_size: Optional[int] = Field(default=10, ge=1, le=1000)

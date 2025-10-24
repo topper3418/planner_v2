@@ -17,21 +17,11 @@ def read(
     filters: Optional[CommentParams] = None,
 ) -> List[Comment]:
     logger.info(f"Listing Comments with filters: {filters}")
-    query = "SELECT id, ticket_id, content, created_at FROM comments WHERE content LIKE ?"
-    params = [
-        f"%{filters.content if filters and filters.content else ''}%"
-    ]
+    from ..query_builder import QueryBuilder
 
-    if filters:
-        if filters.ticket_id is not None:
-            query += " AND ticket_id = ?"
-            params.append(str(filters.ticket_id))
-        if (
-            filters.page_number is not None
-            and filters.page_size is not None
-        ):
-            offset = (filters.page_number - 1) * filters.page_size
-            query += " LIMIT ? OFFSET ?"
-            params.append(str(filters.page_size))
-            params.append(str(offset))
-    return core.run_list(query, tuple(params), Comment)
+    builder = QueryBuilder(Comment, filters)
+    builder.build_full()
+    query = builder.query
+    params = tuple(builder.args)
+    logger.debug("Comment Read Query: %s \n Params: %s", query, params)
+    return core.run_list(query, params, Comment)

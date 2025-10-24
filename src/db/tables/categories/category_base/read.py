@@ -13,14 +13,13 @@ def read(
     cls.__logger__.info(
         f"Listing {cls.__class__}s with filters: {filters}"
     )
+    from ...query_builder import QueryBuilder
+
     core = DbCore()
     core.logger = cls.__logger__
-    query = f"SELECT c.* FROM {cls.__table_name__} c WHERE name LIKE ?"
-    params = [f"%{filters.name if filters and filters.name else ''}%"]
-
-    if filters and filters.search is not None:
-        query += " AND (c.name LIKE ? OR c.description LIKE ?)"
-        search_param = f"%{filters.search}%"
-        params.extend([search_param, search_param])
+    builder = QueryBuilder(cls, filters)
+    builder.build_full()
+    query = builder.query
+    params = tuple(builder.args)
 
     return core.run_list(query, tuple(params), Category)

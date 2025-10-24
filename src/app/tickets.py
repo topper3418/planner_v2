@@ -50,9 +50,18 @@ async def get_ticket(ticket_id: int):
 @router.get("/", response_model=list[Ticket])
 async def list_tickets(filters: TicketParams = Query()):
     """
-    List tickets with optional filters (fuzzy search on description).
+    List tickets with optional filters
     """
     return Ticket.read(filters)
+
+
+@router.get("/count")
+async def count_tickets(filters: TicketParams = Query()):
+    """
+    Count tickets with optional filters
+    """
+    tickets = Ticket.read(filters)
+    return {"count": len(tickets)}
 
 
 @router.delete("/{ticket_id}")

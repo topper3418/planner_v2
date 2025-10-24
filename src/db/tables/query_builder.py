@@ -157,6 +157,14 @@ class QueryBuilder:
         # as well as the args
         for field_name, filter_param in filter_params.items():
             value = getattr(self.query_params, field_name)
+            # if there's a special case, handle that if the value matches
+            if special_case := filter_param.json_schema_extra.get(
+                "special_case"
+            ):
+                match_value, special_where = special_case
+                if value == match_value:
+                    self.where.append(special_where)
+                    continue
             if value is None:
                 continue
             if isinstance(value, list):
