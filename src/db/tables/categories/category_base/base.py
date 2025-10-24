@@ -1,10 +1,8 @@
 import logging
 from typing import Optional
 
-from pydantic import BaseModel
-
 from ...table_model import TableModel
-from ...util import ColumnField
+from ...fields import ColumnField, PrimaryKeyField
 
 
 class Category(TableModel):
@@ -12,7 +10,7 @@ class Category(TableModel):
     __category_model__ = "Category"
     __logger__ = logging.getLogger(__name__)
     # fields
-    id: Optional[int] = ColumnField(None)
+    id: Optional[int] = PrimaryKeyField(None)
     name: Optional[str] = ColumnField(None)
     description: Optional[str] = ColumnField(None)
 

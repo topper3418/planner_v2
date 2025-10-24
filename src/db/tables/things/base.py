@@ -2,7 +2,12 @@ import logging
 from typing import TYPE_CHECKING, Optional, List
 
 from ..table_model import TableModel
-from ..util import ColumnField, ForeignKeyField, RelationshipField
+from ..fields import (
+    ColumnField,
+    ForeignKeyField,
+    PrimaryKeyField,
+    RelationshipField,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -14,7 +19,7 @@ if TYPE_CHECKING:
 
 # Pydantic model for Thing
 class Thing(TableModel):
-    id: Optional[int] = ColumnField(None)
+    id: Optional[int] = PrimaryKeyField(None)
     name: Optional[str] = ColumnField(None)
     description: Optional[str] = ColumnField(None)
     docs_link: Optional[str] = ColumnField(None)

@@ -1,7 +1,7 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
 from typing import Literal, Optional
 from datetime import datetime
-from ..util import FilterParam
+from ..fields import FilterParam
 from ..query_params import QueryParams
 
 
@@ -48,5 +48,5 @@ class TicketParams(QueryParams):
         default=None, where_clause="tickets.id NOT IN ({})"
     )
     include: list[Literal["thing", "category", "parent", "children"]] = []
-    page_number: Optional[int] = Field(1, ge=1)
-    page_size: Optional[int] = Field(10, ge=1, le=100)
+    page_number: Optional[int] = Field(default=1, ge=1)
+    page_size: Optional[int] = Field(default=10, ge=1, le=100)

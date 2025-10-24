@@ -1,11 +1,13 @@
 # base class for db tables
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Type
 from pydantic import BaseModel, Field, ConfigDict
 
 
 class TableModel(BaseModel):
     __table_name__: str = ""  # to be set in subclasses
-    __params_class__: Optional[BaseModel] = None  # to be set in subclasses
+    __params_class__: Optional[Type[BaseModel]] = (
+        None  # to be set in subclasses
+    )
     model_config = ConfigDict(extra="allow")
 
     def create(self) -> int:
@@ -38,12 +40,18 @@ class TableModel(BaseModel):
         )
 
     @classmethod
-    def get_column_fields(cls) -> Dict[str, Field]:
+    def get_column_fields(
+        cls, exclude_pk: bool = False
+    ) -> Dict[str, Field]:
         return {
             field_name: field
             for field_name, field in cls.__fields__.items()
             if field.json_schema_extra is not None
             and field.json_schema_extra.get("column_field", False)
+            and not (
+                exclude_pk
+                and field.json_schema_extra.get("primary_key_field", False)
+            )
         }
 
     @classmethod

@@ -95,12 +95,10 @@ class QueryBuilder:
                 raise ValueError(
                     f"Related model '{model_str}' not found in table directory"
                 )
-            print(
-                f"Adding select fields for related model: {related_model}"
-            )
             # get the keys and append them to the select
-            for field_name in related_model.get_column_fields().keys():
-                print("Adding related column field:", field_name)
+            for field_name in related_model.get_column_fields(
+                exclude_pk=True
+            ).keys():
                 self.select.append(
                     f"\n   {related_model.__table_name__}.{field_name} AS {model_str}_{field_name}"
                 )

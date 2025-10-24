@@ -5,13 +5,11 @@ from .config import settings
 
 
 def setup_logging():
-    print("SETTING UP LOGGING")
     # Setting up logger
     logger = logging.getLogger()
 
     # Prevent duplicate handlers
     if not logger.handlers:
-        print("Configuring new logging handlers")
         # Creating formatter
         formatter = logging.Formatter(
             "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

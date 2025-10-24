@@ -2,7 +2,12 @@ from typing import TYPE_CHECKING, Optional, List
 from datetime import datetime
 
 from ..table_model import TableModel
-from ..util import ColumnField, ForeignKeyField, RelationshipField
+from ..fields import (
+    ColumnField,
+    ForeignKeyField,
+    RelationshipField,
+    PrimaryKeyField,
+)
 
 if TYPE_CHECKING:
     from ..things import Thing
@@ -11,7 +16,7 @@ if TYPE_CHECKING:
 
 # Pydantic model for Ticket
 class Ticket(TableModel):
-    id: Optional[int] = ColumnField(None)
+    id: Optional[int] = PrimaryKeyField(None)
     title: Optional[str] = ColumnField(None)
     description: Optional[str] = ColumnField(None)
     open: Optional[bool] = ColumnField(True)
