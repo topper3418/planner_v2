@@ -67,6 +67,7 @@ const TicketTable = ({
         scroll={{ y: scrollHeight ? scrollHeight : 600 }}
         rowClassName={getRowClassName}
         pagination={pagination}
+        rowHoverable={false}
         loading={loading}
         error={error}
         onRow={onRow}

@@ -21,8 +21,9 @@ class ThingParams(QueryParams):
     )
     search: Optional[str] = FilterParam(
         default=None,
-        where_clause='(things.name LIKE "%?%" OR things.description LIKE "%?%")',
+        where_clause="(things.name LIKE ? OR things.description LIKE ?)",
         repeat_arg=2,
+        render_arg=lambda v: f"%{v}%",
     )
     include: list[Literal["category", "parent", "children"]] = []
     page_number: Optional[int] = Field(default=1, ge=1)

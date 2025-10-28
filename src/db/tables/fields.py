@@ -1,4 +1,4 @@
-from typing import Any, Type, Union
+from typing import Any, Callable, Type, Union
 
 from pydantic import Field
 
@@ -62,7 +62,13 @@ def RelationshipField(
     )
 
 
-def FilterParam(where_clause: str, repeat_arg: int = 1, *args, **kwargs):
+def FilterParam(
+    where_clause: str,
+    repeat_arg: int = 1,
+    render_arg: Callable[[Any], Any] = lambda v: v,
+    *args,
+    **kwargs,
+):
     """
     Returns A Pydantic Field subclass that indicates the field is intended for filtering queries.
     """
@@ -73,4 +79,5 @@ def FilterParam(where_clause: str, repeat_arg: int = 1, *args, **kwargs):
         filter_param=True,
         where_clause=where_clause,
         repeat_arg=repeat_arg,
+        render_arg=render_arg,
     )

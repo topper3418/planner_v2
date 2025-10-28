@@ -167,6 +167,13 @@ class QueryBuilder:
                     continue
             if value is None:
                 continue
+            if render_arg := filter_param.json_schema_extra.get(
+                "render_arg"
+            ):
+                logger.info(
+                    f"Rendering arg for field {field_name}: {value}"
+                )
+                value = render_arg(value)
             if isinstance(value, list):
                 placeholders = ", ".join("?" * len(value))
                 where_clause = filter_param.json_schema_extra[

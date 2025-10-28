@@ -28,7 +28,7 @@
 - [X] fix the way that dbcore attaches the logger
 - [X] thing not highlighting on the tree
 - [X] selected ticket not highlighting on the table
-- [ ] add ticket button seems to do nothing at url: http://localhost:5173/{thing_id}
+- [X] add ticket button seems to do nothing at url: http://localhost:5173/{thing_id}
 
 
 ## USAGE
