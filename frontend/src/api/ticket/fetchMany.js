@@ -9,8 +9,16 @@ const useFetchTickets = (
   { lazy = false } = {},
 ) => {
   const urlBuilder = (url, params) => {
-    const { parent_id, include, thing_ids, open, page_number, page_size } =
-      params;
+    const {
+      parent_id,
+      include,
+      thing_ids,
+      open,
+      page_number,
+      page_size,
+      category_id,
+      search,
+    } = params;
     if (parent_id !== undefined) {
       url.searchParams.append("parent_id", parent_id);
     }
@@ -37,6 +45,16 @@ const useFetchTickets = (
     // set the filter for open tickets only
     if (open !== undefined) {
       url.searchParams.append("open", open);
+    }
+
+    // set search filter if provided
+    if (search !== undefined) {
+      url.searchParams.append("search", search);
+    }
+
+    // set category_id filter if provided
+    if (category_id !== undefined) {
+      url.searchParams.append("category_id", category_id);
     }
 
     // set pagination params if provided

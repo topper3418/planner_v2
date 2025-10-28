@@ -2,12 +2,12 @@ import { Select } from "antd";
 import { useEffect } from "react";
 import useApi from "../../api/";
 
-const TicketCategoryDropdown = ({ selectedTicketCategoryId, setSelectedTicketCategoryId }) => {
+const TicketCategoryDropdown = ({ selectedCategoryId, setSelectedCategoryId }) => {
   const { data, loading, error, refetch } = useApi.ticket.fetchCategories();
 
   const handleChange = (value) => {
     console.log("value selected in TicketCategoryDropdown:", value);
-    setSelectedTicketCategoryId(value);
+    setSelectedCategoryId(value);
   };
 
   return (
@@ -18,7 +18,7 @@ const TicketCategoryDropdown = ({ selectedTicketCategoryId, setSelectedTicketCat
       optionFilterProp="children"
       error={error}
       onChange={handleChange}
-      value={selectedTicketCategoryId}
+      value={selectedCategoryId}
       allowClear
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())

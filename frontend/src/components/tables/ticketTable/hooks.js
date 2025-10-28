@@ -11,6 +11,9 @@ const useTicketTableHooks = (
   const [showClosed, setShowClosed] = useState(false);
   const [showClosedToggleText, setShowToggleText] = useState("Show Closed");
   const [pageNumber, setPageNumber] = useState(1);
+  const [selectedTicketCategoryId, setSelectedTicketCategoryId] =
+    useState(null);
+  const [search, setSearch] = useState(null);
   const queryParams = {
     thing_ids: selectedThingId
       ? [selectedThingId]
@@ -18,6 +21,10 @@ const useTicketTableHooks = (
         ? checkedThingIds
         : [],
     include: ["thing", "category"],
+    search: search ? search : undefined,
+    category_id: selectedTicketCategoryId
+      ? selectedTicketCategoryId
+      : undefined,
     open: showClosed ? undefined : true,
     page_number: pageNumber,
     page_size: tableMode === "compact" ? 5 : 10,
@@ -28,15 +35,12 @@ const useTicketTableHooks = (
     { lazy: true },
   );
 
-  console.log("useTicketTableHooks - queryParams:", queryParams);
-  console.log("useTicketTableHooks - data:", data);
-  console.log("useTicketTableHooks - count:", count);
-
   // set default table mode
   if (!tableMode) tableMode = "full"; // other option is "compact"
 
   //helper function
   const doRefetch = () => {
+    console.log("Refetching tickets with params:", queryParams);
     refetch(queryParams);
   };
 
@@ -63,10 +67,21 @@ const useTicketTableHooks = (
     },
   };
 
+  const onSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
   // on mount and when checkedThingIds or selectedThingId changes, refetch data
   useEffect(() => {
     doRefetch();
-  }, [checkedThingIds, selectedThingId, showClosed, pageNumber]);
+  }, [
+    checkedThingIds,
+    selectedThingId,
+    showClosed,
+    pageNumber,
+    selectedTicketCategoryId,
+    search,
+  ]);
 
   const getRowClassName = (record) => {
     // if its selected, highlight it
@@ -76,6 +91,10 @@ const useTicketTableHooks = (
   };
 
   return {
+    selectedTicketCategoryId,
+    setSelectedTicketCategoryId,
+    onSearchChange,
+    search,
     data,
     loading,
     error,

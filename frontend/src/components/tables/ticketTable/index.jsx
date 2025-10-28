@@ -1,6 +1,7 @@
-import { Button, Card, Table, Flex } from "antd";
+import { Button, Card, Table, Flex, Input } from "antd";
 import "../../../App.css";
 import useTicketTableHooks from "./hooks";
+import TicketCategoryDropdown from "../../inputs/ticketCategoryDropdown";
 
 
 const TicketTable = ({
@@ -18,6 +19,10 @@ const TicketTable = ({
     count,
     loading,
     error,
+    search,
+    onSearchChange,
+    selectedTicketCategoryId,
+    setSelectedTicketCategoryId,
     pagination,
     showClosedToggleText,
     handleShowClosedToggle,
@@ -37,6 +42,15 @@ const TicketTable = ({
         width: tableMode === "compact" ? 500 : 800
       }}
       extra={beginAddTicket && <Flex gap="10px">
+        {!selectedTicketId && <>
+          <Input
+            placeholder="Search Tickets"
+            value={search}
+            onChange={onSearchChange} />
+          <TicketCategoryDropdown
+            selectedCategoryId={selectedTicketCategoryId}
+            setSelectedCategoryId={setSelectedTicketCategoryId} />
+        </>}
         <Button
           onClick={handleShowClosedToggle}>
           {showClosedToggleText}
