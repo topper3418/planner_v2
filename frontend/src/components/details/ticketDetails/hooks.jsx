@@ -68,6 +68,11 @@ const detailsHooks = (ticket = {}, refreshTicket = () => { }, addMode = false, s
       console.log("Ticket created: ", createData, "Navigating to ticket details page.");
       setAddMode(false);
       resetChanges();
+      if (thingId) {
+        navigate(`/${thingId}/tickets/${createData.id}`);
+        refreshTicket();
+        return;
+      }
       navigate(`/tickets/${createData.id}`);
       refreshTicket();
     }

@@ -34,6 +34,7 @@ const ChilrenTable = ({ selectedThingId, setSelectedThingId }) => {
     <Table
       title={() => "Children"}
       dataSource={data ? data : []}
+      scroll={{ y: 110 }}
       columns={columns}
       loading={loading}
       error={error}

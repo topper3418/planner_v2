@@ -18,6 +18,7 @@ const TicketTable = ({
     count,
     loading,
     error,
+    pagination,
     showClosedToggleText,
     handleShowClosedToggle,
     getRowClassName,
@@ -51,9 +52,7 @@ const TicketTable = ({
         columns={getColumns(tableMode)}
         scroll={{ y: scrollHeight ? scrollHeight : 600 }}
         rowClassName={getRowClassName}
-        pagination={{
-          size: "small",
-        }}
+        pagination={pagination}
         loading={loading}
         error={error}
         onRow={onRow}

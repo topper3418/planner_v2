@@ -10,6 +10,7 @@ const useTicketTableHooks = (
   // initialize query params for consistency throughout component
   const [showClosed, setShowClosed] = useState(false);
   const [showClosedToggleText, setShowToggleText] = useState("Show Closed");
+  const [pageNumber, setPageNumber] = useState(1);
   const queryParams = {
     thing_ids: selectedThingId
       ? [selectedThingId]
@@ -18,6 +19,8 @@ const useTicketTableHooks = (
         : [],
     include: ["thing", "category"],
     open: showClosed ? undefined : true,
+    page_number: pageNumber,
+    page_size: tableMode === "compact" ? 5 : 10,
   };
   // initialize state
   const { data, count, loading, error, refetch } = useApi.ticket.fetchMany(
@@ -49,10 +52,21 @@ const useTicketTableHooks = (
     }
   };
 
+  const pagination = {
+    pageSize: tableMode === "compact" ? 5 : 10,
+    simple: true,
+    size: "small",
+    current: pageNumber,
+    total: count,
+    onChange: (page) => {
+      setPageNumber(page);
+    },
+  };
+
   // on mount and when checkedThingIds or selectedThingId changes, refetch data
   useEffect(() => {
     doRefetch();
-  }, [checkedThingIds, selectedThingId, showClosed]);
+  }, [checkedThingIds, selectedThingId, showClosed, pageNumber]);
 
   const getRowClassName = (record) => {
     // if its selected, highlight it
@@ -67,6 +81,7 @@ const useTicketTableHooks = (
     error,
     doRefetch,
     count,
+    pagination,
     handleShowClosedToggle,
     showClosedToggleText,
     getRowClassName,
