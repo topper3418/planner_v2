@@ -5,6 +5,7 @@ from .ticket_categories import router as categories_router
 
 Ticket = Controller.Tables.Ticket
 TicketParams = Controller.Params.Ticket
+ReadTickets = Controller.Responses.ReadTickets
 
 
 router = APIRouter(prefix="/tickets", tags=["tickets"])
@@ -47,7 +48,7 @@ async def get_ticket(ticket_id: int):
     return ticket
 
 
-@router.get("/", response_model=list[Ticket])
+@router.get("/", response_model=ReadTickets)
 async def list_tickets(filters: TicketParams = Query()):
     """
     List tickets with optional filters
@@ -60,8 +61,8 @@ async def count_tickets(filters: TicketParams = Query()):
     """
     Count tickets with optional filters
     """
-    tickets = Ticket.read(filters)
-    return {"count": len(tickets)}
+    count = Ticket.get_count(filters)
+    return {"count": count}
 
 
 @router.delete("/{ticket_id}")

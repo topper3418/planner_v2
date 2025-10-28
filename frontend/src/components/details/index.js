@@ -1,5 +1,5 @@
 import ThingDetails from "./thingDetails";
-import TicketDetails from "./ticketDetails";
+import TicketDetails from "./ticketDetails/";
 
 const details = {
   ThingDetails,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Flex, Modal } from 'antd';
+import { Flex } from 'antd';
 import useApi from '../../api/';
 
 import components from '../../components/';
@@ -16,12 +16,10 @@ const {
 const ThingView = () => {
 
   const {
-    selectedThingId,
-    setSelectedThingId,
+    thingId,
+    ticketId,
     checkedThingIds,
     setCheckedThingIds,
-    selectedTicketId,
-    setSelectedTicketId,
     selectThing,
     thingData,
     thingLoading,
@@ -30,12 +28,17 @@ const ThingView = () => {
     ticketData,
     ticketLoading,
     ticketError,
-    location,
     fetchTicket,
-    navToTicket,
+    onRow,
     beginAddTicket,
     setBeginAddTicket
   } = useThingViewHooks()
+  console.log("thing id:", thingId);
+
+  const tickeTableBeginAddTicket = () => {
+    console.log("ThingView - tickeTableBeginAddTicket called");
+    setBeginAddTicket(true);
+  }
 
   return (<>
     <Flex gap="10px" style={{ overflowY: 'hidden' }}>
@@ -43,10 +46,11 @@ const ThingView = () => {
         rorderable={true}
         checkedThingIds={checkedThingIds}
         setCheckedThingIds={setCheckedThingIds}
-        selectedThingId={selectedThingId}
+        selectedThingId={thingId}
+        refreshTrigger={ticketId}
         setSelectedThingId={selectThing} />
       <Flex gap="10px" style={{ height: '100%', minHeight: 0, overflowX: 'auto' }}>
-        {selectedThingId && <>
+        {thingId && <>
           <Flex vertical gap="10px">
             <ThingDetails
               thing={thingData}
@@ -54,33 +58,34 @@ const ThingView = () => {
               error={thingError}
               refreshThing={fetchThing} />
             <ChilrenTable
-              selectedThingId={selectedThingId}
-              setSelectedThingId={setSelectedThingId} />
+              selectedThingId={thingId}
+              setSelectedThingId={selectThing} />
           </Flex>
         </>}
         <Flex vertical>
           <Flex style={{
-            maxHeight: selectedThingId || selectedTicketId ? '50%' : '100%',
-            minHeight: selectedThingId || selectedTicketId ? '50%' : '100%'
+            height: ticketId || beginAddTicket ? '50%' : '100%',
           }}>
             <TicketTable
-              checkedThingIds={selectedThingId ? undefined : checkedThingIds}
-              selectedThingId={selectedThingId}
-              tableMode={selectedTicketId ? "compact" : "full"}
-              selectedTicketId={selectedTicketId}
-              beginAddTicket={() => setBeginAddTicket(true)}
-              scrollHeight={selectedThingId || selectedTicketId ? 110 : 400}
-              onRow={navToTicket} />
+              checkedThingIds={thingId ? undefined : checkedThingIds}
+              selectedThingId={thingId}
+              tableMode={ticketId ? "compact" : "full"}
+              selectedTicketId={ticketId}
+              beginAddTicket={tickeTableBeginAddTicket}
+              scrollHeight={ticketId || beginAddTicket ? 110 : 400}
+              onRow={onRow} />
           </Flex>
-          {selectedTicketId && <TicketDetails
+          {(ticketId || beginAddTicket) && <TicketDetails
             addMode={beginAddTicket}
+            setAddMode={setBeginAddTicket}
             ticket={beginAddTicket ? {} : ticketData}
+            thing={thingData}
             loading={ticketLoading}
             error={ticketError}
-            thingId={selectedThingId}
+            thingId={thingId}
             refreshTicket={fetchTicket} />}
         </Flex>
-        {selectedTicketId && <Flex
+        {ticketId && <Flex
           vertical
           gap="10px"
           style={{ flex: 1, height: "100%" }}>
@@ -88,13 +93,13 @@ const ThingView = () => {
             maxHeight: '50%',
             minHeight: '50%'
           }}>
-            <CommentPanel ticketId={selectedTicketId} />
+            <CommentPanel ticketId={ticketId} />
           </Flex>
           <Flex style={{
             maxHeight: '50%',
             minHeight: '50%'
           }}>
-            <ActionPanel ticketId={selectedTicketId} />
+            <ActionPanel ticketId={ticketId} />
           </Flex>
         </Flex>
         }
@@ -107,8 +112,6 @@ const ThingView = () => {
 const useThingViewHooks = () => {
   // initialize state
   const { thingId, ticketId } = useParams();
-  const [selectedThingId, setSelectedThingId] = useState(null);
-  const [selectedTicketId, setSelectedTicketId] = useState(null);
   const [checkedThingIds, setCheckedThingIds] = useState([]);
   const [beginAddTicket, setBeginAddTicket] = useState(false);
   const navigate = useNavigate();
@@ -119,68 +122,67 @@ const useThingViewHooks = () => {
     loading: thingLoading,
     error: thingError,
     getThing
-  } = useApi.thing.fetchOne(selectedThingId);
+  } = useApi.thing.fetchOne(thingId);
   const {
     data: ticketData,
     loading: ticketLoading,
     error: ticketError,
     getTicket
-  } = useApi.ticket.fetchOne(selectedTicketId);
+  } = useApi.ticket.fetchOne(ticketId);
 
   // helpers for fetching data
   const fetchThing = () => {
-    if (selectedThingId) {
-      getThing(selectedThingId);
+    if (thingId) {
+      getThing(thingId);
     }
   }
   const fetchTicket = () => {
-    if (selectedTicketId) {
-      getTicket(selectedTicketId);
+    if (ticketId) {
+      getTicket(ticketId);
     }
   }
 
   // Effects to fetch data when IDs change
   useEffect(() => {
-    if (selectedThingId) fetchThing();
-  }, [selectedThingId]);
-
-  useEffect(() => {
-    if (selectedTicketId) fetchTicket()
-  }, [selectedTicketId])
-
-  // Effects to handle route params
-  useEffect(() => {
-    if (thingId && /^\d+$/.test(thingId)) {
-      setSelectedThingId(thingId);
-    } else {
-      setSelectedThingId(null);
-    }
+    if (thingId) fetchThing();
   }, [thingId]);
 
   useEffect(() => {
-    if (ticketId && /^\d+$/.test(ticketId)) {
-      setSelectedTicketId(ticketId);
-    } else {
-      setSelectedTicketId(null);
-    }
-    // For /things (no params), both remain null
-  }, [ticketId]);
-
+    if (ticketId) fetchTicket()
+  }, [ticketId])
 
   // helpers
   const selectThing = (newThingId) => {
-    setSelectedThingId(newThingId);
     if (newThingId) {
       navigate(`/${newThingId}`);
     } else {
       navigate(`/`);
     }
   }
-  const navToTicket = (record) => {
+
+  const selectTicket = (newTicketId) => {
+    if (thingId) {
+      if (!newTicketId || newTicketId === ticketId) {
+        navigate(`/${thingId}`);
+        return;
+      }
+      navigate(`/${thingId}/tickets/${newTicketId}`);
+    } else {
+      if (!newTicketId || newTicketId === ticketId) {
+        navigate(`/`);
+        return;
+      }
+      navigate(`/tickets/${newTicketId}`);
+    }
+  }
+
+  const onRow = (record) => {
     return {
       onClick: () => {
-        if (record.id !== selectedTicketId) {
-          setSelectedTicketId(record.id)
+        console.log("TicketTable onRow clicked:", record);
+        console.log({ record, ticketId, thingId });
+        if (record.id != ticketId) {
+          console.log("Clicked ticket is already selected, deselecting.");
           if (thingId) {
             navigate(`/${thingId}/tickets/${record.id}`)
           } else {
@@ -188,7 +190,6 @@ const useThingViewHooks = () => {
           }
         } else {
           // Clicking the same ticket deselects it
-          setSelectedTicketId(null);
           if (thingId) {
             navigate(`/${thingId}`);
           } else {
@@ -200,10 +201,11 @@ const useThingViewHooks = () => {
   }
 
   return {
-    selectedThingId,
-    setSelectedThingId,
-    selectedTicketId,
-    setSelectedThingId,
+    ticketId,
+    thingId,
+    selectTicket,
+    onRow,
+    selectThing,
     checkedThingIds,
     setCheckedThingIds,
     selectThing,
@@ -216,7 +218,7 @@ const useThingViewHooks = () => {
     ticketError,
     location,
     fetchTicket,
-    navToTicket,
+    onRow: onRow,
     beginAddTicket,
     setBeginAddTicket
   }

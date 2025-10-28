@@ -1,11 +1,12 @@
 import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
 import { Flex, Layout, Typography } from 'antd';
 
 const { Header, Content } = Layout;
-import NavBar from './components/navBar';
-import HomeView from './views/home'
 import ThingView from './views/things';
+import components from './components';
+
+const { PlannerTitle } = components;
 
 const App = () => {
 
@@ -21,13 +22,7 @@ const App = () => {
             display: 'flex',
             alignItems: 'center'
           }}>
-            <Typography.Title style={{
-              color: 'white',
-              margin: 0,
-              marginRight: '25px'
-            }} level={3}>
-              Planner
-            </Typography.Title>
+            <PlannerTitle />
           </Header>
           <Content style={{
             height: 'calc(100vh - 64px)',

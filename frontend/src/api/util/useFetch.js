@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useFetchState from "../../util/useFetchState";
 
 const useFetch = (
@@ -7,8 +7,17 @@ const useFetch = (
   params = {},
   { lazy = false } = {},
 ) => {
-  const { data, setData, loading, setLoading, error, setError, reset } =
-    useFetchState(null);
+  const [data, setData] = useState(null);
+  const [count, setcount] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const reset = () => {
+    setData(null);
+    setcount(null);
+    setLoading(true);
+    setError(null);
+  };
 
   const fetchData = async (params = {}) => {
     // reset state
@@ -23,7 +32,15 @@ const useFetch = (
         throw new Error(`HTTP error on fetch! status: ${response.status}`);
       }
       const result = await response.json();
-      setData(result);
+      if (result.data !== undefined) {
+        setData(result.data);
+        if (result.count !== undefined) {
+          console.log("setting count");
+          setcount(result.count);
+        }
+      } else {
+        setData(result);
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -37,7 +54,7 @@ const useFetch = (
     }
   }, []);
 
-  return { data, loading, error, fetchData };
+  return { data, count, loading, error, fetchData };
 };
 
 export default useFetch;

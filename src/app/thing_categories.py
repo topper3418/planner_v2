@@ -4,6 +4,7 @@ from ..db import Controller
 
 ThingCategory = Controller.Tables.ThingCategory
 CategoryParams = Controller.Params.Category
+ReadCategories = Controller.Responses.ReadCategories
 
 
 router = APIRouter(prefix="/categories", tags=["thing_categories"])
@@ -48,7 +49,7 @@ async def get_category(category_id: int):
     return category
 
 
-@router.get("/", response_model=list[ThingCategory])
+@router.get("/", response_model=ReadCategories)
 async def list_categories(filters: CategoryParams = Query()):
     """
     List categories with optional filters (fuzzy search on name).

@@ -3,7 +3,7 @@ from ..util import as_classmethod, as_staticmethod
 from .base import Action
 from .create import create
 from .get_by_id import get_by_id
-from .read import read_actions
+from .read import read_actions, ReadActionsResponse
 from .update import update
 from .delete import delete
 from .from_row import from_row

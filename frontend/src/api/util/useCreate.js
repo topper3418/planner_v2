@@ -13,6 +13,7 @@ const useCreate = (url) => {
     setError(null);
     try {
       // actual fetch
+      console.log("Creating data at:", url, "with data:", data);
       const response = await fetch(url, {
         method: "POST",
         headers: {

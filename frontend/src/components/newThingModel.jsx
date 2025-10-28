@@ -12,7 +12,7 @@ const NewThingModal = ({ open, setOpen, onSubmit }) => {
   }
   const submitNewThing = async () => {
     try {
-      await createThing(newThingName);
+      await createThing({ name: newThingName });
       clearNewThingForm();
       message.success('Thing created successfully');
       onSubmit();

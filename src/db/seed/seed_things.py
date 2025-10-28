@@ -5,7 +5,7 @@ ThingCategory = Controller.Tables.ThingCategory
 Thing = Controller.Tables.Thing
 
 
-def seed_things():
+def seed_things(dev=True):
     # Seed Categories
     thing_categories = [
         ThingCategory(name="Assets"),
@@ -22,6 +22,9 @@ def seed_things():
         print(f"Created category: {cat.name} (ID: {cat_id})")
 
     thing_id_lookup = {}
+
+    if not dev:
+        return thing_id_lookup
 
     def add_thing(name, category, description, docs_link, parent=None):
         category_id = thing_category_id_lookup.get(category)
@@ -57,6 +60,13 @@ def seed_things():
         category="Responsibilities",
         description="Vegetable garden",
         docs_link="http://docs.garden.com",
+        parent="House",
+    )
+    add_thing(
+        name="Roof",
+        category="Assets",
+        description="Roof of the house, needs regular maintenance",
+        docs_link="http://docs.roof.com",
         parent="House",
     )
     add_thing(

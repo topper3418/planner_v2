@@ -1,6 +1,6 @@
 # This will be the core functionality of the database.
 import logging
-from typing import Optional
+from typing import Any, Optional
 from functools import partial
 from pydantic import BaseModel
 import sqlite3
@@ -136,6 +136,16 @@ class DbCore:
             cursor.execute(query, params)
             rows = cursor.fetchall()
             return [model_factory(**row) for row in rows]
+
+    def run_scalar(self, query, params, default: Any = 0):
+        self.log_debug(
+            f"Executing scalar query: {query} with params: {params}"
+        )
+        with self.get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, params)
+            result = cursor.fetchone()
+            return result[0] if result else default
 
     def run_delete(self, query, object_id, exception_package):
         self.log_debug(

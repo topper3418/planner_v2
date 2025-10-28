@@ -6,6 +6,7 @@ import NewThingModal from "./newThingModel";
 import ThingTree from "./thingTree";
 import CommentPanel from "./commentPanel";
 import ActionPanel from "./actionPanel";
+import PlannerTitle from "./plannerTitle";
 
 const components = {
   inputs,
@@ -16,6 +17,7 @@ const components = {
   ThingTree,
   CommentPanel,
   ActionPanel,
+  PlannerTitle,
 };
 
 export default components;

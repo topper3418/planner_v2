@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
 import { Button, Card, Table, Flex } from "antd";
-import { gray, grey } from "@ant-design/colors";
-import useApi from "../../api/";
-import "../../App.css";
+import "../../../App.css";
+import useTicketTableHooks from "./hooks";
 
 
 const TicketTable = ({
@@ -17,16 +15,22 @@ const TicketTable = ({
 
   const {
     data,
+    count,
     loading,
     error,
-    doRefetch,
     showClosedToggleText,
-    handleShowClosedToggle
-  } = useTicketTableHooks(checkedThingIds, selectedThingId, tableMode);
+    handleShowClosedToggle,
+    getRowClassName,
+  } = useTicketTableHooks(
+    checkedThingIds,
+    selectedThingId,
+    tableMode,
+    selectedTicketId,
+  );
 
   return (
     <Card
-      title={`Tickets (${data ? data.length : 0})`}
+      title={`Tickets (${count ? count : 0})`}
       style={{
         marginTop: "10px",
         width: tableMode === "compact" ? 500 : 800
@@ -46,11 +50,9 @@ const TicketTable = ({
         dataSource={data ? data : []}
         columns={getColumns(tableMode)}
         scroll={{ y: scrollHeight ? scrollHeight : 600 }}
-        rowClassName={(record) => {
-          // if its selected, highlight it
-          if (record.id === selectedTicketId) return "selected-row";
-          // if its closed, gray it out
-          if (!record.open) return "grey-row"
+        rowClassName={getRowClassName}
+        pagination={{
+          size: "small",
         }}
         loading={loading}
         error={error}
@@ -109,43 +111,6 @@ const getColumns = (mode = "full") => {
   return columns;
 }
 
-const useTicketTableHooks = (checkedThingIds, selectedThingId, tableMode) => {
-  // initialize query params for consistency throughout component
-  const [showClosed, setShowClosed] = useState(false);
-  const [showClosedToggleText, setShowToggleText] = useState("Show Closed");
-  const queryParams = {
-    thing_ids: selectedThingId ? [selectedThingId] : checkedThingIds ? checkedThingIds : [],
-    include: ["thing", "category"],
-    open: showClosed ? undefined : true,
-  }
-  // initialize state
-  const { data, loading, error, refetch } = useApi.ticket.fetchMany(queryParams, { lazy: true });
 
-  // set default table mode
-  if (!tableMode) tableMode = "full"; // other option is "compact"
-
-  //helper function
-  const doRefetch = () => {
-    refetch(queryParams);
-  }
-
-  // onclick for the show closed button
-  const handleShowClosedToggle = () => {
-    console.log("Setting showClosed to", !showClosed);
-    if (!showClosed) {
-      setShowToggleText("Hide Closed");
-      setShowClosed(true);
-    } else {
-      setShowToggleText("Show Closed");
-      setShowClosed(false);
-    }
-  }
-
-  // on mount and when checkedThingIds or selectedThingId changes, refetch data
-  useEffect(() => {
-    doRefetch();
-  }, [checkedThingIds, selectedThingId, showClosed]);
-  return { data, loading, error, doRefetch, handleShowClosedToggle, showClosedToggleText };
-}
 
 export default TicketTable;

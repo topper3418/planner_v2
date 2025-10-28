@@ -4,6 +4,7 @@
 - [/] make a clean pydantic integration with db, using orm mode or whatever
   - [X] proompt a CRUD interface for each model
 - [X] integrate it all with fastapi
+- [ ] incorporate querybuilder into all db interactions 
 
 
 ## STRUCTURE
@@ -15,17 +16,19 @@
 
 ## API
 
-- [X]  set up proxy in vite that will be plug and play for nginx
+- [X] set up proxy in vite that will be plug and play for nginx
 - [X] figure out why the view query works in the raw but not in the api
+- [X] make a simple log view
 
 
 ## BUGS
 
-- [ ] make it so that the thing tree starts with everything checked and expanded
-- [ ] make it so that the table responds to the checking of the tree
-- [ ] fix the way that dbcore attaches the logger
-- [ ] thing not highlighting on the tree
-- [ ] selected ticket not highlighting on the table
+- [X] make it so that the thing tree starts with nothing checked and everything expanded
+- [X] make it so that the table responds to the checking of the tree
+- [X] fix the way that dbcore attaches the logger
+- [X] thing not highlighting on the tree
+- [X] selected ticket not highlighting on the table
+- [ ] add ticket button seems to do nothing at url: http://localhost:5173/{thing_id}
 
 
 ## USAGE
@@ -37,9 +40,17 @@
     - [ ] should be able to sort by various things
 - [ ] there should be a server through which you can send notes and stuff
   - [ ] first and foremost, they should go into a message buffer. 
-- [ ] ugh there should be a frontend too. I guess try to make it with a react project
-  - [ ] keep it no more complicated than topperud-todos
-  - [ ] should be able to see a list of all things, and click each to see its tickets
+- [X] ugh there should be a frontend too. I guess try to make it with a react project
+  - [/] keep it no more complicated than topperud-todos
+  - [X] should be able to see a list of all things, and click each to see its tickets
+- [X] make it so that in the tree, it shows number of tickets for each thing
+- [ ] fix styling
+  - [ ] margins should be minimal, there is too much wasted space
+  - [ ] there should be absolutely no scrolling necessary
+- [ ] make pagination work on the tables
+- [ ] add a "show child tickets" button on the ticket table
+- [ ] add combined action and comment feed on the main page
+- [ ] add a way to add tickets from the main view, without selecting a thing. Thing should be selectable via a treeselect
 
 
 ## FUTURE

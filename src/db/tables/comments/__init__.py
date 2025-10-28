@@ -5,7 +5,7 @@ from .params import CommentParams
 from .create import create
 from .update import update
 from .get_by_id import get_by_id
-from .read import read
+from .read import read, ReadCommentsResponse
 from .delete import delete
 
 

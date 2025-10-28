@@ -7,7 +7,7 @@ Thing = Controller.Tables.Thing
 Ticket = Controller.Tables.Ticket
 
 
-def seed_tickets(thing_id_lookup):
+def seed_tickets(thing_id_lookup, dev=True):
     # Seed Ticket Categories
     ticket_categories = [
         TicketCategory(name="Improvement"),
@@ -27,6 +27,9 @@ def seed_tickets(thing_id_lookup):
         return ticket_category_id_lookup.get(name)
 
     ticket_id_lookup = {}
+
+    if not dev:
+        return ticket_id_lookup
 
     def add_ticket(
         title: str,
@@ -61,6 +64,14 @@ def seed_tickets(thing_id_lookup):
     )
 
     add_ticket(
+        title="Repair laptop overheating",
+        thing="Laptop",
+        category="Maintenance",
+        description="The laptop is overheating during use. Check the cooling system, clean the fans, and replace thermal paste if necessary.",
+        open=True,
+    )
+
+    add_ticket(
         title="Upgrade laptop RAM",
         thing="Laptop",
         category="Improvement",
@@ -82,6 +93,22 @@ def seed_tickets(thing_id_lookup):
         category="Learning",
         description="Take an online course to learn the basics of SQL.",
         open=True,
+    )
+
+    add_ticket(
+        title="Optimize database queries",
+        thing="Database",
+        category="Improvement",
+        description="Review and optimize existing database queries to improve performance. Focus on indexing and query structure.",
+        open=True,
+    )
+
+    add_ticket(
+        title="Inspect roof for damage",
+        thing="Roof",
+        category="Maintenance",
+        description="Inspect the roof for any damage, especially after recent storms. Check for missing shingles, leaks, and any signs of wear that may need repair.",
+        open=False,
     )
 
     add_ticket(
@@ -129,6 +156,14 @@ def seed_tickets(thing_id_lookup):
         thing="SUV",
         category="Maintenance",
         description="Rotate the tires on the SUV for even wear.",
+        open=True,
+    )
+
+    add_ticket(
+        title="Fix network latency",
+        thing="Planner Project",
+        category="Improvement",
+        description="Diagnose and fix network latency issues affecting the Planner Project. Check for bandwidth bottlenecks, optimize network configuration, and ensure all hardware is functioning properly.",
         open=True,
     )
 

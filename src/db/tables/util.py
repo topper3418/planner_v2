@@ -1,4 +1,8 @@
 from functools import wraps
+from typing import List, TypeVar
+from pydantic import BaseModel
+
+from .table_model import TableModel
 
 
 def as_staticmethod(func):

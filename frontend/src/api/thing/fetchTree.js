@@ -18,6 +18,7 @@ const dataToTree = (data) => {
 
 const useFetchThingTree = () => {
   const [data, setData] = useState(null);
+  const [totalCount, setTotalCount] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [allIds, setAllIds] = useState([]);
@@ -33,7 +34,9 @@ const useFetchThingTree = () => {
         );
       }
       const result = await response.json();
-      const treeData = dataToTree(result);
+      const totalCount = result.count !== undefined ? result.count : null;
+      console.log("Fetched tree data:", result);
+      const treeData = dataToTree(result.data);
       const extractIds = (nodes) => {
         nodes.forEach((node) => {
           allIdsPlaceholder.push(node.key);
@@ -45,6 +48,7 @@ const useFetchThingTree = () => {
       extractIds(treeData);
       setAllIds(allIdsPlaceholder);
       setData(treeData);
+      setTotalCount(totalCount);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -55,7 +59,7 @@ const useFetchThingTree = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  return { data, allIds, loading, error, refetch: fetchData };
+  return { data, allIds, totalCount, loading, error, refetch: fetchData };
 };
 
 export default useFetchThingTree;

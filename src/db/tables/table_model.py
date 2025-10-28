@@ -3,6 +3,11 @@ from typing import Dict, List, Optional, Type
 from pydantic import BaseModel, Field, ConfigDict
 
 
+class ReadResponse(BaseModel):
+    data: List["TableModel"]
+    count: int
+
+
 class TableModel(BaseModel):
     __table_name__: str = ""  # to be set in subclasses
     __params_class__: Optional[Type[BaseModel]] = (
@@ -23,8 +28,12 @@ class TableModel(BaseModel):
     @staticmethod
     def read(
         _: Optional[BaseModel] = None,
-    ) -> List["TableModel"]:
+    ) -> ReadResponse:
         raise NotImplementedError("Read method not implemented")
+
+    @staticmethod
+    def get_count(_: Optional[BaseModel] = None) -> int:
+        raise NotImplementedError("Get count method not implemented")
 
     @staticmethod
     def delete(_: int) -> None:
@@ -34,7 +43,11 @@ class TableModel(BaseModel):
     def from_row(_: dict) -> "TableModel":
         raise NotImplementedError("From row method not implemented")
 
-    def populate_children(self, recursive: Optional[bool] = False) -> None:
+    def populate_children(
+        self,
+        recursive: Optional[bool] = False,
+        get_count: Optional[bool] = False,
+    ) -> None:
         raise NotImplementedError(
             "Populate children method not implemented"
         )

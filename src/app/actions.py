@@ -7,6 +7,7 @@ from .action_types import router as action_types_router
 
 Action = Controller.Tables.Action
 ActionParams = Controller.Params.Action
+ReadActions = Controller.Responses.ReadActions
 
 
 router = APIRouter(prefix="/actions", tags=["actions"])
@@ -49,7 +50,7 @@ async def get_action(action_id: int):
     return action
 
 
-@router.get("/", response_model=list[Action])
+@router.get("/", response_model=ReadActions)
 async def list_actions(filters: ActionParams = Query()):
     """
     List actions with optional filters (fuzzy search on action_type).

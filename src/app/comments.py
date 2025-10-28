@@ -3,6 +3,7 @@ from ..db import Controller
 
 Comment = Controller.Tables.Comment
 CommentParams = Controller.Params.Comment
+ReadComments = Controller.Responses.ReadComments
 
 
 router = APIRouter(prefix="/comments", tags=["comments"])
@@ -45,7 +46,7 @@ async def get_comment(comment_id: int):
     return comment
 
 
-@router.get("/", response_model=list[Comment])
+@router.get("/", response_model=ReadComments)
 async def list_comments(filters: CommentParams = Query()):
     """
     List comments with optional filters (fuzzy search on content).

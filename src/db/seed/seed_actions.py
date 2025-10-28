@@ -6,7 +6,7 @@ Action = Controller.Tables.Action
 ActionType = Controller.Tables.ActionType
 
 
-def seed_actions(ticket_id_lookup):
+def seed_actions(ticket_id_lookup, dev=True):
     action_type_lookup = {}
 
     def add_action_type(name: str, description: Optional[str] = None):
@@ -28,6 +28,9 @@ def seed_actions(ticket_id_lookup):
         add_action_type(name, description)
 
     action_id_lookup = {}
+
+    if not dev:
+        return action_id_lookup
 
     def add_action(
         action_text: str, ticket_title: str, action_type_name: str
@@ -59,11 +62,6 @@ def seed_actions(ticket_id_lookup):
             "Optimized database indexes for performance",
             "Optimize database queries",
             "Updated",
-        ),
-        (
-            "Scheduled regular maintenance for HVAC system",
-            "Annual HVAC maintenance",
-            "Maintained",
         ),
         (
             "Inspected roof for damage after storm",

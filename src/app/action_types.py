@@ -4,6 +4,7 @@ from ..db import Controller
 
 ActionType = Controller.Tables.ActionType
 CategoryParams = Controller.Params.Category
+ReadCategories = Controller.Responses.ReadCategories
 
 
 router = APIRouter(prefix="/types", tags=["action_types"])
@@ -46,7 +47,7 @@ async def get_category(type_id: int):
     return action_type
 
 
-@router.get("/", response_model=list[ActionType])
+@router.get("/", response_model=ReadCategories)
 async def list_categories(filters: CategoryParams = Query()):
     """
     List action types with optional filters (fuzzy search on name).

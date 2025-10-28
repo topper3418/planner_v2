@@ -1,13 +1,14 @@
 from .categories import (
     CategoryParams,
+    ReadCategoriesResponse,
     ThingCategory,
     TicketCategory,
     ActionType,
 )
-from .actions import Action, ActionParams
-from .comments import Comment, CommentParams
-from .things import Thing, ThingParams
-from .tickets import Ticket, TicketParams
+from .actions import Action, ActionParams, ReadActionsResponse
+from .comments import Comment, CommentParams, ReadCommentsResponse
+from .things import Thing, ThingParams, ReadThingsResponse
+from .tickets import Ticket, TicketParams, ReadTicketsResponse
 
 from .query_builder import QueryBuilder
 
@@ -15,6 +16,7 @@ from .query_builder import QueryBuilder
 Thing.model_rebuild()
 Ticket.model_rebuild()
 Action.model_rebuild()
+Comment.model_rebuild()
 
 
 class Controller:
@@ -33,5 +35,12 @@ class Controller:
         Category = CategoryParams
         Comment = CommentParams
         Action = ActionParams
+
+    class Responses:
+        ReadThings = ReadThingsResponse
+        ReadTickets = ReadTicketsResponse
+        ReadCategories = ReadCategoriesResponse
+        ReadComments = ReadCommentsResponse
+        ReadActions = ReadActionsResponse
 
     QueryBuilder = QueryBuilder

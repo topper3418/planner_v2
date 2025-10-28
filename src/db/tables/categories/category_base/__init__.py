@@ -13,7 +13,7 @@ from .params import CategoryParams
 from .create import create
 from .update import update
 from .get_by_id import get_by_id
-from .read import read
+from .read import read, ReadCategoriesResponse
 from .delete import delete
 
 

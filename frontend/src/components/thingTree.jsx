@@ -10,6 +10,7 @@ const ThingTree = ({
   setCheckedThingIds,
   selectedThingId,
   setSelectedThingId,
+  refreshTrigger,
   rorderable
 }) => {
   const [createThingModalOpen, setCreateThingModalOpen] = useState(false);
@@ -39,6 +40,10 @@ const ThingTree = ({
       setInitialLoad(false);
     }
   }, [treeDataLoading]);
+
+  useEffect(() => {
+    treeDataRefetch();
+  }, [refreshTrigger]);
 
   const onDrop = async (info) => {
     const { dragNode, node: dropNode, dropToGap } = info;
@@ -110,6 +115,24 @@ const ThingTree = ({
         multiple
         error={treeDataError}
         treeData={treeData}
+        titleRender={(node) => {
+          // show ticket count if expanded
+          if (expandedKeys.includes(node.key)) {
+            return `${node.thing.name} (${node.thing.ticket_count})`;
+          } else {
+            // otherwise show the sum of the ticket counts of all children, recursively
+            const getTotalTicketCount = (node) => {
+              let total = node.thing.ticket_count || 0;
+              if (node.children) {
+                node.children.forEach((child) => {
+                  total += getTotalTicketCount(child);
+                });
+              }
+              return total;
+            };
+            return `${node.thing.name} (${getTotalTicketCount(node)})`;
+          }
+        }}
         style={{
           flexGrow: 1,
           padding: '10px',

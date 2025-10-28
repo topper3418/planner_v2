@@ -41,14 +41,14 @@ const useFetchTickets = (
     return url;
   };
 
-  const { data, loading, error, fetchData } = useFetch(
+  const { data, count, loading, error, fetchData } = useFetch(
     TICKETS_URL,
     urlBuilder,
     { parent_id, include, thing_ids },
     { lazy },
   );
 
-  return { data, loading, error, refetch: fetchData };
+  return { data, count, loading, error, refetch: fetchData };
 };
 
 export default useFetchTickets;

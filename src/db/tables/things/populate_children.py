@@ -15,13 +15,18 @@ core.logger = logger
 
 
 def populate_children(
-    thing: "Thing", recursive: Optional[bool] = False
+    thing: "Thing",
+    recursive: Optional[bool] = False,
+    get_count: Optional[bool] = False,
 ) -> None:
     if thing.id is None:
         thing.children = []
         return
     query = "SELECT id, category_id, name, description, docs_link, parent_id FROM things WHERE parent_id = ?"
     thing.children = core.run_list(query, (thing.id,), Thing)
+    if get_count:
+        thing.get_ticket_count()  # type: ignore
+
     if recursive:
         for child in thing.children:
-            populate_children(child, recursive=True)
+            populate_children(child, recursive=True, get_count=get_count)

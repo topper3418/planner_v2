@@ -6,6 +6,7 @@ from .thing_categories import router as categories_router
 
 Thing = Controller.Tables.Thing
 ThingParams = Controller.Params.Thing
+ReadThings = Controller.Responses.ReadThings
 
 
 logger = logging.getLogger(__name__)
@@ -28,15 +29,15 @@ async def create_thing(thing: Thing):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.get("/tree", response_model=list[Thing])
+@router.get("/tree", response_model=ReadThings)
 async def get_thing_tree():
     """
     Get the hierarchical tree of things.
     """
     logger.debug("Fetching thing tree")
     things = Thing.read(ThingParams(parent_id=0))
-    for thing in things:
-        thing.populate_children(recursive=True)
+    for thing in things.data:
+        thing.populate_children(recursive=True, get_count=True)
     return things
 
 
@@ -67,7 +68,7 @@ async def get_thing(thing_id: int):
     return thing
 
 
-@router.get("/", response_model=list[Thing])
+@router.get("/", response_model=ReadThings)
 async def list_things(filters: ThingParams = Query()):
     """
     List things with optional filters (fuzzy search on name).
