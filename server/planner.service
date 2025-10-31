@@ -1,0 +1,15 @@
+# /etc/systemd/system/planner.service
+
+[Unit]
+Description=REST server for the planner app
+After=network.target  
+
+[Service]
+Type=simple
+WorkingDirectory={root/directory/to/planner}
+ExecStart=/bin/bash {full/path/to/planner/planner.sh}
+Restart=on-failure 
+User={planner_user} 
+
+[Install]
+WantedBy=multi-user.target
