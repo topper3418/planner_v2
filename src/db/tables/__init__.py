@@ -10,6 +10,9 @@ from .comments import Comment, CommentParams, ReadCommentsResponse
 from .things import Thing, ThingParams, ReadThingsResponse
 from .tickets import Ticket, TicketParams, ReadTicketsResponse
 
+# from .milestones import Milestone, MilestoneParams, ReadMilestonesResponse
+# from .users import User, UserParams, ReadUsersResponse
+
 from .query_builder import QueryBuilder
 
 
@@ -28,6 +31,8 @@ class Controller:
         Comment = Comment
         Action = Action
         ActionType = ActionType
+        # Milestone = Milestone
+        # User = User
 
     class Params:
         Thing = ThingParams
@@ -35,6 +40,8 @@ class Controller:
         Category = CategoryParams
         Comment = CommentParams
         Action = ActionParams
+        # Milestone = MilestoneParams
+        # User = UserParams
 
     class Responses:
         ReadThings = ReadThingsResponse
@@ -42,5 +49,7 @@ class Controller:
         ReadCategories = ReadCategoriesResponse
         ReadComments = ReadCommentsResponse
         ReadActions = ReadActionsResponse
+        # ReadMilestones = ReadMilestonesResponse
+        # Users = ReadUsersResponse
 
     QueryBuilder = QueryBuilder

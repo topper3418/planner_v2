@@ -6,6 +6,9 @@ from .comments import router as comments_router
 from .things import router as things_router
 from .tickets import router as tickets_router
 
+# from .milestones import router as milestones_router
+# from .users import router as users_router
+
 app = FastAPI()
 
 # Configure CORS
@@ -17,10 +20,12 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-app.include_router(actions_router)
-app.include_router(comments_router)
-app.include_router(things_router)
-app.include_router(tickets_router)
+# app.include_router(actions_router)
+# app.include_router(comments_router)
+# app.include_router(things_router)
+# app.include_router(tickets_router)
+# app.include_router(milestones_router)
+# app.include_router(users_router)
 
 
 # healthcheck endpoint
