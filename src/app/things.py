@@ -35,7 +35,8 @@ async def get_thing_tree():
     Get the hierarchical tree of things.
     """
     logger.debug("Fetching thing tree")
-    things = Thing.read(ThingParams(parent_id=0))
+    things = Thing.read(ThingParams(parent_id=0, page_size=1000))
+    print("fetched things:", things)
     for thing in things.data:
         thing.populate_children(recursive=True, get_count=True)
     return things

@@ -66,6 +66,7 @@ def FilterParam(
     where_clause: str,
     repeat_arg: int = 1,
     render_arg: Callable[[Any], Any] = lambda v: v,
+    special_case: tuple | None = None,
     *args,
     **kwargs,
 ):
@@ -80,6 +81,7 @@ def FilterParam(
             "filter_param": True,
             "where_clause": where_clause,
             "repeat_arg": repeat_arg,
+            "special_case": special_case,
         },
         render_arg=render_arg,
     )

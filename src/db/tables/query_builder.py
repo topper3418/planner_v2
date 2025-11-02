@@ -161,6 +161,7 @@ class QueryBuilder:
             if special_case := filter_param.json_schema_extra.get(
                 "special_case"
             ):
+                print("special case detected:", special_case)
                 match_value, special_where = special_case
                 if value == match_value:
                     self.where.append(special_where)
