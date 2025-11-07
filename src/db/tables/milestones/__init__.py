@@ -17,7 +17,7 @@ setattr(Milestone, "delete", as_staticmethod(delete))
 setattr(Milestone, "add_ticket", update)
 setattr(Milestone, "remove_ticket", update)
 Milestone.__params_class__ = MilestoneParams
-Milestone.__table_name__ = "comments"
+Milestone.__table_name__ = "milestones"
 
 
 __all__ = ["Milestone", "MilestoneParams", "ReadMilestonesResponse"]

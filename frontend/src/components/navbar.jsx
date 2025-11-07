@@ -9,9 +9,9 @@ const items = [
     href: '/'
   },
   {
-    label: 'Things',
-    key: 'things',
-    href: '/things'
+    label: 'Milestones',
+    key: 'milestones',
+    href: '/milestones'
   }
 ]
 

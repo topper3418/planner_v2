@@ -67,6 +67,7 @@ def FilterParam(
     repeat_arg: int = 1,
     render_arg: Callable[[Any], Any] = lambda v: v,
     special_case: tuple | None = None,
+    join_on: str | None = None,
     *args,
     **kwargs,
 ):

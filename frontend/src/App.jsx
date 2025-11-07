@@ -1,10 +1,12 @@
 import './App.css'
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
-import { Flex, Layout, Typography } from 'antd';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Flex, Layout } from 'antd';
 
 const { Header, Content } = Layout;
 import ThingView from './views/things';
+import MilestoneView from './views/milestones';
 import components from './components';
+import NavBar from './components/navBar';
 
 const { PlannerTitle } = components;
 
@@ -23,6 +25,7 @@ const App = () => {
             alignItems: 'center'
           }}>
             <PlannerTitle />
+            <NavBar />
           </Header>
           <Content style={{
             height: 'calc(100vh - 64px)',
@@ -32,8 +35,10 @@ const App = () => {
             <Routes>
               <Route path="/" element={<ThingView />} />
               <Route path="/tickets/:ticketId" element={<ThingView />} />
-              <Route path="/:thingId" element={<ThingView />} />
-              <Route path="/:thingId/tickets/:ticketId" element={<ThingView />} />
+              <Route path="/things/:thingId" element={<ThingView />} />
+              <Route path="/things/:thingId/tickets/:ticketId" element={<ThingView />} />
+              <Route path="/milestones" element={<MilestoneView />} />
+              <Route path="/milestones/:milestoneId" element={<MilestoneView />} />
             </Routes>
           </Content>
         </Layout>

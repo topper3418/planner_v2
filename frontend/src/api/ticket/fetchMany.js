@@ -18,6 +18,7 @@ const useFetchTickets = (
       page_size,
       category_id,
       search,
+      milestone_id,
     } = params;
     if (parent_id !== undefined) {
       url.searchParams.append("parent_id", parent_id);
@@ -55,6 +56,11 @@ const useFetchTickets = (
     // set category_id filter if provided
     if (category_id !== undefined) {
       url.searchParams.append("category_id", category_id);
+    }
+
+    // set milestone_id filter if provided
+    if (milestone_id !== undefined) {
+      url.searchParams.append("milestone_id", milestone_id);
     }
 
     // set pagination params if provided

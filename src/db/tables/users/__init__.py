@@ -17,7 +17,7 @@ setattr(User, "delete", as_staticmethod(delete))
 setattr(User, "add_ticket", update)
 setattr(User, "remove_ticket", update)
 User.__params_class__ = UserParams
-User.__table_name__ = "comments"
+User.__table_name__ = "users"
 
 
 __all__ = ["User", "UserParams", "ReadUsersResponse"]

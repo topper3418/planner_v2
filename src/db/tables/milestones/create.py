@@ -20,6 +20,7 @@ def create(milestone: Milestone) -> int:
         milestone.description,
         milestone.due_date,
     )
+    logger.info(f"Milestone Create Query: {query} \n Params: {params}")
     exception_package = ExceptionPackage()
     last_row_id = core.run_create(query, params, exception_package)
     milestone.id = last_row_id

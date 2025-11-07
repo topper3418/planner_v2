@@ -10,6 +10,7 @@ from .params import MilestoneParams
 
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 core = DbCore()
 core.logger = logger
