@@ -19,9 +19,14 @@ const useFetchTickets = (
       category_id,
       search,
       milestone_id,
+      user_id,
     } = params;
     if (parent_id !== undefined) {
       url.searchParams.append("parent_id", parent_id);
+    }
+
+    if (user_id !== undefined) {
+      url.searchParams.append("user_id", user_id);
     }
 
     // set the include param if provided

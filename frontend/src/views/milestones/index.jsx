@@ -43,6 +43,7 @@ const MilestoneView = () => {
           selectTicket={hooks.selectTicket} />}
     </Flex>
     <MilestoneModal
+      title="New Milestone"
       open={hooks.addMilestoneModalOpen}
       onOk={async () => {
         await hooks.createMilestone({
@@ -61,6 +62,7 @@ const MilestoneView = () => {
       }}
       milestone={hooks.mutateMilestone} />
     <MilestoneModal
+      title="Edit Milestone"
       open={hooks.editMilestoneModalOpen}
       onOk={async () => {
         await hooks.updateMilestone({

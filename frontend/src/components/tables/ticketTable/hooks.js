@@ -14,6 +14,7 @@ const useTicketTableHooks = (
   const [selectedTicketCategoryId, setSelectedTicketCategoryId] =
     useState(null);
   const [selectedMilestoneId, setSelectedMilestoneId] = useState(null);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [search, setSearch] = useState(null);
   const queryParams = {
     thing_ids: selectedThingId
@@ -28,6 +29,7 @@ const useTicketTableHooks = (
       : undefined,
     open: showClosed ? undefined : true,
     milestone_id: selectedMilestoneId ? selectedMilestoneId : undefined,
+    user_id: selectedUserId ? selectedUserId : undefined,
     page_number: pageNumber,
     page_size: tableMode === "compact" ? 5 : 10,
   };
@@ -84,6 +86,7 @@ const useTicketTableHooks = (
     selectedTicketCategoryId,
     search,
     selectedMilestoneId,
+    selectedUserId,
   ]);
 
   const getRowClassName = (record) => {
@@ -98,6 +101,8 @@ const useTicketTableHooks = (
     setSelectedTicketCategoryId,
     selectedMilestoneId,
     setSelectedMilestoneId,
+    selectedUserId,
+    setSelectedUserId,
     onSearchChange,
     search,
     data,

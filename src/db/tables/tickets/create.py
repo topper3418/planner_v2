@@ -16,8 +16,8 @@ core.logger = logger
 def create(ticket: Ticket) -> int:
     query = (
         "INSERT INTO tickets"
-        " (title, thing_id, category_id, description, open)"
-        " VALUES (?, ?, ?, ?, ?)"
+        " (title, thing_id, category_id, description, open, user_id)"
+        " VALUES (?, ?, ?, ?, ?, ?)"
     )
     params = (
         ticket.title,
@@ -25,6 +25,7 @@ def create(ticket: Ticket) -> int:
         ticket.category_id,
         ticket.description,
         ticket.open,
+        ticket.user_id,
     )
     exception_package = ExceptionPackage(
         foreign_key_constraint_error=f"Invalid thing_id: {ticket.thing_id} or category_id: {ticket.category_id}"

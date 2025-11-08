@@ -119,6 +119,7 @@ const detailsHooks = (ticket = {}, refreshTicket = () => { }, addMode = false, s
         thing_id: getValue("thing_id"),
         category_id: getValue("category_id"),
         description: getValue("description"),
+        user_id: getValue("user_id"),
         open: getValue("open"),
       };
       console.log("Updating thing with data:", updatedTicket);
@@ -129,6 +130,7 @@ const detailsHooks = (ticket = {}, refreshTicket = () => { }, addMode = false, s
         open: true,
         category_id: getValue("category_id"),
         description: getValue("description"),
+        user_id: getValue("user_id"),
       };
       if (thingId) {
         newTicket.thing_id = thingId;

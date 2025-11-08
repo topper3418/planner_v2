@@ -110,7 +110,7 @@ class DbCore:
         params: tuple,
         exception_package: ExceptionPackage,
     ):
-        self.log_debug(
+        self.log_info(
             f"Executing update query: {query} with params: {params}"
         )
         with self.get_db_connection() as conn:

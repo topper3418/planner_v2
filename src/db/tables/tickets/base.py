@@ -12,6 +12,7 @@ from ..fields import (
 if TYPE_CHECKING:
     from ..things import Thing
     from ..categories import TicketCategory
+    from ..users import User
 
 
 # Pydantic model for Ticket
@@ -28,12 +29,14 @@ class Ticket(TableModel):
     thing_id: Optional[int] = ForeignKeyField(None, on="id")
     category_id: Optional[int] = ForeignKeyField(None, on="id")
     parent_id: Optional[int] = ForeignKeyField(None, on="id")
+    user_id: Optional[int] = ForeignKeyField(None, on="id")
 
     thing: Optional["Thing"] = RelationshipField(table_model="Thing")
     category: Optional["TicketCategory"] = RelationshipField(
         table_model="TicketCategory"
     )
     parent: Optional["Ticket"] = RelationshipField(table_model="Ticket")
+    user: Optional["User"] = RelationshipField(table_model="User")
     children: Optional[List["Ticket"]] = None
 
     class Config:

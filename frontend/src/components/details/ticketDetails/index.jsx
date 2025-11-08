@@ -1,8 +1,9 @@
-import { Button, Card, Checkbox, Descriptions, Flex, Input } from "antd"
+import { Button, Card, Checkbox, Descriptions, Flex, Input, Typography } from "antd"
 import TicketCategoryDropdown from "../../inputs/ticketCategoryDropdown";
 import TicketDropdown from "../../inputs/ticketDropdown";
 import detailsHooks from "./hooks";
 import ThingDropdown from "../../inputs/thingDropdown";
+import UserDropdown from "../../inputs/userDropdown";
 
 
 const TicketDetails = ({
@@ -37,7 +38,7 @@ const TicketDetails = ({
       style={{
         marginTop: '10px',
         padding: '10px',
-        width: '350px',
+        width: '250px',
         marginBottom: '10px',
       }}
     >
@@ -80,22 +81,37 @@ const TicketDetails = ({
                   changeHandler("parent_id")(e);
                 }} />}
           </Descriptions.Item>}
-          <Descriptions.Item label="Description">
-            {mode === "view" ?
-              (ticket?.description ? ticket.description : 'No description') :
+          {mode === "view" ?
+            <Typography.Paragraph style={{ border: '1px solid #f0f0f0', padding: '10px', borderRadius: '5px' }}>
+              {ticket?.description ? ticket.description : 'No description'}
+            </Typography.Paragraph> :
+            <Descriptions.Item label="Description">
               <Input.TextArea
                 value={getValue("description")}
                 onChange={changeHandler("description")}
-                autoSize={{ minRows: 3, maxRows: 5 }} />}
-          </Descriptions.Item>
-          <Descriptions.Item label="Thing">
+                autoSize={{ minRows: 3, maxRows: 5 }} />
+            </Descriptions.Item>}
+          {!thing &&
+            <Descriptions.Item label="Thing">
+              {mode === "view" ?
+                (ticket?.thing ? ticket.thing.name : (thing ? thing.name : 'No thing')) :
+                <ThingDropdown
+                  selectedThingId={getValue("thing_id")}
+                  setSelectedThingId={(value) => {
+                    const e = { target: { value } };
+                    changeHandler("thing_id")(e);
+                  }}
+                  filters={{ page_size: 10000 }}
+                />}
+            </Descriptions.Item>}
+          <Descriptions.Item label="User">
             {mode === "view" ?
-              (ticket?.thing ? ticket.thing.name : (thing ? thing.name : 'No thing')) :
-              <ThingDropdown
-                selectedThingId={getValue("thing_id")}
-                setSelectedThingId={(value) => {
+              (ticket?.user?.username ? ticket.user.username : 'No user') :
+              <UserDropdown
+                selectedUserId={getValue("user_id")}
+                setSelectedUserId={(value) => {
                   const e = { target: { value } };
-                  changeHandler("thing_id")(e);
+                  changeHandler("user_id")(e);
                 }}
                 filters={{ page_size: 10000 }}
               />}

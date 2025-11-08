@@ -16,7 +16,6 @@ const {
 const TicketView = () => {
   const {
     ticketId,
-    thingData,
     ticketData,
     ticketLoading,
     ticketError,
@@ -33,23 +32,18 @@ const TicketView = () => {
   return (<>
     <Flex gap="10px" style={{ overflowY: 'hidden' }}>
       <Flex gap="10px" style={{ height: '100%', minHeight: 0, overflowX: 'auto' }}>
-        <Flex style={{
-          height: '100%',
-        }}>
-          <TicketTable
-            tableMode={ticketId ? "compact" : "full"}
-            selectedTicketId={ticketId}
-            beginAddTicket={() => setBeginAddTicket(true)}
-            scrollHeight={400}
-            onRow={onRow} />
-        </Flex>
+        <TicketTable
+          tableMode={ticketId ? "compact" : "full"}
+          selectedTicketId={ticketId}
+          beginAddTicket={() => setBeginAddTicket(true)}
+          scrollHeight={400}
+          onRow={onRow} />
         {(ticketId || beginAddTicket) &&
           <Flex vertical>
             <TicketDetails
               addMode={beginAddTicket}
               setAddMode={setBeginAddTicket}
               ticket={beginAddTicket ? {} : ticketData}
-              thing={thingData}
               loading={ticketLoading}
               error={ticketError}
               refreshTicket={fetchTicket} />
@@ -111,7 +105,7 @@ const TicketView = () => {
 
 const useTicketViewHooks = () => {
   // initialize state
-  const { thingId, ticketId } = useParams();
+  const { ticketId } = useParams();
   const [beginAddTicket, setBeginAddTicket] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -138,7 +132,6 @@ const useTicketViewHooks = () => {
   const {
     data: createMilestoneData,
     loading: createMilestoneLoading,
-    error: createMilestoneError,
     addMilestone
   } = useApi.ticket.addMilestone();
   const {

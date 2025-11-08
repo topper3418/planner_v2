@@ -23,7 +23,8 @@ def update(ticket: Ticket) -> None:
         " description = ?,"
         " open = ?,"
         " updated_at = CURRENT_TIMESTAMP,"
-        " completed_at = ?"
+        " completed_at = ?,"
+        " user_id = ?"
         " WHERE id = ?"
     )
     params = (
@@ -33,6 +34,7 @@ def update(ticket: Ticket) -> None:
         ticket.description,
         ticket.open,
         ticket.completed_at,
+        ticket.user_id,
         ticket.id,
     )
     exception_package = ExceptionPackage(

@@ -3,6 +3,7 @@ import "../../../App.css";
 import useTicketTableHooks from "./hooks";
 import TicketCategoryDropdown from "../../inputs/ticketCategoryDropdown";
 import MilestoneDropdown from "../../inputs/milestoneDropdown";
+import UserDropdown from "../../inputs/userDropdown";
 
 
 const TicketTable = ({
@@ -26,6 +27,8 @@ const TicketTable = ({
     setSelectedTicketCategoryId,
     selectedMilestoneId,
     setSelectedMilestoneId,
+    selectedUserId,
+    setSelectedUserId,
     pagination,
     showClosedToggleText,
     handleShowClosedToggle,
@@ -45,11 +48,15 @@ const TicketTable = ({
         width: tableMode === "compact" ? 400 : 1100
       }}
       extra={beginAddTicket && <Flex gap="10px">
-        {!selectedTicketId && <>
+        {tableMode !== "compact" && <>
           <Input
-            placeholder="Search Tickets"
+            placeholder="Search"
+            style={{ width: 100 }}
             value={search}
             onChange={onSearchChange} />
+          <UserDropdown
+            selectedUserId={selectedUserId}
+            setSelectedUserId={setSelectedUserId} />
           <MilestoneDropdown
             selectedMilestoneId={selectedMilestoneId}
             setSelectedMilestoneId={setSelectedMilestoneId} />

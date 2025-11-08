@@ -17,6 +17,11 @@ const items = [
     label: 'Milestones',
     key: 'milestones',
     href: '/milestones'
+  },
+  {
+    label: 'Users',
+    key: 'users',
+    href: '/users'
   }
 ]
 

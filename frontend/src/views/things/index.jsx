@@ -39,7 +39,7 @@ const ThingView = () => {
   }
 
   return (<>
-    <Flex gap="10px" style={{ overflowY: 'hidden' }}>
+    <Flex gap="10px" style={{ overflowY: 'hidden', height: '100%' }}>
       <ThingTree
         rorderable={true}
         checkedThingIds={checkedThingIds}
@@ -48,31 +48,14 @@ const ThingView = () => {
         refreshTrigger={ticketId}
         setSelectedThingId={selectThing} />
       <Flex gap="10px" style={{ height: '100%', minHeight: 0, overflowX: 'auto' }}>
-        {thingId && <>
-          <Flex vertical gap="10px">
+        <Flex vertical>
+          {thingId &&
             <ThingDetails
               thing={thingData}
               loading={thingLoading}
               error={thingError}
               refreshThing={fetchThing} />
-            <ChilrenTable
-              selectedThingId={thingId}
-              setSelectedThingId={selectThing} />
-          </Flex>
-        </>}
-        <Flex vertical>
-          <Flex style={{
-            height: ticketId || beginAddTicket ? '50%' : '100%',
-          }}>
-            <TicketTable
-              checkedThingIds={thingId ? undefined : checkedThingIds}
-              selectedThingId={thingId}
-              tableMode={ticketId ? "compact" : "full"}
-              selectedTicketId={ticketId}
-              beginAddTicket={tickeTableBeginAddTicket}
-              scrollHeight={ticketId || beginAddTicket ? 110 : 400}
-              onRow={onRow} />
-          </Flex>
+          }
           {(ticketId || beginAddTicket) && <TicketDetails
             addMode={beginAddTicket}
             setAddMode={setBeginAddTicket}
@@ -83,6 +66,14 @@ const ThingView = () => {
             thingId={thingId}
             refreshTicket={fetchTicket} />}
         </Flex>
+        <TicketTable
+          checkedThingIds={thingId ? undefined : checkedThingIds}
+          selectedThingId={thingId}
+          tableMode={ticketId || thingId ? "compact" : "full"}
+          selectedTicketId={ticketId}
+          beginAddTicket={tickeTableBeginAddTicket}
+          scrollHeight={400}
+          onRow={onRow} />
         {ticketId && <Flex
           vertical
           gap="10px"
@@ -179,14 +170,14 @@ const useThingViewHooks = () => {
       onClick: () => {
         if (record.id != ticketId) {
           if (thingId) {
-            navigate(`/${thingId}/tickets/${record.id}`)
+            navigate(`/things/${thingId}/tickets/${record.id}`)
           } else {
             navigate(`/tickets/${record.id}`)
           }
         } else {
           // Clicking the same ticket deselects it
           if (thingId) {
-            navigate(`/${thingId}`);
+            navigate(`/things/${thingId}`);
           } else {
             navigate(`/`);
           }

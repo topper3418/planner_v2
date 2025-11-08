@@ -3,11 +3,12 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Flex, Layout } from 'antd';
 
 const { Header, Content } = Layout;
-import ThingView from './views/things';
-import MilestoneView from './views/milestones';
 import components from './components';
 import NavBar from './components/navBar';
 import TicketView from './views/tickets';
+import ThingView from './views/things';
+import MilestoneView from './views/milestones';
+import UserView from './views/users';
 
 const { PlannerTitle } = components;
 
@@ -41,6 +42,8 @@ const App = () => {
               <Route path="/things/:thingId/tickets/:ticketId" element={<ThingView />} />
               <Route path="/milestones" element={<MilestoneView />} />
               <Route path="/milestones/:milestoneId" element={<MilestoneView />} />
+              <Route path="/users" element={<UserView />} />
+              <Route path="/users/:userId" element={<UserView />} />
             </Routes>
           </Content>
         </Layout>

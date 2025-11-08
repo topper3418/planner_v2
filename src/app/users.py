@@ -16,6 +16,7 @@ async def create_user(user: User):
     Returns the ID of the created user.
     """
     try:
+        print("Creating User:", user)
         user_id = user.create()
         return {"id": user_id}
     except ValueError as e:

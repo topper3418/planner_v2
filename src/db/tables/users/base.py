@@ -1,5 +1,4 @@
-from typing import TYPE_CHECKING, Optional
-from datetime import datetime
+from typing import Optional
 
 from ..table_model import TableModel
 from ..fields import (

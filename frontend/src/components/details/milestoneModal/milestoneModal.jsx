@@ -1,9 +1,9 @@
 import { Flex, Input, Modal } from "antd";
 
-const MilestoneModal = ({ open, onOk, onCancel, milestone }) => {
+const MilestoneModal = ({ open, onOk, onCancel, milestone, title = "New Milestone" }) => {
   return (
     <Modal
-      title="New Milestone"
+      title={title}
       open={open}
       onOk={onOk}
       onCancel={onCancel}>

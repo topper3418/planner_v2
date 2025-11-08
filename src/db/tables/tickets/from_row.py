@@ -33,4 +33,11 @@ def from_row(cls, **row) -> Ticket:
             name=row.get("category_name", ""),
             description=row.get("category_description", None),
         )
+    if "user_username" in row.keys():
+        from ..users import User
+
+        ticket.user = User(
+            id=row["user_id"],
+            username=row.get("user_username", "Unknown User"),
+        )
     return ticket

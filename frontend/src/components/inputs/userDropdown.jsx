@@ -2,14 +2,14 @@ import { Select } from "antd";
 import { useEffect } from "react";
 import useApi from "../../api/";
 
-const MilestoneDropdown = (
-  { selectedMilestoneId, setSelectedMilestoneId, filters, placeholder = "Select Milestone" }
+const UserDropdown = (
+  { selectedUserId, setSelectedUserId, filters, placeholder = "Select User" }
 ) => {
-  const { data, loading, error, fetchData } = useApi.milestone.fetchMany(filters);
+  const { data, loading, error, fetchData } = useApi.user.fetchMany(filters);
 
   const handleChange = (value) => {
-    console.log("value selected in MilestoneDropdown:", value);
-    setSelectedMilestoneId(value);
+    console.log("value selected in UserDropdown:", value);
+    setSelectedUserId(value);
   };
 
   useEffect(() => {
@@ -24,17 +24,17 @@ const MilestoneDropdown = (
       allowClear
       error={error}
       onChange={handleChange}
-      value={selectedMilestoneId}
+      value={selectedUserId}
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
       }
-      options={data ? data.map(milestone => ({
-        label: milestone.name,
-        value: milestone.id
+      options={data ? data.map(user => ({
+        label: user.username,
+        value: user.id
       })) : []}
     />
   );
 }
 
 
-export default MilestoneDropdown;
+export default UserDropdown;
