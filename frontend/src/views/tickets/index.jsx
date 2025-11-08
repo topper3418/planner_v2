@@ -1,4 +1,5 @@
-import { Card, Flex, List } from "antd";
+import { Card, Flex, List, Button } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import components from "../../components";
 import { useEffect, useState } from "react";
@@ -21,11 +22,13 @@ const TicketView = () => {
     ticketError,
     milestonesData,
     milestonesLoading,
+    removeMilestone,
     fetchTicket,
     onRow,
     beginAddTicket,
     setBeginAddTicket,
     addMilestone,
+    refreshMilestones,
   } = useTicketViewHooks()
   return (<>
     <Flex gap="10px" style={{ overflowY: 'hidden' }}>
@@ -83,7 +86,16 @@ const TicketView = () => {
                     padding: '10px',
                   }}
                 >
-                  {milestone.name}
+                  <Flex justify="space-between" style={{ width: '100%' }}>
+                    {milestone.name}
+                    <Button
+                      icon={<DeleteOutlined />}
+                      onClick={() => {
+                        removeMilestone(ticketId, milestone.id)
+                        refreshMilestones();
+                      }}
+                    />
+                  </Flex>
                 </List.Item>
               )}
             />
@@ -115,22 +127,29 @@ const useTicketViewHooks = () => {
     error: milestonesError,
     fetchData: fetchMilestones
   } = useApi.milestone.fetchMany({ ticket_id: ticketId });
+  const refreshMilestones = () => {
+    if (ticketId) {
+      fetchMilestones({ ticket_id: ticketId });
+    }
+  }
+
   const {
     data: createMilestoneData,
     loading: createMilestoneLoading,
     error: createMilestoneError,
     addMilestone
   } = useApi.ticket.addMilestone();
+  const {
+    data: removeMilestoneData,
+    loading: removeMilestoneLoading,
+    error: removeMilestoneError,
+    removeMilestone
+  } = useApi.ticket.removeMilestone();
 
   // helpers for fetching data
   const refreshTicket = () => {
     if (ticketId) {
       getTicket(ticketId);
-    }
-  }
-  const refreshMilestones = () => {
-    if (ticketId) {
-      fetchMilestones({ ticket_id: ticketId });
     }
   }
 
@@ -183,6 +202,10 @@ const useTicketViewHooks = () => {
     ticketData,
     ticketLoading,
     ticketError,
+    removeMilestoneData,
+    removeMilestoneLoading,
+    removeMilestoneError,
+    removeMilestone,
     milestonesData,
     milestonesLoading,
     milestonesError,
@@ -192,6 +215,7 @@ const useTicketViewHooks = () => {
     beginAddTicket,
     setBeginAddTicket,
     addMilestone,
+    refreshMilestones,
   }
 
 }

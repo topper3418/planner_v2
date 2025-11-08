@@ -1,104 +1,83 @@
-import { Button, Card, Descriptions, Flex, Input, List, Modal } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Flex } from "antd";
 import useApi from "../../api";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import components from "../../components";
+import useMutateMilestone from "../../components/details/milestoneModal/mutateMilestoneHooks";
+
+
+const {
+  tables: { MilestoneList, TicketList },
+  details: { MilestoneDetails, MilestoneModal },
+} = components;
 
 const MilestoneView = () => {
   const hooks = useMilestoneViewHooks();
   return (<>
     <Flex style={{ height: '100%' }} gap="10px">
-      <Card
-        title="Milestones"
-        style={{ width: '250px', height: '100%' }}
-        extra={<Button
-          type="primary"
-          icon={<PlusOutlined />}
-          loading={hooks.createMilestoneLoading}
-          onClick={() => hooks.setNewMilestoneModalOpen(true)}
-        />}
-      >
-        <List
-          loading={hooks.milestonesLoading}
-          dataSource={hooks.milestonesData || []}
-          renderItem={(milestone) => (
-            <List.Item
-              style={{
-                cursor: 'pointer',
-                padding: '10px',
-                backgroundColor: hooks.milestoneId == milestone.id ? 'lightblue' : 'transparent',
-              }}
-              onClick={() => hooks.selectMilestone(milestone.id)}
-            >
-              {milestone.name}
-            </List.Item>
-          )}
+      <MilestoneList
+        milestoneId={hooks.milestoneId}
+        milestones={hooks.milestonesData || []}
+        loading={hooks.milestonesLoading}
+        createLoading={hooks.createMilestoneLoading}
+        createCallback={() => hooks.setAddMilestoneModalOpen(true)}
+        selectMilestone={(milestoneId) => hooks.selectMilestone(milestoneId)} />
+      {hooks.milestoneId &&
+        <MilestoneDetails
+          milestone={hooks.milestoneData}
+          editCallback={() => {
+            // set the mutateMilestone to the current milestone data
+            hooks.mutateMilestone.set.name(hooks.milestoneData.name);
+            hooks.mutateMilestone.set.description(hooks.milestoneData.description);
+            hooks.mutateMilestone.set.due_date(hooks.milestoneData.due_date);
+            hooks.setMutateMilestoneMode('update');
+            // then open the modal
+            hooks.setEditMilestoneModalOpen(true);
+          }}
         />
-      </Card>
-      <Card
-        title="Milestone Details"
-        style={{ width: "300px", height: '100%' }}>
-        <Descriptions
-          size="small"
-          column={1}>
-          <Descriptions.Item label="Name">
-            {hooks.milestoneData?.name || 'N/A'}
-          </Descriptions.Item>
-          <Descriptions.Item label="Description">
-            {hooks.milestoneData?.description || 'N/A'}
-          </Descriptions.Item>
-          <Descriptions.Item label="Due Date">
-            {hooks.milestoneData?.due_date || 'N/A'}
-          </Descriptions.Item>
-        </Descriptions>
-      </Card>
-      <Card title="Tickets"
-        style={{ width: "300px", height: '100%' }}>
-        <List
-          loading={hooks.ticketLoading}
-          dataSource={hooks.ticketData || []}
-          renderItem={(ticket) => (
-            <List.Item
-              style={{
-                cursor: 'pointer',
-                padding: '10px',
-              }}
-              onClick={() => hooks.selectTicket(ticket.id)}
-            >
-              {ticket.title}
-            </List.Item>
-          )} />
-      </Card>
+      }
+      <TicketList
+        tickets={hooks.ticketData || []}
+        ticketsLoading={hooks.ticketLoading}
+        selectTicket={hooks.selectTicket} />
     </Flex>
-    <Modal
-      title="New Milestone"
-      open={hooks.newMilestoneModalOpen}
+    <MilestoneModal
+      open={hooks.addMilestoneModalOpen}
       onOk={async () => {
         await hooks.createMilestone({
-          name: hooks.newMilestone.name,
-          description: hooks.newMilestone.description,
-          due_date: hooks.newMilestone.due_date,
+          name: hooks.mutateMilestone.name,
+          description: hooks.mutateMilestone.description,
+          due_date: hooks.mutateMilestone.due_date,
         });
         hooks.fetchMilestones();
-        hooks.newMilestone.reset();
+        hooks.mutateMilestone.reset();
+        hooks.refreshMilestone();
+        hooks.setAddMilestoneModalOpen(false)
       }}
-      onCancel={() => hooks.setNewMilestoneModalOpen(false)}>
-      <Flex gap="10px" vertical>
-        <Input
-          placeholder="Milestone Name"
-          value={hooks.newMilestone.name}
-          onChange={(e) => hooks.newMilestone.set.name(e.target.value)} />
-        <Input.TextArea
-          placeholder="Milestone Description"
-          value={hooks.newMilestone.description}
-          onChange={(e) => hooks.newMilestone.set.description(e.target.value)} />
-        <Input
-          type="date"
-          placeholder="Milestone Due Date"
-          value={hooks.newMilestone.due_date}
-          onChange={(e) => hooks.newMilestone.set.due_date(e.target.value)} />
-      </Flex>
-    </Modal>
+      onCancel={() => {
+        hooks.mutateMilestone.reset();
+        hooks.setAddMilestoneModalOpen(false)
+      }}
+      milestone={hooks.mutateMilestone} />
+    <MilestoneModal
+      open={hooks.editMilestoneModalOpen}
+      onOk={async () => {
+        await hooks.updateMilestone({
+          id: hooks.milestoneId,
+          name: hooks.mutateMilestone.name,
+          description: hooks.mutateMilestone.description,
+          due_date: hooks.mutateMilestone.due_date,
+        });
+        hooks.fetchMilestones();
+        hooks.mutateMilestone.reset();
+        hooks.refreshMilestone();
+        hooks.setEditMilestoneModalOpen(false)
+      }}
+      onCancel={() => {
+        hooks.mutateMilestone.reset();
+        hooks.setEditMilestoneModalOpen(false)
+      }}
+      milestone={hooks.mutateMilestone} />
   </>)
 }
 
@@ -106,27 +85,12 @@ const MilestoneView = () => {
 const useMilestoneViewHooks = () => {
   const { milestoneId } = useParams();
   const navigate = useNavigate();
-  const [newMilestoneModalOpen, setNewMilestoneModalOpen] = useState(false);
-  const [newMilestoneName, setNewMilestoneName] = useState("");
-  const [newMilestoneDescription, setNewMilestoneDescription] = useState("");
-  const [newMilestoneDueDate, setNewMilestoneDueDate] = useState(null);
-  const milestoneModalReset = () => {
-    setNewMilestoneName("");
-    setNewMilestoneDescription("");
-    setNewMilestoneDueDate(null);
-    setNewMilestoneModalOpen(false);
-  }
-  const newMilestone = {
-    name: newMilestoneName,
-    description: newMilestoneDescription,
-    due_date: newMilestoneDueDate,
-    set: {
-      name: setNewMilestoneName,
-      description: setNewMilestoneDescription,
-      due_date: setNewMilestoneDueDate,
-    },
-    reset: milestoneModalReset,
-  }
+
+  const [addMilestoneModalOpen, setAddMilestoneModalOpen] = useState(false);
+  const [editMilestoneModalOpen, setEditMilestoneModalOpen] = useState(false);
+  const [mutateMilestoneMode, setMutateMilestoneMode] = useState('create'); // 'create' | 'update'
+  const mutateMilestone = useMutateMilestone();
+
   const selectMilestone = (id) => {
     navigate(`/milestones/${id}`);
   }
@@ -139,6 +103,11 @@ const useMilestoneViewHooks = () => {
     error: milestoneError,
     fetchOne: fetchMilestone,
   } = useApi.milestone.fetchOne(milestoneId);
+  const refreshMilestone = () => {
+    if (milestoneId) {
+      fetchMilestone(milestoneId);
+    }
+  }
   const {
     data: ticketData,
     loading: ticketLoading,
@@ -173,13 +142,18 @@ const useMilestoneViewHooks = () => {
     milestoneId,
     selectMilestone,
     selectTicket,
-    newMilestoneModalOpen,
-    setNewMilestoneModalOpen,
-    newMilestone,
+    addMilestoneModalOpen,
+    editMilestoneModalOpen,
+    setAddMilestoneModalOpen,
+    setEditMilestoneModalOpen,
+    mutateMilestoneMode,
+    setMutateMilestoneMode,
+    mutateMilestone,
     milestoneData,
     milestoneLoading,
     milestoneError,
     fetchMilestone,
+    refreshMilestone,
     milestonesData,
     milestonesLoading,
     milestonesError,
