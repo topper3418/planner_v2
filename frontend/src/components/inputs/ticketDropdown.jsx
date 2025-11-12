@@ -3,12 +3,17 @@ import { useEffect } from "react";
 import useApi from "../../api/";
 
 const TicketDropdown = ({ selectedTicketId, setSelectedTicketId, filters }) => {
-  const { data, loading, error, refetch } = useApi.ticket.fetchMany(filters);
+  const params = {
+    ...filters,
+    page_size: filters?.page_size || 10000,
+    page_number: 1
+  }
+  const { data, loading, error, refetch } = useApi.ticket.fetchMany(params);
   const handleChange = (value) => {
     setSelectedTicketId(value);
   };
   useEffect(() => {
-    refetch(filters);
+    refetch(params);
   }, [filters]);
   return (
     <Select

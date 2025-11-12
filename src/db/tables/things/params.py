@@ -27,4 +27,4 @@ class ThingParams(QueryParams):
     )
     include: list[Literal["category", "parent", "children"]] = []
     page_number: Optional[int] = Field(default=1, ge=1)
-    page_size: Optional[int] = Field(default=10, ge=1, le=1000)
+    page_size: Optional[int] = Field(default=10, ge=1)

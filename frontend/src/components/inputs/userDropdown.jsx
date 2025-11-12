@@ -5,7 +5,16 @@ import useApi from "../../api/";
 const UserDropdown = (
   { selectedUserId, setSelectedUserId, filters, placeholder = "Select User" }
 ) => {
-  const { data, loading, error, fetchData } = useApi.user.fetchMany(filters);
+  const {
+    data,
+    loading,
+    error,
+    fetchData
+  } = useApi.user.fetchMany({
+    ...filters,
+    page_size: filters?.page_size || 10000,
+    page_number: 1
+  });
 
   const handleChange = (value) => {
     console.log("value selected in UserDropdown:", value);

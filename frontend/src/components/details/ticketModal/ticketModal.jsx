@@ -44,14 +44,12 @@ const TicketModal = ({ modalControl }) => {
         <Descriptions.Item label="Thing" >
           <ThingDropdown
             selectedThingId={ticket.thingId}
-            setSelectedThingId={(value) => ticket.set.thingId(value)}
-            filters={{ page_size: 10000 }} />
+            setSelectedThingId={(value) => ticket.set.thingId(value)} />
         </Descriptions.Item>
         <Descriptions.Item label="User" >
           <UserDropdown
             selectedUserId={ticket.userId}
-            setSelectedUserId={(value) => ticket.set.userId(value)}
-            filters={{ page_size: 10000 }} />
+            setSelectedUserId={(value) => ticket.set.userId(value)} />
         </Descriptions.Item>
       </Descriptions>
     </Modal >

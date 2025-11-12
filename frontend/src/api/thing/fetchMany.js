@@ -4,9 +4,13 @@ const { useFetch } = apiUtils;
 
 const THINGS_URL = "/api/things/";
 
-const useFetchThings = ({ parent_id, include } = {}, { lazy = false } = {}) => {
+const useFetchThings = (
+  { parent_id, include, page_number, page_size } = {},
+  { lazy = false } = {},
+) => {
   const urlBuilder = (url, params) => {
-    const { parent_id, include } = params;
+    console.log("building URL with params:", params);
+    const { parent_id, include, page_number, page_size } = params;
     if (parent_id !== undefined) {
       url.searchParams.append("parent_id", parent_id);
     }
@@ -20,13 +24,20 @@ const useFetchThings = ({ parent_id, include } = {}, { lazy = false } = {}) => {
         url.searchParams.append("include", include);
       }
     }
+    if (page_number !== undefined) {
+      url.searchParams.append("page_number", page_number);
+    }
+    if (page_size !== undefined) {
+      url.searchParams.append("page_size", page_size);
+    }
+    console.log("Built URL:", url.toString());
     return url;
   };
 
   const { data, loading, error, fetchData } = useFetch(
     THINGS_URL,
     urlBuilder,
-    { parent_id, include },
+    { parent_id, include, page_number, page_size },
     { lazy },
   );
 

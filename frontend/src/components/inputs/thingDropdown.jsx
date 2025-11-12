@@ -3,7 +3,19 @@ import { useEffect } from "react";
 import useApi from "../../api/";
 
 const ThingDropdown = ({ selectedThingId, setSelectedThingId, filters }) => {
-  const { data, loading, error, refetch } = useApi.thing.fetchMany({ ...filters, page_size: filters?.page_size || 10000 });
+  const params = {
+    ...filters,
+    page_size: filters?.page_size || 10000,
+    page_number: 1
+  }
+  const {
+    data,
+    loading,
+    error,
+    refetch
+  } = useApi.thing.fetchMany(params);
+  console.log("data in ThingDropdown:", data);
+  console.log("selectedThingId in ThingDropdown:", selectedThingId);
 
   const handleChange = (value) => {
     console.log("value selected in ThingDropdown:", value);
@@ -11,7 +23,7 @@ const ThingDropdown = ({ selectedThingId, setSelectedThingId, filters }) => {
   };
 
   useEffect(() => {
-    refetch(filters);
+    refetch(params);
   }, [filters]);
 
   return (

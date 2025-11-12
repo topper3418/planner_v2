@@ -5,7 +5,12 @@ import useApi from "../../api/";
 const MilestoneDropdown = (
   { selectedMilestoneId, setSelectedMilestoneId, filters, placeholder = "Select Milestone" }
 ) => {
-  const { data, loading, error, fetchData } = useApi.milestone.fetchMany(filters);
+  const params = {
+    ...filters,
+    page_size: filters?.page_size || 10000,
+    page_number: 1
+  }
+  const { data, loading, error, fetchData } = useApi.milestone.fetchMany(params);
 
   const handleChange = (value) => {
     console.log("value selected in MilestoneDropdown:", value);
@@ -13,7 +18,7 @@ const MilestoneDropdown = (
   };
 
   useEffect(() => {
-    fetchData(filters);
+    fetchData(params);
   }, [filters]);
 
   return (

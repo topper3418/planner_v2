@@ -60,4 +60,4 @@ class TicketParams(QueryParams):
         Literal["thing", "category", "parent", "children", "user"]
     ] = []
     page_number: Optional[int] = Field(default=1, ge=1)
-    page_size: Optional[int] = Field(default=10, ge=1, le=100)
+    page_size: Optional[int] = Field(default=10, ge=1)

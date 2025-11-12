@@ -5,7 +5,8 @@ import { useParams } from "react-router-dom";
 const useTicketModalControl = (api) => {
   const [addTicketModalOpen, setAddTicketModalOpen] = useState(false);
   const [editTicketModalOpen, setEditTicketModalOpen] = useState(false);
-  const { ticketId, thingId } = useParams();
+  const params = useParams();
+  const { ticketId, thingId } = params;
   const [mode, setMode] = useState("add"); // "add" or "edit"
   const ticketBuffer = useTicketBuffer();
   const ticketModalControl = {
@@ -20,6 +21,9 @@ const useTicketModalControl = (api) => {
       open: () => {
         setMode("add");
         ticketBuffer.reset();
+        if (thingId) {
+          ticketBuffer.set.thingId(Number(thingId));
+        }
         setAddTicketModalOpen(true);
       },
       close: () => setAddTicketModalOpen(false),
