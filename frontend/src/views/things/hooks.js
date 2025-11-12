@@ -52,7 +52,7 @@ const useThingViewHooks = () => {
       update: useApi.ticket.update(),
     },
   };
-  api.fefreshAll = () => {
+  api.refreshAll = () => {
     if (thingId) {
       api.thing.selected.fetchOne(thingId);
     }
