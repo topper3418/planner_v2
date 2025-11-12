@@ -36,7 +36,7 @@ const useTicketModalControl = (api) => {
           category_id: ticketBuffer.categoryId,
           user_id: ticketBuffer.userId,
         });
-        api.fefreshAll();
+        api.refreshAll();
         ticketBuffer.reset();
         setAddTicketModalOpen(false);
       },
