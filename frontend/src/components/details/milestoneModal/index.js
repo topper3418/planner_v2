@@ -1,7 +1,9 @@
 import MilestoneModal from "./milestoneModal";
-import useMutateMilestone from "./mutateMilestoneHooks";
+import useMilestoneBuffer from "./milestoneBuffer";
+import useMilestoneModalControl from "./milestoneModalControl";
 
 export default {
   MilestoneModal,
-  useMutateMilestone,
+  useMilestoneBuffer,
+  useMilestoneModalControl,
 };

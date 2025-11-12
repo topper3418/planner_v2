@@ -1,62 +1,57 @@
 import { Card, Flex, List, Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 import components from "../../components";
-import { useEffect, useState } from "react";
-import useApi from "../../api";
+import useTicketViewHooks from "./hooks";
 
 const {
   CommentPanel,
   ActionPanel,
   tables: { TicketTable },
-  details: { TicketDetails },
+  details: { TicketDetails, TicketModal },
   inputs: { MilestoneDropdown }
 } = components;
 
 const TicketView = () => {
   const {
     ticketId,
-    ticketData,
-    ticketLoading,
-    ticketError,
-    milestonesData,
-    milestonesLoading,
-    removeMilestone,
-    fetchTicket,
-    onRow,
-    beginAddTicket,
-    setBeginAddTicket,
-    addMilestone,
-    refreshMilestones,
+    select,
+    api,
+    modalControl
   } = useTicketViewHooks()
   return (<>
     <Flex gap="10px" style={{ overflowY: 'hidden' }}>
-      <Flex gap="10px" style={{ height: '100%', minHeight: 0, overflowX: 'auto' }}>
+      <Flex gap="10px" style={{
+        height: '100%',
+        minHeight: 0,
+        overflowX: 'auto'
+      }}>
         <TicketTable
           tableMode={ticketId ? "compact" : "full"}
           selectedTicketId={ticketId}
-          beginAddTicket={() => setBeginAddTicket(true)}
+          beginAddTicket={modalControl.add.open}
           scrollHeight={400}
-          onRow={onRow} />
-        {(ticketId || beginAddTicket) &&
-          <Flex vertical>
+          onRow={(record) => {
+            return {
+              onClick: () => select.ticket(record.id)
+            }
+          }} />
+        {ticketId &&
+          <Flex vertical gap="10px">
             <TicketDetails
-              addMode={beginAddTicket}
-              setAddMode={setBeginAddTicket}
-              ticket={beginAddTicket ? {} : ticketData}
-              loading={ticketLoading}
-              error={ticketError}
-              refreshTicket={fetchTicket} />
+              ticket={api.ticket.selected.data}
+              loading={api.ticket.selected.loading}
+              error={api.ticket.selected.error}
+              beginEdit={modalControl.edit.open} />
             <Card
               title="Milestones"
               style={{ width: '300px', height: '100%' }}
               extra={<MilestoneDropdown
-                setSelectedMilestoneId={(milestoneId) => addMilestone(ticketId, milestoneId)}
+                setSelectedMilestoneId={(milestoneId) => api.ticket.addMilestone.addMilestone(ticketId, milestoneId)}
                 placeholder="Add" />}
             >
               <List
-                loading={milestonesLoading}
-                dataSource={milestonesData || []}
+                loading={api.milestone.list.loading}
+                dataSource={api.milestone.list.data || []}
                 renderItem={(milestone) => (
                   <List.Item
                     style={{
@@ -67,10 +62,8 @@ const TicketView = () => {
                       {milestone.name}
                       <Button
                         icon={<DeleteOutlined />}
-                        onClick={() => {
-                          removeMilestone(ticketId, milestone.id)
-                          refreshMilestones();
-                        }}
+                        onClick={() =>
+                          api.ticket.removeMilestone.removeMilestone(ticketId, milestone.id)}
                       />
                     </Flex>
                   </List.Item>
@@ -99,111 +92,9 @@ const TicketView = () => {
         </>}
       </Flex>
     </Flex>
+    <TicketModal
+      modalControl={modalControl} />
   </>)
-}
-
-
-const useTicketViewHooks = () => {
-  // initialize state
-  const { ticketId } = useParams();
-  const [beginAddTicket, setBeginAddTicket] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  // custom hooks
-  const {
-    data: ticketData,
-    loading: ticketLoading,
-    error: ticketError,
-    getTicket
-  } = useApi.ticket.fetchOne(ticketId);
-  const {
-    data: milestonesData,
-    loading: milestonesLoading,
-    error: milestonesError,
-    fetchData: fetchMilestones
-  } = useApi.milestone.fetchMany({ ticket_id: ticketId });
-  const refreshMilestones = () => {
-    if (ticketId) {
-      fetchMilestones({ ticket_id: ticketId });
-    }
-  }
-
-  const {
-    data: createMilestoneData,
-    loading: createMilestoneLoading,
-    addMilestone
-  } = useApi.ticket.addMilestone();
-  const {
-    data: removeMilestoneData,
-    loading: removeMilestoneLoading,
-    error: removeMilestoneError,
-    removeMilestone
-  } = useApi.ticket.removeMilestone();
-
-  // helpers for fetching data
-  const refreshTicket = () => {
-    if (ticketId) {
-      getTicket(ticketId);
-    }
-  }
-
-  useEffect(() => {
-    if (ticketId) {
-      refreshTicket()
-      refreshMilestones()
-    }
-  }, [ticketId])
-
-  useEffect(() => {
-    if (createMilestoneData) {
-      refreshMilestones();
-    }
-  }, [createMilestoneLoading])
-
-  const selectTicket = (newTicketId) => {
-    if (!newTicketId || newTicketId === ticketId) {
-      navigate(`/`);
-      return;
-    }
-    navigate(`/tickets/${newTicketId}`);
-  }
-
-  const onRow = (record) => {
-    return {
-      onClick: () => {
-        if (record.id != ticketId) {
-          navigate(`/tickets/${record.id}`)
-        } else {
-          navigate(`/tickets/`);
-        }
-      }
-    }
-  }
-
-  return {
-    ticketId,
-    selectTicket,
-    onRow,
-    ticketData,
-    ticketLoading,
-    ticketError,
-    removeMilestoneData,
-    removeMilestoneLoading,
-    removeMilestoneError,
-    removeMilestone,
-    milestonesData,
-    milestonesLoading,
-    milestonesError,
-    location,
-    fetchTicket: refreshTicket,
-    onRow: onRow,
-    beginAddTicket,
-    setBeginAddTicket,
-    addMilestone,
-    refreshMilestones,
-  }
-
 }
 
 export default TicketView;

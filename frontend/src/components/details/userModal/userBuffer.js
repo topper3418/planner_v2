@@ -1,18 +1,18 @@
 import { useState } from "react";
 
-const useMutateUser = () => {
+const useUserBuffer = () => {
   const [mutateUserName, setMutateUserName] = useState("");
   const userModalReset = () => {
     setMutateUserName("");
-  }
+  };
   const mutateUser = {
     username: mutateUserName,
     set: {
       username: setMutateUserName,
     },
     reset: userModalReset,
-  }
+  };
   return mutateUser;
-}
+};
 
-export default useMutateUser;
+export default useUserBuffer;

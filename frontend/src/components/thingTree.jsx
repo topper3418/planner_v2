@@ -49,9 +49,6 @@ const ThingTree = ({
     const { dragNode, node: dropNode, dropToGap } = info;
     const dropKey = dropNode.key;
 
-    if (dropToGap) console.log('Dropped to gap, making root');
-    if (dropKey) console.log('Dropped on node:', dropKey);
-
     // Determine new parent ID: null for root, dropKey for child drop
     const newParentId = dropKey ? dropKey : null;
 
@@ -61,20 +58,16 @@ const ThingTree = ({
         ...dragNode.thing,
         parent_id: newParentId, // Assuming thing has parentId field
       };
-      console.log('Updating thing:', updatedThing);
       await updateThing(updatedThing);
 
       // Refetch tree data to reflect server state
       await treeDataRefetch();
     } catch (err) {
-      console.error('Failed to update thing parent:', err);
     }
   };
 
   const onSelect = (selectedKeys) => {
-    console.log('Selected: ', selectedKeys);
     const newSelectedThingId = selectedKeys[selectedKeys.length - 1]
-    console.log("setting to selectedKey", newSelectedThingId);
     setSelectedThingId(newSelectedThingId);
   }
 

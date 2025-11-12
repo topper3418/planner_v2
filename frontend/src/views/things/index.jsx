@@ -1,37 +1,27 @@
-import { useEffect, useState } from 'react';
 import { Flex } from 'antd';
-import useApi from '../../api/';
 
 import components from '../../components/';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import useThingViewHooks from './hooks';
 
 const {
   ThingTree,
   CommentPanel,
   ActionPanel,
-  tables: { TicketTable, ChilrenTable },
-  details: { ThingDetails, TicketDetails }
+  tables: { TicketTable },
+  details: { ThingDetails, TicketDetails, TicketModal, ThingModal }
 } = components;
 
 const ThingView = () => {
 
   const {
-    thingId,
     ticketId,
+    thingId,
+    api,
+    select,
     checkedThingIds,
     setCheckedThingIds,
-    selectThing,
-    thingData,
-    thingLoading,
-    thingError,
-    fetchThing,
-    ticketData,
-    ticketLoading,
-    ticketError,
-    fetchTicket,
-    onRow,
-    beginAddTicket,
-    setBeginAddTicket
+    ticketModalControl,
+    thingModalControl
   } = useThingViewHooks()
 
   const tickeTableBeginAddTicket = () => {
@@ -46,25 +36,26 @@ const ThingView = () => {
         setCheckedThingIds={setCheckedThingIds}
         selectedThingId={thingId}
         refreshTrigger={ticketId}
-        setSelectedThingId={selectThing} />
-      <Flex gap="10px" style={{ height: '100%', minHeight: 0, overflowX: 'auto' }}>
-        <Flex vertical>
+        setSelectedThingId={select.thing} />
+      <Flex gap="10px" style={{
+        height: '100%',
+        minHeight: 0,
+        overflowX: 'auto'
+      }}>
+        <Flex vertical gap="10px">
           {thingId &&
             <ThingDetails
-              thing={thingData}
-              loading={thingLoading}
-              error={thingError}
-              refreshThing={fetchThing} />
+              thing={api.thing.selected.data}
+              loading={api.thing.selected.loading}
+              error={api.thing.selected.error}
+              beginEdit={thingModalControl.edit.open} />
           }
-          {(ticketId || beginAddTicket) && <TicketDetails
-            addMode={beginAddTicket}
-            setAddMode={setBeginAddTicket}
-            ticket={beginAddTicket ? {} : ticketData}
-            thing={thingData}
-            loading={ticketLoading}
-            error={ticketError}
-            thingId={thingId}
-            refreshTicket={fetchTicket} />}
+          {ticketId &&
+            <TicketDetails
+              ticket={api.ticket.selected.data}
+              loading={api.ticket.selected.loading}
+              error={api.ticket.selected.error}
+              beginEdit={ticketModalControl.edit.open} />}
         </Flex>
         <TicketTable
           checkedThingIds={thingId ? undefined : checkedThingIds}
@@ -73,7 +64,11 @@ const ThingView = () => {
           selectedTicketId={ticketId}
           beginAddTicket={tickeTableBeginAddTicket}
           scrollHeight={400}
-          onRow={onRow} />
+          onRow={(record) => ({
+            onClick: () => {
+              select.ticket(record.id);
+            },
+          })} />
         {ticketId && <Flex
           vertical
           gap="10px"
@@ -93,123 +88,15 @@ const ThingView = () => {
         </Flex>
         }
       </Flex>
-    </Flex>
+    </Flex >
+    <TicketModal
+      modalControl={ticketModalControl} />
+    <ThingModal
+      modalControl={thingModalControl} />
   </>);
 }
 
 
-const useThingViewHooks = () => {
-  // initialize state
-  const { thingId, ticketId } = useParams();
-  const [checkedThingIds, setCheckedThingIds] = useState([]);
-  const [beginAddTicket, setBeginAddTicket] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
-  // custom hooks
-  const {
-    data: thingData,
-    loading: thingLoading,
-    error: thingError,
-    getThing
-  } = useApi.thing.fetchOne(thingId);
-  const {
-    data: ticketData,
-    loading: ticketLoading,
-    error: ticketError,
-    getTicket
-  } = useApi.ticket.fetchOne(ticketId);
-
-  // helpers for fetching data
-  const fetchThing = () => {
-    if (thingId) {
-      getThing(thingId);
-    }
-  }
-  const fetchTicket = () => {
-    if (ticketId) {
-      getTicket(ticketId);
-    }
-  }
-
-  // Effects to fetch data when IDs change
-  useEffect(() => {
-    if (thingId) fetchThing();
-  }, [thingId]);
-
-  useEffect(() => {
-    if (ticketId) fetchTicket()
-  }, [ticketId])
-
-  // helpers
-  const selectThing = (newThingId) => {
-    if (newThingId) {
-      navigate(`/things/${newThingId}`);
-    } else {
-      navigate(`/`);
-    }
-  }
-
-  const selectTicket = (newTicketId) => {
-    if (thingId) {
-      if (!newTicketId || newTicketId === ticketId) {
-        navigate(`/things/${thingId}`);
-        return;
-      }
-      navigate(`/things/${thingId}/tickets/${newTicketId}`);
-    } else {
-      if (!newTicketId || newTicketId === ticketId) {
-        navigate(`/`);
-        return;
-      }
-      navigate(`/tickets/${newTicketId}`);
-    }
-  }
-
-  const onRow = (record) => {
-    return {
-      onClick: () => {
-        if (record.id != ticketId) {
-          if (thingId) {
-            navigate(`/things/${thingId}/tickets/${record.id}`)
-          } else {
-            navigate(`/tickets/${record.id}`)
-          }
-        } else {
-          // Clicking the same ticket deselects it
-          if (thingId) {
-            navigate(`/things/${thingId}`);
-          } else {
-            navigate(`/`);
-          }
-        }
-      }
-    }
-  }
-
-  return {
-    ticketId,
-    thingId,
-    selectTicket,
-    onRow,
-    selectThing,
-    checkedThingIds,
-    setCheckedThingIds,
-    selectThing,
-    thingData,
-    thingLoading,
-    thingError,
-    fetchThing,
-    ticketData,
-    ticketLoading,
-    ticketError,
-    location,
-    fetchTicket,
-    onRow: onRow,
-    beginAddTicket,
-    setBeginAddTicket
-  }
-
-}
 
 
 export default ThingView;

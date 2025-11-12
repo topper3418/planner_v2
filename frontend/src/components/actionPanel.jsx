@@ -6,7 +6,16 @@ import { formatDate } from "../util/formatting";
 
 
 const ActionPanel = ({ ticketId }) => {
-  const { data, loading, error, refetch } = useApi.action.fetchMany({ ticket_id: ticketId, include: 'action_type' });
+  const fetchParams = {
+    ticket_id: ticketId,
+    include: 'action_type'
+  };
+  const {
+    data,
+    loading,
+    error,
+    refetch
+  } = useApi.action.fetchMany(fetchParams);
   const {
     data: createData,
     loading: createLoading,
@@ -61,7 +70,7 @@ const ActionPanel = ({ ticketId }) => {
                 if (newActionText.trim() === "") return;
                 await createAction({ ticket_id: ticketId, action_text: newActionText, action_type_id: newActionTypeId });
                 setNewActionText("");
-                refetch({ ticket_id: ticketId });
+                refetch(fetchParams);
               }} >
               Add Action
             </Button>

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import useApi from "../../api/";
 
 const TicketCategoryDropdown = ({ selectedCategoryId, setSelectedCategoryId }) => {
-  const { data, loading, error, refetch } = useApi.ticket.fetchCategories();
+  const { data, loading, error } = useApi.ticket.fetchCategories();
 
   const handleChange = (value) => {
     console.log("value selected in TicketCategoryDropdown:", value);
@@ -13,6 +13,7 @@ const TicketCategoryDropdown = ({ selectedCategoryId, setSelectedCategoryId }) =
   return (
     <Select
       showSearch
+      loading={loading}
       style={{ width: 200 }}
       placeholder="Select a category"
       optionFilterProp="children"

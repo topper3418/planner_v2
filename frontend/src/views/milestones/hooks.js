@@ -1,30 +1,32 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useMutateMilestone from "../../components/details/milestoneModal/mutateMilestoneHooks";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+
 import useApi from "../../api";
+import components from "../../components";
+
+const {
+  details: {
+    controllers: { useMilestoneModalControl },
+  },
+} = components;
 
 const useMilestoneViewHooks = () => {
   // URL State
   const { milestoneId } = useParams();
   const navigate = useNavigate();
-  // helpers
-  const selectMilestone = (id) => {
-    if (id == milestoneId) {
-      navigate(`/milestones/`);
-    } else {
-      navigate(`/milestones/${id}`);
-    }
+  const select = {
+    milestone: (id) => {
+      if (id == milestoneId) {
+        navigate(`/milestones/`);
+      } else {
+        navigate(`/milestones/${id}`);
+      }
+    },
+    ticket: (id) => {
+      navigate(`/tickets/${id}`);
+    },
   };
-  const selectTicket = (id) => {
-    navigate(`/tickets/${id}`);
-  };
-
-  // Component State
-  const [addMilestoneModalOpen, setAddMilestoneModalOpen] = useState(false);
-  const [editMilestoneModalOpen, setEditMilestoneModalOpen] = useState(false);
-  const mutateMilestone = useMutateMilestone();
-
-  // API state
+  // API object
   const api = {
     milestone: {
       selected: useApi.milestone.fetchOne(milestoneId),
@@ -45,58 +47,8 @@ const useMilestoneViewHooks = () => {
       api.ticket.list.fetchData({ milestone_id: milestoneId });
     }
   };
-
-  // Modal State
-  const modalControl = {
-    add: {
-      isOpen: addMilestoneModalOpen,
-      open: () => {
-        setAddMilestoneModalOpen(true);
-      },
-      close: () => {
-        mutateMilestone.reset();
-        setAddMilestoneModalOpen(false);
-      },
-      submit: async () => {
-        await api.milestone.create.create({
-          name: mutateMilestone.name,
-          description: mutateMilestone.description,
-          due_date: mutateMilestone.due_date,
-        });
-        api.refreshAll();
-        mutateMilestone.reset();
-        setAddMilestoneModalOpen(false);
-      },
-    },
-    edit: {
-      isOpen: editMilestoneModalOpen,
-      open: () => {
-        // set the mutateMilestone to the current milestone data
-        mutateMilestone.set.name(api.milestone.selected.data.name);
-        mutateMilestone.set.description(
-          api.milestone.selected.data.description,
-        );
-        mutateMilestone.set.due_date(api.milestone.selected.data.due_date);
-        // then open the modal
-        setEditMilestoneModalOpen(true);
-      },
-      close: () => {
-        mutateMilestone.reset();
-        setEditMilestoneModalOpen(false);
-      },
-      submit: async () => {
-        await api.milestone.update.update({
-          id: milestoneId,
-          name: mutateMilestone.name,
-          description: mutateMilestone.description,
-          due_date: mutateMilestone.due_date,
-        });
-        api.refreshAll();
-        mutateMilestone.reset();
-        setEditMilestoneModalOpen(false);
-      },
-    },
-  };
+  // Modal Control
+  const modalControl = useMilestoneModalControl(api, milestoneId);
 
   // refresh all on milestoneId change
   useEffect(() => {
@@ -108,12 +60,8 @@ const useMilestoneViewHooks = () => {
   return {
     milestoneId,
     api,
-    select: {
-      milestone: selectMilestone,
-      ticket: selectTicket,
-    },
+    select,
     modalControl,
-    mutateMilestone,
   };
 };
 

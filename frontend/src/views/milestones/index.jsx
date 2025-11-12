@@ -14,7 +14,6 @@ const MilestoneView = () => {
     api,
     select,
     modalControl,
-    mutateMilestone,
   } = useMilestoneViewHooks();
   return (<>
     <Flex style={{ height: '100%' }} gap="10px">
@@ -38,19 +37,8 @@ const MilestoneView = () => {
           selectTicket={select.ticket} />}
     </Flex>
     <MilestoneModal
-      title="New Milestone"
-      open={modalControl.add.isOpen}
-      onOk={modalControl.add.submit}
-      onCancel={modalControl.add.close}
-      milestone={mutateMilestone} />
-    <MilestoneModal
-      title="Edit Milestone"
-      open={modalControl.edit.isOpen}
-      onOk={modalControl.edit.submit}
-      onCancel={modalControl.edit.close}
-      milestone={mutateMilestone} />
+      modalControl={modalControl} />
   </>)
 }
-
 
 export default MilestoneView;

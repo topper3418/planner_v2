@@ -1,7 +1,9 @@
-import UserModal from "./milestoneModal";
-import useMutateUser from "./mutateUserHooks";
+import UserModal from "./userModal";
+import useUserBuffer from "./userBuffer";
+import useUserModalControl from "./userModalControl";
 
 export default {
   UserModal,
-  useMutateUser,
+  useUserBuffer,
+  useUserModalControl,
 };

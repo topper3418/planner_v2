@@ -1,12 +1,16 @@
 import { Flex, Input, Modal } from "antd";
 
-const UserModal = ({ open, onOk, onCancel, user }) => {
+const UserModal = ({ modalControl }) => {
+  const { title, isOpen, close, submit } = modalControl[modalControl.mode];
+  const { user, loading, error } = modalControl;
   return (
     <Modal
-      title="New User"
-      open={open}
-      onOk={onOk}
-      onCancel={onCancel}>
+      title={title}
+      open={isOpen}
+      onOk={submit}
+      loading={loading}
+      error={error}
+      onCancel={close}>
       <Flex gap="10px" vertical>
         <Input
           placeholder="User Name"

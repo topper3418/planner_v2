@@ -10,7 +10,7 @@ const useFetchTicket = (ticketId = undefined) => {
     ticketId,
   );
 
-  return { data, loading, error, getTicket: fetchOne };
+  return { data, loading, error, fetchOne };
 };
 
 export default useFetchTicket;

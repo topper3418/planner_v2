@@ -34,7 +34,7 @@ const useTicketTableHooks = (
     page_size: tableMode === "compact" ? 5 : 10,
   };
   // initialize state
-  const { data, count, loading, error, refetch } = useApi.ticket.fetchMany(
+  const { data, count, loading, error, fetchData } = useApi.ticket.fetchMany(
     queryParams,
     { lazy: true },
   );
@@ -44,8 +44,7 @@ const useTicketTableHooks = (
 
   //helper function
   const doRefetch = () => {
-    console.log("Refetching tickets with params:", queryParams);
-    refetch(queryParams);
+    fetchData(queryParams);
   };
 
   // onclick for the show closed button

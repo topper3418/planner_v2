@@ -23,11 +23,11 @@ class Thing(TableModel):
     name: Optional[str] = ColumnField(None)
     description: Optional[str] = ColumnField(None)
     docs_link: Optional[str] = ColumnField(None)
-    ticket_count: Optional[int] = None
 
     category_id: Optional[int] = ForeignKeyField(None, on="id")
     parent_id: Optional[int] = ForeignKeyField(None, on="id")
 
+    ticket_count: Optional[int] = None
     category: Optional["ThingCategory"] = RelationshipField(
         table_model="ThingCategory"
     )

@@ -13,6 +13,7 @@ def from_row(cls, **row) -> Ticket:
         created_at=row["created_at"],
         updated_at=row["updated_at"],
         completed_at=row["completed_at"],
+        user_id=row["user_id"],
     )
     if "thing_name" in row.keys():
         from ..things import Thing

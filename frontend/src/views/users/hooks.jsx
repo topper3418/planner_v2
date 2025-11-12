@@ -1,27 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useMutateUser from "../../components/details/userModal/mutateUserHooks";
+
 import useApi from "../../api";
+import components from "../../components";
+
+const {
+  details: {
+    controllers: { useUserModalControl } },
+} = components;
 
 const useUserViewHooks = () => {
+  // URL State
   const { userId } = useParams();
   const navigate = useNavigate();
-
-  const [addUserModalOpen, setAddUserModalOpen] = useState(false);
-  const [editUserModalOpen, setEditUserModalOpen] = useState(false);
-  const mutateUser = useMutateUser();
-
-  const selectUser = (id) => {
-    if (id == userId) {
-      navigate(`/users/`);
-    } else {
-      navigate(`/users/${id}`);
+  const select = {
+    user: (id) => {
+      if (id == userId) {
+        navigate(`/users/`);
+      } else {
+        navigate(`/users/${id}`);
+      }
+    },
+    ticket: (id) => {
+      navigate(`/tickets/${id}`);
     }
   }
-  const selectTicket = (id) => {
-    navigate(`/tickets/${id}`);
-  }
-
+  // API object
   const api = {
     user: {
       list: useApi.user.fetchMany(),
@@ -41,45 +45,10 @@ const useUserViewHooks = () => {
     }
   };
 
-  // Modal State
-  const modalControl = {
-    add: {
-      isOpen: addUserModalOpen,
-      open: () => {
-        mutateUser.reset();
-        setAddUserModalOpen(true);
-      },
-      close: () => setAddUserModalOpen(false),
-      submit: async () => {
-        await api.user.create.create(
-          {
-            username: mutateUser.username,
-          }
-        );
-        api.refreshAll();
-        mutateUser.reset();
-        setAddUserModalOpen(false);
-      },
-    },
-    edit: {
-      isOpen: editUserModalOpen,
-      open: () => {
-        mutateUser.set.username(api.user.selected.data.username);
-        setEditUserModalOpen(true);
-      },
-      close: () => setEditUserModalOpen(false),
-      submit: async () => {
-        await api.user.update.update({
-          id: userId,
-          username: mutateUser.username,
-        });
-        api.refreshAll();
-        mutateUser.reset();
-        setEditUserModalOpen(false);
-      },
-    },
-  }
+  // Modal Control
+  const modalControl = useUserModalControl(api, userId);
 
+  // refresh when a new user is selected
   useEffect(() => {
     api.refreshAll();
   }, [userId]);
@@ -87,14 +56,9 @@ const useUserViewHooks = () => {
   return {
     userId,
     api,
-    select: {
-      user: selectUser,
-      ticket: selectTicket,
-    },
+    select,
     modalControl,
-    mutateUser,
   };
 }
-
 
 export default useUserViewHooks;

@@ -14,7 +14,6 @@ const UserView = () => {
     api,
     select,
     modalControl,
-    mutateUser,
   } = useUserViewHooks();
   return (<>
     <Flex style={{ height: '100%' }} gap="10px">
@@ -33,15 +32,7 @@ const UserView = () => {
           selectTicket={select.ticket} />}
     </Flex>
     <UserModal
-      open={modalControl.add.isOpen}
-      onOk={modalControl.add.submit}
-      onCancel={modalControl.add.close}
-      user={mutateUser} />
-    <UserModal
-      open={modalControl.edit.isOpen}
-      onOk={modalControl.edit.submit}
-      onCancel={modalControl.edit.close}
-      user={mutateUser} />
+      modalControl={modalControl} />
   </>)
 }
 

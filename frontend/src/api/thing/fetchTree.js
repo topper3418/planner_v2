@@ -35,7 +35,6 @@ const useFetchThingTree = () => {
       }
       const result = await response.json();
       const totalCount = result.count !== undefined ? result.count : null;
-      console.log("Fetched tree data:", result);
       const treeData = dataToTree(result.data);
       const extractIds = (nodes) => {
         nodes.forEach((node) => {

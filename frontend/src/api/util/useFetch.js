@@ -24,7 +24,6 @@ const useFetch = (
     reset();
     // build url
     const url = urlBuilder(new URL(rootUrl, window.location.origin), params);
-    console.log("Fetching URL:", url.toString());
     // fetch data, manage state
     try {
       const response = await fetch(url);
