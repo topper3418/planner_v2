@@ -65,6 +65,8 @@ const ActionPanel = ({ ticketId }) => {
           <Flex vertical gap="10px">
             <Button
               type="primary"
+              loading={createLoading}
+              error={createError}
               style={{ marginTop: '10px' }}
               onClick={async () => {
                 if (newActionText.trim() === "") return;

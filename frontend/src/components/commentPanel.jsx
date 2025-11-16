@@ -48,6 +48,8 @@ const CommentPanel = ({ ticketId }) => {
             style={{ marginTop: '10px', marginRight: '10px', flex: 1 }} />
           <Button
             type="primary"
+            loading={createLoading}
+            error={createError}
             style={{ marginTop: '10px' }}
             onClick={async () => {
               if (newCommentText.trim() === "") return;
