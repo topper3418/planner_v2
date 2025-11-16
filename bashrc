@@ -9,32 +9,7 @@ else
       source venv/bin/activate
 fi
 
-
-# Function to run a SQL query from a file against the SQLite database
-query() {
-  local filename="$1"
-  # if none given, use main
-  if [[ -z "$filename" ]]; then
-    filename="main"
-  fi
-  local db_path="data/database.db"
-  local query_file="test_queries/${filename}.sql"
-
-  # Check if the query file exists
-  if [[ ! -f "$query_file" ]]; then
-    echo "Error: Query file $query_file not found"
-    return 1
-  fi
-
-  # Check if the database file exists
-  if [[ ! -f "$db_path" ]]; then
-    echo "Error: Database $db_path not found"
-    return 1
-  fi
-
-  # Run the query using sqlite3
-  sqlite3 "$db_path" < "$query_file"
-}
+alias db="sqlite3 data/database.db"
 
 
 ########
