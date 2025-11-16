@@ -16,6 +16,7 @@ const useTicketTableHooks = (
   const [selectedMilestoneId, setSelectedMilestoneId] = useState(null);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [search, setSearch] = useState(null);
+  const page_size = tableMode === "compact" ? 5 : 10;
   const queryParams = {
     thing_ids: selectedThingId
       ? [selectedThingId]
@@ -31,7 +32,7 @@ const useTicketTableHooks = (
     milestone_id: selectedMilestoneId ? selectedMilestoneId : undefined,
     user_id: selectedUserId ? selectedUserId : undefined,
     page_number: pageNumber,
-    page_size: tableMode === "compact" ? 5 : 10,
+    page_size,
   };
   // initialize state
   const { data, count, loading, error, fetchData } = useApi.ticket.fetchMany(
@@ -60,7 +61,7 @@ const useTicketTableHooks = (
   };
 
   const pagination = {
-    pageSize: 10,
+    pageSize: page_size,
     simple: true,
     size: "small",
     current: pageNumber,
