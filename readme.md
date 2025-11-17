@@ -46,12 +46,12 @@ and goals. It is suitable for a household with multiple users.
    python seed_database.db
    ```
 
-  This creates a development database with some sample data.
-  If you want to start fresh with just the default categories,
-  pass a --fresh flag:
+   This creates a development database with some sample data.
+   If you want to start fresh with just the default categories,
+   pass a --fresh flag:
 
    ```bash
-    python seed_database.db --fresh
+   python seed_database.db --fresh
    ```
 
 4. Run the application:
