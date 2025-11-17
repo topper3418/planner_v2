@@ -15,94 +15,102 @@ sudo apt install nginx uvicorn npm
 
 ## Build application (in planner root directory)
 
-build python env and enter it
+1. build python env and enter it
 
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
 
-install dependencies
+2. install dependencies
 
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## build frontend (in planner/frontend/)
 
-install node dependencies
+1. install node dependencies
 
-```bash
-npm i
-```
+   ```bash
+   npm i
+   ```
 
-build project
+2. build project
 
-```bash
-npm run build
-```
+   ```bash
+   npm run build
+   ```
 
 ## Configure backend service
 
-Edit the server/planner-service-template.service file, following the 
+1. Edit the server/planner-service-template.service file, following the 
 instructions inside it.
 
-Copy the file to /etc/systemd/system/planner.service
+2. Copy the file to /etc/systemd/system/planner.service
 
-```bash
-sudo cp server/planner-service-template.service /etc/systemd/system/planner.service
-```
+   ```bash
+   sudo cp server/planner-service-template.service /etc/systemd/system/planner.service
+   ```
 
-Reload systemd to pick up the new service
+3. Reload systemd to pick up the new service
 
-```bash
-sudo systemctl daemon-reload
-```
+   ```bash
+   sudo systemctl daemon-reload
+   ```
 
-Enable the service to start on boot
+4. Enable the service to start on boot
 
-```bash
-sudo systemctl enable planner.service
-```
+   ```bash
+   sudo systemctl enable planner.service
+   ```
 
-Start the service
+5. Start the service
 
-```bash
-sudo systemctl start planner.service
-```
+   ```bash
+   sudo systemctl start planner.service
+   ```
 
-Test the service with a healthcheck
+6. Test the service with a healthcheck
 
-```bash
-curl http://localhost:8000/healthcheck
-```
+   ```bash
+   curl http://localhost:8000/healthcheck
+   ```
 
-Should return:
+   Should return:
 
-```json
-{"status":"ok"}
-```
+   ```json
+   {"status":"ok"}
+   ```
 
 ## Configure Nginx (in planner/)
 
-Copy the nginx config file to /etc/nginx/sites-available/planner
+1. Copy the nginx config file to /etc/nginx/sites-available/planner
 
-```bash
-sudo cp server/nginx-config-template /etc/nginx/sites-available/planner
-```
+   ```bash
+   sudo cp server/nginx-config-template /etc/nginx/sites-available/planner
+   ```
 
-Enable the site by creating a symlink to sites-enabled
+2. Enable the site by creating a symlink to sites-enabled
 
-```bash
-sudo ln -s /etc/nginx/sites-available/planner /etc/nginx/sites-enabled/planner
-```
+   ```bash
+   sudo ln -s /etc/nginx/sites-available/planner /etc/nginx/sites-enabled/planner
+   ```
 
-Disable the default nginx site
+3. Disable the default nginx site
 
-```bash
-sudo rm /etc/nginx/sites-enabled/default
-```
+   ```bash
+   sudo rm /etc/nginx/sites-enabled/default
+   ```
 
-Restart nginx
+4. Restart nginx
 
-```bash
+   ```bash
+   sudo systemctl restart nginx
+   ```
+
+## Access the application
+
+Open your browser and navigate to your server's domain or IP address.
+
+For example: `http://planner.local
