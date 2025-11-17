@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import useApi from "../../api";
 import components from "../../components";
+import useViewNavigation from "../../navigation";
+import useTicketQueryParams from "../../queryParams/useTicketQueryParams";
 
 const {
   details: {
@@ -11,18 +13,19 @@ const {
 
 const useUserViewHooks = () => {
   // URL State
-  const { userId } = useParams();
-  const navigate = useNavigate();
+  const navigation = useViewNavigation();
+  const { userId } = navigation.getQueryParam;
+  const ticketQueryParams = useTicketQueryParams(navigation.getQueryParam);
   const select = {
     user: (id) => {
       if (id == userId) {
-        navigate(`/users/`);
+        navigation.navigate(`/users/`);
       } else {
-        navigate(`/users/${id}`);
+        navigation.navigate(`/users/${id}`);
       }
     },
     ticket: (id) => {
-      navigate(`/tickets/${id}`);
+      navigation.navigate(`/tickets/${id}`);
     }
   }
   // API object
@@ -34,14 +37,14 @@ const useUserViewHooks = () => {
       update: useApi.user.update(),
     },
     ticket: {
-      list: useApi.ticket.fetchMany({ user_id: userId }),
+      list: useApi.ticket.fetchMany(ticketQueryParams),
     },
   };
   api.refreshAll = () => {
     api.user.list.fetchData();
     if (userId) {
       api.user.selected.fetchOne(userId);
-      api.ticket.list.fetchData({ user_id: userId });
+      api.ticket.list.fetchData(ticketQueryParams);
     }
   };
 
@@ -51,7 +54,14 @@ const useUserViewHooks = () => {
   // refresh when a new user is selected
   useEffect(() => {
     api.refreshAll();
-  }, [userId]);
+  }, [
+    navigation.getQueryParam.thingIds,
+    navigation.getQueryParam.showClosed,
+    navigation.getQueryParam.milestoneId,
+    navigation.getQueryParam.userId,
+    navigation.getQueryParam.search,
+    navigation.getQueryParam.ticketCategoryIds,
+  ]);
 
   return {
     userId,

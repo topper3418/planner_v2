@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Button, Flex, Tree } from 'antd';
-import NewThingModal from '../components/newThingModel';
 import useApi from '../api/';
 import { useParams } from 'react-router-dom';
 
@@ -11,8 +10,8 @@ const ThingTree = ({
   selectedThingId,
   setSelectedThingId,
   refreshTrigger,
+  beginAddThing,
 }) => {
-  const [createThingModalOpen, setCreateThingModalOpen] = useState(false);
   const [expandedKeys, setExpandedKeys] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
   const { thingId } = useParams();
@@ -24,10 +23,6 @@ const ThingTree = ({
     error: treeDataError,
     refetch: treeDataRefetch
   } = useApi.thing.fetchTree();
-
-  const {
-    updateThing
-  } = useApi.thing.update();
 
   const onCheck = (checkedKeys) => {
     setCheckedThingIds(checkedKeys);
@@ -70,7 +65,7 @@ const ThingTree = ({
             Clear Selection
           </Button>
         }
-        <Button type="primary" onClick={() => setCreateThingModalOpen(true)}>
+        <Button type="primary" onClick={() => beginAddThing(true)}>
           New Thing
         </Button>
       </Flex>
@@ -111,11 +106,6 @@ const ThingTree = ({
         }}
       />
     </Flex>
-    <NewThingModal
-      open={createThingModalOpen}
-      setOpen={setCreateThingModalOpen}
-      onSubmit={treeDataRefetch}
-    />
   </>);
 };
 export default ThingTree;

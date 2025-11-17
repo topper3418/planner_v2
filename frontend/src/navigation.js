@@ -6,7 +6,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-const useNavigation = () => {
+const useViewNavigation = () => {
   const urlParams = useParams();
   const [searchParams, setSearchParms] = useSearchParams();
   const navigate = useNavigate();
@@ -115,6 +115,7 @@ const useNavigation = () => {
   return {
     getQueryParam,
     setQueryParam,
+    location,
     urlParams,
     searchParams,
     setSearchParms,
@@ -122,4 +123,4 @@ const useNavigation = () => {
   };
 };
 
-export default useNavigation;
+export default useViewNavigation;

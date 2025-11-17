@@ -19,7 +19,7 @@ const TicketCategoryDropdown = ({ selectedCategoryId, setSelectedCategoryId }) =
       optionFilterProp="children"
       error={error}
       onChange={handleChange}
-      value={selectedCategoryId}
+      value={selectedCategoryId ? Number(selectedCategoryId) : undefined}
       allowClear
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())

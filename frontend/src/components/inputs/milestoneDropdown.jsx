@@ -29,7 +29,7 @@ const MilestoneDropdown = (
       allowClear
       error={error}
       onChange={handleChange}
-      value={selectedMilestoneId}
+      value={selectedMilestoneId ? Number(selectedMilestoneId) : null}
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
       }

@@ -18,7 +18,7 @@ const ThingCategoryDropdown = ({ selectedThingCategoryId, setSelectedThingCatego
       optionFilterProp="children"
       error={error}
       onChange={handleChange}
-      value={selectedThingCategoryId}
+      value={selectedThingCategoryId ? Number(selectedThingCategoryId) : undefined}
       allowClear
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())

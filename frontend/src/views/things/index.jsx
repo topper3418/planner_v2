@@ -31,6 +31,7 @@ const ThingView = () => {
         setCheckedThingIds={setCheckedThingIds}
         selectedThingId={thingId}
         refreshTrigger={ticketId}
+        beginAddThing={thingModalControl.add.open}
         setSelectedThingId={select.thing} />
       <Flex gap="10px" style={{
         height: '100%',

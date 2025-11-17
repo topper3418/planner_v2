@@ -47,33 +47,15 @@ const TicketTable = ({
         marginTop: "10px",
         width: tableMode === "compact" ? 450 : 1100,
       }}
-      extra={beginAddTicket && <Flex gap="10px">
-        {tableMode !== "compact" && <>
-          <Input
-            placeholder="Search"
-            style={{ width: 100 }}
-            value={navigation.getQueryParam.search || ''}
-            onChange={onSearchChange} />
-          <UserDropdown
-            selectedUserId={navigation.getQueryParam.userId}
-            setSelectedUserId={navigation.setQueryParam.userId} />
-          <MilestoneDropdown
-            selectedMilestoneId={navigation.getQueryParam.milestoneId}
-            setSelectedMilestoneId={navigation.setQueryParam.milestoneId} />
-          <TicketCategoryDropdown
-            selectedCategoryId={navigation.getQueryParam.ticketCategoryId}
-            setSelectedCategoryId={navigation.setQueryParam.ticketCategoryId} />
-        </>}
-        <Button
-          onClick={handleShowClosedToggle}>
-          {showClosedToggleText}
-        </Button>
-        <Button
-          type="primary"
-          onClick={beginAddTicket}>
-          Add Ticket
-        </Button>
-      </Flex>}>
+      extra={
+        <Flex gap="10px">
+          <Button
+            type="primary"
+            onClick={beginAddTicket}>
+            Add Ticket
+          </Button>
+        </Flex>
+      }>
       <Flex vertical flex={1} >
         <Table
           dataSource={data ? data : []}

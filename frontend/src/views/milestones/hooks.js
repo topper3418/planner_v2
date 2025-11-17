@@ -1,8 +1,9 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 import useApi from "../../api";
 import components from "../../components";
+import useTicketQueryParams from "../../queryParams/useTicketQueryParams";
+import useViewNavigation from "../../navigation";
 
 const {
   details: {
@@ -12,21 +13,21 @@ const {
 
 const useMilestoneViewHooks = () => {
   // URL State
-  const { milestoneId } = useParams();
-  const navigate = useNavigate();
+  const navigation = useViewNavigation();
+  const { milestoneId } = navigation.getQueryParam;
   const select = {
     milestone: (id) => {
       if (id == milestoneId) {
-        navigate(`/milestones/`);
+        navigation.navigate(`/milestones/`);
       } else {
-        navigate(`/milestones/${id}`);
+        navigation.navigate(`/milestones/${id}`);
       }
     },
     ticket: (id) => {
-      navigate(`/tickets/${id}`);
+      navigation.navigate(`/tickets/${id}`);
     },
   };
-  const ticketParams = { milestone_id: milestoneId, open: true };
+  const ticketParams = useTicketQueryParams(navigation.getQueryParam);
   // API object
   const api = {
     milestone: {
@@ -56,7 +57,14 @@ const useMilestoneViewHooks = () => {
     if (milestoneId) {
       api.refreshAll();
     }
-  }, [milestoneId]);
+  }, [
+    navigation.getQueryParam.thingIds,
+    navigation.getQueryParam.showClosed,
+    navigation.getQueryParam.milestoneId,
+    navigation.getQueryParam.userId,
+    navigation.getQueryParam.search,
+    navigation.getQueryParam.ticketCategoryIds,
+  ]);
 
   return {
     milestoneId,

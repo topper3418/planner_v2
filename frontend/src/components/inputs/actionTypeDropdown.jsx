@@ -17,7 +17,7 @@ const ActionTypeDropdown = ({ selectedActionTypeId, setSelectedActionTypeId }) =
       optionFilterProp="children"
       error={error}
       onChange={handleChange}
-      value={selectedActionTypeId}
+      value={selectedActionTypeId ? Number(selectedActionTypeId) : undefined}
       allowClear
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())

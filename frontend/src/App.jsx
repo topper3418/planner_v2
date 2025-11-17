@@ -9,6 +9,7 @@ import TicketView from './views/tickets';
 import ThingView from './views/things';
 import MilestoneView from './views/milestones';
 import UserView from './views/users';
+import Filters from './components/filters';
 
 const { PlannerTitle } = components;
 
@@ -28,6 +29,7 @@ const App = () => {
           }}>
             <PlannerTitle />
             <NavBar />
+            <Filters />
           </Header>
           <Content style={{
             height: 'calc(100vh - 64px)',

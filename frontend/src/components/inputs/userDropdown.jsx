@@ -33,7 +33,7 @@ const UserDropdown = (
       allowClear
       error={error}
       onChange={handleChange}
-      value={selectedUserId}
+      value={selectedUserId ? Number(selectedUserId) : null}
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
       }
