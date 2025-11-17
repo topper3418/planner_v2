@@ -20,7 +20,7 @@ and goals. It is suitable for a household with multiple users.
 
    ```bash
    git clone https://github.com/topper3418/planner_v2.git
-    cd planner_v2
+   cd planner_v2
    ```
 2. Install dependencies:
 
@@ -35,9 +35,9 @@ and goals. It is suitable for a household with multiple users.
    on windows:
 
    ```bash
-    python -m venv venv
-    venv\Scripts\activate
-    pip install -r requirements.txt
+   python -m venv venv
+   venv\Scripts\activate
+   pip install -r requirements.txt
    ```
 
 3. Set up the database:
