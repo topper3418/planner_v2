@@ -1,11 +1,11 @@
 import { Button, Card, Flex, Input, Table } from "antd";
 import useApi from "../api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ActionTypeDropdown from "./inputs/actionTypeDropdown";
 import { formatDate } from "../util/formatting";
 
 
-const ActionPanel = ({ ticketId }) => {
+const ActionPanel = ({ ticketId, refreshAll }) => {
   const fetchParams = {
     ticket_id: ticketId,
     include: 'action_type'
@@ -22,6 +22,10 @@ const ActionPanel = ({ ticketId }) => {
     error: createError,
     create: createAction
   } = useApi.action.create();
+
+  useEffect(() => {
+    refetch(fetchParams);
+  }, [ticketId]);
 
   const [newActionText, setNewActionText] = useState("");
   const [newActionTypeId, setNewActionTypeId] = useState(null);
@@ -70,9 +74,10 @@ const ActionPanel = ({ ticketId }) => {
               style={{ marginTop: '10px' }}
               onClick={async () => {
                 if (newActionText.trim() === "") return;
-                await createAction({ ticket_id: ticketId, action_text: newActionText, action_type_id: newActionTypeId });
+                await createAction({ ticket_id: Number(ticketId), action_text: newActionText, action_type_id: newActionTypeId });
                 setNewActionText("");
                 refetch(fetchParams);
+                refreshAll();
               }} >
               Add Action
             </Button>

@@ -1,6 +1,6 @@
 import { Button, Card, Flex, Input, Table } from "antd";
 import useApi from "../api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { formatDate } from "../util/formatting";
 
 
@@ -12,6 +12,10 @@ const CommentPanel = ({ ticketId }) => {
     error: createError,
     create: createComment
   } = useApi.comment.create();
+
+  useEffect(() => {
+    refetch({ ticket_id: ticketId });
+  }, [ticketId]);
 
   const [newCommentText, setNewCommentText] = useState("");
 
