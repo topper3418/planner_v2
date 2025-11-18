@@ -23,6 +23,8 @@ def seed_actions(ticket_id_lookup, dev=True):
         ("Updated", "Applied updates or patches"),
         ("Maintained", "Performed routine maintenance"),
         ("Inspected", "Checked the condition"),
+        ("Completed", "Finished the ticket"),
+        ("Reopened", "Reopened a previously closed ticket"),
     ]
     for name, description in action_types:
         add_action_type(name, description)

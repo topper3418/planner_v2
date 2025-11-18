@@ -86,7 +86,7 @@ const TicketView = () => {
               maxHeight: '50%',
               minHeight: '50%'
             }}>
-              <ActionPanel ticketId={ticketId} />
+              <ActionPanel ticketId={ticketId} refreshAll={api.refreshAll} />
             </Flex>
           </Flex>
         </>}

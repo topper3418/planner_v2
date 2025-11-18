@@ -34,6 +34,7 @@ const TicketModal = ({ modalControl }) => {
         </Descriptions.Item>
         <Descriptions.Item label="Open" >
           <Checkbox
+            disabled
             checked={ticket.open}
             onChange={(e) => ticket.set.open(e.target.checked)} />
         </Descriptions.Item>

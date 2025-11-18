@@ -5,7 +5,7 @@ import ActionTypeDropdown from "./inputs/actionTypeDropdown";
 import { formatDate } from "../util/formatting";
 
 
-const ActionPanel = ({ ticketId }) => {
+const ActionPanel = ({ ticketId, refreshAll }) => {
   const fetchParams = {
     ticket_id: ticketId,
     include: 'action_type'
@@ -74,9 +74,10 @@ const ActionPanel = ({ ticketId }) => {
               style={{ marginTop: '10px' }}
               onClick={async () => {
                 if (newActionText.trim() === "") return;
-                await createAction({ ticket_id: ticketId, action_text: newActionText, action_type_id: newActionTypeId });
+                await createAction({ ticket_id: Number(ticketId), action_text: newActionText, action_type_id: newActionTypeId });
                 setNewActionText("");
                 refetch(fetchParams);
+                refreshAll();
               }} >
               Add Action
             </Button>

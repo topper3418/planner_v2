@@ -1,5 +1,9 @@
 import os
 
+from src.db.migrations.add_completed_and_reopened import (
+    add_completed_and_reopened_action_types,
+)
+
 # set environment variable before importing to suppress the
 # init schema setup
 
@@ -14,7 +18,8 @@ if __name__ == "__main__":
 
     # backup the database before running migrations
     pre_migration_backup = backup_db("data/database_migration_backup.db")
-    add_users_and_milestones_tables()
+    # add_users_and_milestones_tables()
+    add_completed_and_reopened_action_types()
     # duplicate the database after migration for diff check
     post_migration_backup = backup_db()
     # remove the current database in order to build one fresh from the schema to make sure they match
