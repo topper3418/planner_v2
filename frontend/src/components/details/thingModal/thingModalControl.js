@@ -28,6 +28,7 @@ const useThingModalControl = (api) => {
       },
       close: () => setAddThingModalOpen(false),
       submit: async () => {
+        console.log("api.thing:create: ", api.thing.create);
         await api.thing.create.create({
           name: thingBuffer.name,
           description: thingBuffer.description,
