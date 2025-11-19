@@ -52,6 +52,10 @@ class TicketParams(QueryParams):
         default=None,
         where_clause="tickets.id in (SELECT ticket_id FROM ticket_milestones WHERE milestone_id = ?)",
     )
+    schedule_id: Optional[int] = FilterParam(
+        default=None,
+        where_clause="tickets.schedule_id = ?",
+    )
     user_id: Optional[int] = FilterParam(
         default=None,
         where_clause="tickets.user_id = ?",

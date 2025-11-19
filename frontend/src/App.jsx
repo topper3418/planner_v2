@@ -8,6 +8,7 @@ import NavBar from './components/navbar';
 import TicketView from './views/tickets';
 import ThingView from './views/things';
 import MilestoneView from './views/milestones';
+import ScheduleView from './views/schedules';
 import UserView from './views/users';
 import Filters from './components/filters';
 
@@ -44,6 +45,8 @@ const App = () => {
               <Route path="/things/:thingId/tickets/:ticketId" element={<ThingView />} />
               <Route path="/milestones" element={<MilestoneView />} />
               <Route path="/milestones/:milestoneId" element={<MilestoneView />} />
+              <Route path="/schedules" element={<ScheduleView />} />
+              <Route path="/schedules/:scheduleId" element={<ScheduleView />} />
               <Route path="/users" element={<UserView />} />
               <Route path="/users/:userId" element={<UserView />} />
             </Routes>
