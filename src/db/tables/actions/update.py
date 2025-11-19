@@ -24,3 +24,10 @@ def update(action: Action) -> None:
         not_found_error=f"Action with ID {action.id} not found",
     )
     core.run_update(query, params, exception_package)
+
+    # update the associated ticket's updated_at timestamp
+    ticket_update_query = (
+        "UPDATE tickets SET updated_at = CURRENT_TIMESTAMP WHERE id = ?"
+    )
+    ticket_params = (action.ticket_id,)
+    core.run_update(ticket_update_query, ticket_params, ExceptionPackage())
