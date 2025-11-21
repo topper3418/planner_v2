@@ -72,7 +72,6 @@ class QueryBuilder:
             )
         # if there is no include, early return
         if not include:
-            print("no include")
             return
         # add the included table columns as table_name.{table_name}_field_name
         relationship_fields = self.table_model.get_relationship_fields()

@@ -53,6 +53,7 @@ const CommentPanel = ({ ticketId }) => {
           <Button
             type="primary"
             loading={createLoading}
+            disabled={newCommentText.trim() === ""}
             error={createError}
             style={{ marginTop: '10px' }}
             onClick={async () => {

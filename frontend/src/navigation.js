@@ -20,6 +20,7 @@ const useViewNavigation = () => {
         : searchParams.getAll("thingIds")?.[0]?.split(",")?.map(Number),
       showClosed: searchParams.get("showClosed") === "true",
       milestoneId: urlParams.milestoneId || searchParams.get("milestoneId"),
+      scheduleId: urlParams.scheduleId || searchParams.get("scheduleId"),
       userId: urlParams.userId || searchParams.get("userId"),
       ticketCategoryIds: searchParams.get("ticketCategoryIds"),
       ticketCategoryId:

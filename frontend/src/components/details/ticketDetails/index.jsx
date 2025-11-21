@@ -44,6 +44,9 @@ const TicketDetails = ({
           <Descriptions.Item label="User">
             {ticket?.user?.username ? ticket.user.username : 'No user'}
           </Descriptions.Item>
+          <Descriptions.Item label="Schedule">
+            {ticket?.schedule ? ticket.schedule.name : 'No schedule'}
+          </Descriptions.Item>
           <Typography.Paragraph style={{
             border: '1px solid #f0f0f0',
             padding: '10px',

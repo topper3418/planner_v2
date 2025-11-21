@@ -6,6 +6,7 @@ from .comments import router as comments_router
 from .things import router as things_router
 from .tickets import router as tickets_router
 from .milestones import router as milestones_router
+from .schedules import router as schedules_router
 from .users import router as users_router
 
 app = FastAPI()
@@ -24,6 +25,7 @@ app.include_router(comments_router)
 app.include_router(things_router)
 app.include_router(tickets_router)
 app.include_router(milestones_router)
+app.include_router(schedules_router)
 app.include_router(users_router)
 
 

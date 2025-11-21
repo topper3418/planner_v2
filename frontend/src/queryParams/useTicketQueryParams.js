@@ -9,6 +9,7 @@ const useTicketQueryParams = (queryParams) => {
     category_id: queryParams.ticketCategoryId || undefined,
     open: queryParams.showClosed ? undefined : true,
     milestone_id: queryParams.milestoneId || undefined,
+    schedule_id: queryParams.scheduleId || undefined,
     user_id: queryParams.userId || undefined,
     page_number: pageNumber,
     page_size: pageSize,

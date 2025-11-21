@@ -71,6 +71,7 @@ const ActionPanel = ({ ticketId, refreshAll }) => {
               type="primary"
               loading={createLoading}
               error={createError}
+              disabled={newActionText.trim() === "" || newActionTypeId === null}
               style={{ marginTop: '10px' }}
               onClick={async () => {
                 if (newActionText.trim() === "") return;

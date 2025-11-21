@@ -3,7 +3,7 @@ from ..db import Controller
 
 User = Controller.Tables.User
 UserParams = Controller.Params.User
-ReadUsers = Controller.Responses.Users
+ReadUsers = Controller.Responses.ReadUsers
 
 
 router = APIRouter(prefix="/users", tags=["users"])

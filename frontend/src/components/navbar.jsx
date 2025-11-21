@@ -21,6 +21,11 @@ const getItems = (searchParams) => {
       href: '/milestones' + (searchParams.toString() ? `?${searchParams.toString()}` : '')
     },
     {
+      label: 'Schedules',
+      key: 'schedules',
+      href: '/schedules' + (searchParams.toString() ? `?${searchParams.toString()}` : '')
+    },
+    {
       label: 'Users',
       key: 'users',
       href: '/users' + (searchParams.toString() ? `?${searchParams.toString()}` : '')
@@ -33,17 +38,17 @@ const getItems = (searchParams) => {
 const NavBar = () => {
   const navigation = useViewNavigation();
   const items = getItems(navigation.searchParams);
-  const item = items.find((i) => navigation.location.pathname.startsWith(i.href));
-  const [selectedKey, setSelectedKey] = useState(item ? item.key : 'home');
+  const [selectedKey, setSelectedKey] = useState('home');
 
   // Effect to update highlight on location change
   useEffect(() => {
-    // first rank order the items by length of href descending
-    const sortedItems = items.slice().sort((a, b) =>
-      b.href.length - a.href.length);
-    // then find the first item that matches the start of the pathname
-    const matchingItem = sortedItems.find((i) =>
-      location.pathname.startsWith(i.href));
+    // find the first item that matches the start of the pathname
+    // start by stripping leading slash
+    const location = navigation.location;
+    const strippedPath = location.pathname.startsWith('/') ? location.pathname.slice(1) : location.pathname;
+
+    const matchingItem = items.find((i) =>
+      strippedPath.startsWith(i.key));
     setSelectedKey(matchingItem ? matchingItem.key : 'home'); // Fallback to 'home'
   }, [navigation.location.pathname]); // Depend on pathname changes
 
@@ -52,7 +57,6 @@ const NavBar = () => {
     const item = items.find((i) => i.key === e.key);
     if (item && item.href) {
       navigation.navigate(item.href);
-      setSelectedKey(e.key);
     }
   };
 

@@ -1,8 +1,6 @@
 import logging
 from typing import Optional
 
-from src.db.tables.milestones.base import Milestone
-
 from ...core import DbCore
 
 from .base import Milestone

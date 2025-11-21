@@ -2,6 +2,7 @@ import { Checkbox, Flex, Input, Modal, Descriptions } from "antd"
 import TicketCategoryDropdown from "../../inputs/ticketCategoryDropdown";
 import ThingDropdown from "../../inputs/thingDropdown";
 import UserDropdown from "../../inputs/userDropdown";
+import ScheduleDropdown from "../../inputs/scheduleDropdown";
 
 
 const TicketModal = ({ modalControl }) => {
@@ -43,13 +44,6 @@ const TicketModal = ({ modalControl }) => {
             selectedCategoryId={ticket.categoryId}
             setSelectedCategoryId={(value) => ticket.set.categoryId(value)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Description" >
-          <Input.TextArea
-            value={ticket.description}
-            onKeyDown={submitOnEnter}
-            onChange={(e) => ticket.set.description(e.target.value)}
-            autoSize={{ minRows: 3, maxRows: 5 }} />
-        </Descriptions.Item>
         <Descriptions.Item label="Thing" >
           <ThingDropdown
             selectedThingId={ticket.thingId}
@@ -59,6 +53,18 @@ const TicketModal = ({ modalControl }) => {
           <UserDropdown
             selectedUserId={ticket.userId}
             setSelectedUserId={(value) => ticket.set.userId(value)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Schedule" >
+          <ScheduleDropdown
+            selectedScheduleId={ticket.scheduleId}
+            setSelectedScheduleId={(value) => ticket.set.scheduleId(value)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Description" >
+          <Input.TextArea
+            value={ticket.description}
+            onKeyDown={submitOnEnter}
+            onChange={(e) => ticket.set.description(e.target.value)}
+            autoSize={{ minRows: 3, maxRows: 5 }} />
         </Descriptions.Item>
       </Descriptions>
     </Modal >

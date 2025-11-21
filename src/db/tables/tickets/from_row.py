@@ -14,6 +14,7 @@ def from_row(cls, **row) -> Ticket:
         updated_at=row["updated_at"],
         completed_at=row["completed_at"],
         user_id=row["user_id"],
+        schedule_id=row["schedule_id"],
     )
     if "thing_name" in row.keys():
         from ..things import Thing
@@ -40,5 +41,15 @@ def from_row(cls, **row) -> Ticket:
         ticket.user = User(
             id=row["user_id"],
             username=row.get("user_username", "Unknown User"),
+        )
+    if "schedule_name" in row.keys():
+        from ..schedules import Schedule
+
+        ticket.schedule = Schedule(
+            id=row["schedule_id"],
+            name=row.get("schedule_name", "Unnamed Schedule"),
+            weekdays=row.get("schedule_weekdays", None),
+            monthdays=row.get("schedule_monthdays", None),
+            yeardays=row.get("schedule_yeardays", None),
         )
     return ticket

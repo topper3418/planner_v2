@@ -29,8 +29,6 @@ const ThingTree = ({
     refetch: treeDataRefetch
   } = useApi.thing.fetchTree();
 
-  console.log("query params: ", navigation.getQueryParam);
-
   const checkedThingIds = navigation.getQueryParam.thingIds
 
   const onCheck = (checkedKeys) => {

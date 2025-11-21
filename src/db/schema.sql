@@ -21,6 +21,14 @@ CREATE TABLE IF NOT EXISTS ticket_categories (
     description TEXT
 );
 
+CREATE TABLE IF NOT EXISTS schedules (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    weekdays TEXT,
+    monthdays TEXT,
+    yeardays TEXT
+);
+
 CREATE TABLE IF NOT EXISTS tickets (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
@@ -28,6 +36,7 @@ CREATE TABLE IF NOT EXISTS tickets (
     category_id INTEGER,
     parent_id INTEGER,
     user_id INTEGER,
+    schedule_id INTEGER,
     description TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     open BOOLEAN DEFAULT 1,
@@ -36,7 +45,8 @@ CREATE TABLE IF NOT EXISTS tickets (
     FOREIGN KEY(thing_id) REFERENCES things(id),
     FOREIGN KEY(category_id) REFERENCES ticket_categories(id),
     FOREIGN KEY(parent_id) REFERENCES tickets(id),
-    FOREIGN KEY(user_id) REFERENCES users(id)
+    FOREIGN KEY(user_id) REFERENCES users(id),
+    FOREIGN KEY(schedule_id) REFERENCES schedules(id)
 );
 
 CREATE TABLE IF NOT EXISTS comments (

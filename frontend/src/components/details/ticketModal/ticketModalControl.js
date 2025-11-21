@@ -35,6 +35,7 @@ const useTicketModalControl = (api) => {
           thing_id: thingId || ticketBuffer.thingId,
           category_id: ticketBuffer.categoryId,
           user_id: ticketBuffer.userId,
+          schedule_id: ticketBuffer.scheduleId,
         });
         api.refreshAll();
         ticketBuffer.reset();
@@ -52,6 +53,7 @@ const useTicketModalControl = (api) => {
         ticketBuffer.set.thingId(api.ticket.selected.data?.thing_id);
         ticketBuffer.set.categoryId(api.ticket.selected.data?.category_id);
         ticketBuffer.set.userId(api.ticket.selected.data?.user_id);
+        ticketBuffer.set.scheduleId(api.ticket.selected.data?.schedule_id);
         setEditTicketModalOpen(true);
       },
       close: () => setEditTicketModalOpen(false),
@@ -65,6 +67,7 @@ const useTicketModalControl = (api) => {
           thing_id: thingId || ticketBuffer.thingId,
           category_id: ticketBuffer.categoryId,
           user_id: ticketBuffer.userId,
+          schedule_id: ticketBuffer.scheduleId,
         });
         api.refreshAll();
         ticketBuffer.reset();

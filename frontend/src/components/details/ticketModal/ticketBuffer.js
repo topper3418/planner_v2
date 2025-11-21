@@ -8,6 +8,7 @@ const useTicketBuffer = () => {
   const [categoryId, setCategoryId] = useState(null);
   const [parentId, setParentId] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [scheduleId, setScheduleId] = useState(null);
   const reset = () => {
     setTitle("");
     setDescription("");
@@ -16,6 +17,7 @@ const useTicketBuffer = () => {
     setCategoryId(null);
     setParentId(null);
     setUserId(null);
+    setScheduleId(null);
   };
   const ticket = {
     title,
@@ -25,6 +27,7 @@ const useTicketBuffer = () => {
     categoryId,
     parentId,
     userId,
+    scheduleId,
     set: {
       title: setTitle,
       description: setDescription,
@@ -33,6 +36,7 @@ const useTicketBuffer = () => {
       categoryId: setCategoryId,
       parentId: setParentId,
       userId: setUserId,
+      scheduleId: setScheduleId,
     },
     reset,
   };

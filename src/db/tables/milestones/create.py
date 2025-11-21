@@ -1,7 +1,5 @@
 import logging
 
-from src.db.tables.milestones.base import Milestone
-
 from ...core import DbCore, ExceptionPackage
 
 from .base import Milestone

@@ -10,6 +10,7 @@ from .comments import Comment, CommentParams, ReadCommentsResponse
 from .things import Thing, ThingParams, ReadThingsResponse
 from .tickets import Ticket, TicketParams, ReadTicketsResponse
 from .milestones import Milestone, MilestoneParams, ReadMilestonesResponse
+from .schedules import Schedule, ScheduleParams, ReadSchedulesResponse
 from .users import User, UserParams, ReadUsersResponse
 
 from .query_builder import QueryBuilder
@@ -19,6 +20,7 @@ Thing.model_rebuild()
 Ticket.model_rebuild()
 Action.model_rebuild()
 Comment.model_rebuild()
+Schedule.model_rebuild()
 
 
 class Controller:
@@ -31,6 +33,7 @@ class Controller:
         Action = Action
         ActionType = ActionType
         Milestone = Milestone
+        Schedule = Schedule
         User = User
 
     class Params:
@@ -40,6 +43,7 @@ class Controller:
         Comment = CommentParams
         Action = ActionParams
         Milestone = MilestoneParams
+        Schedule = ScheduleParams
         User = UserParams
 
     class Responses:
@@ -49,6 +53,7 @@ class Controller:
         ReadComments = ReadCommentsResponse
         ReadActions = ReadActionsResponse
         ReadMilestones = ReadMilestonesResponse
-        Users = ReadUsersResponse
+        ReadSchedules = ReadSchedulesResponse
+        ReadUsers = ReadUsersResponse
 
     QueryBuilder = QueryBuilder

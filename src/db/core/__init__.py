@@ -149,6 +149,19 @@ class DbCore:
             rows = cursor.fetchall()
             return [model_factory(**row) for row in rows]
 
+    def iter_all(self, query, params, model_factory):
+        self.log_debug(
+            f"Executing iter_all query: {query} with params: {params}"
+        )
+        with self.get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, params)
+            while True:
+                row = cursor.fetchone()
+                if row is None:
+                    break
+                yield model_factory(**row)
+
     def run_scalar(self, query, params, default: Any = 0):
         self.log_debug(
             f"Executing scalar query: {query} with params: {params}"

@@ -19,6 +19,7 @@ const useFetchTickets = (
       category_id,
       search,
       milestone_id,
+      schedule_id,
       user_id,
     } = params;
     if (parent_id !== undefined) {
@@ -66,6 +67,11 @@ const useFetchTickets = (
     // set milestone_id filter if provided
     if (milestone_id !== undefined) {
       url.searchParams.append("milestone_id", milestone_id);
+    }
+
+    // set schedule_id filter if provided
+    if (schedule_id !== undefined) {
+      url.searchParams.append("schedule_id", schedule_id);
     }
 
     // set pagination params if provided
