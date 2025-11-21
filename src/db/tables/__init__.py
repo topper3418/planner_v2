@@ -20,6 +20,7 @@ Thing.model_rebuild()
 Ticket.model_rebuild()
 Action.model_rebuild()
 Comment.model_rebuild()
+Schedule.model_rebuild()
 
 
 class Controller:
