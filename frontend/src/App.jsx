@@ -41,6 +41,7 @@ const App = () => {
               <Route path="/" element={<ThingView />} />
               <Route path="/tickets/" element={<TicketView />} />
               <Route path="/tickets/:ticketId" element={<TicketView />} />
+              <Route path="/things/" element={<ThingView />} />
               <Route path="/things/:thingId" element={<ThingView />} />
               <Route path="/things/:thingId/tickets/:ticketId" element={<ThingView />} />
               <Route path="/milestones" element={<MilestoneView />} />

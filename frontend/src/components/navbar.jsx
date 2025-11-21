@@ -4,31 +4,37 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useViewNavigation from "../navigation";
 
 const getItems = (searchParams) => {
+  const paramStr = (searchParams.toString() ? `?${searchParams.toString()}` : '')
   return [
     {
       label: 'Home',
       key: 'home',
-      href: '/' + (searchParams.toString() ? `?${searchParams.toString()}` : '')
+      href: '/' + paramStr
+    },
+    {
+      label: 'Things',
+      key: 'things',
+      href: '/things' + paramStr
     },
     {
       label: 'Tickets',
       key: 'tickets',
-      href: '/tickets' + (searchParams.toString() ? `?${searchParams.toString()}` : '')
+      href: '/tickets' + paramStr
     },
     {
       label: 'Milestones',
       key: 'milestones',
-      href: '/milestones' + (searchParams.toString() ? `?${searchParams.toString()}` : '')
+      href: '/milestones' + paramStr
     },
     {
       label: 'Schedules',
       key: 'schedules',
-      href: '/schedules' + (searchParams.toString() ? `?${searchParams.toString()}` : '')
+      href: '/schedules' + paramStr
     },
     {
       label: 'Users',
       key: 'users',
-      href: '/users' + (searchParams.toString() ? `?${searchParams.toString()}` : '')
+      href: '/users' + paramStr
     }
   ]
 }
