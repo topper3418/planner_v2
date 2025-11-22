@@ -18,7 +18,7 @@ const ThingTree = ({
     if (newThingId && newThingId != thingId) {
       navigation.navigate(`/things/${newThingId}`);
     } else {
-      navigation.navigate(`/`);
+      navigation.navigate(`/things/`);
     }
   }
   const {
