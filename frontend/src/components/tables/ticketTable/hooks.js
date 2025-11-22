@@ -14,10 +14,8 @@ const useTicketTableHooks = (tableMode) => {
   const pageNumber = navigation.getQueryParam.pageNumber || 1;
   const queryParams = useTicketQueryParams(navigation.getQueryParam);
   // initialize state
-  const { data, count, loading, error, fetchData } = useApi.ticket.fetchMany(
-    queryParams,
-    { lazy: true },
-  );
+  const { data, count, loading, error, fetchData } =
+    useApi.ticket.fetchMany(queryParams);
 
   console.log("data in useTicketTableHooks:", data);
 
@@ -61,6 +59,7 @@ const useTicketTableHooks = (tableMode) => {
 
   // on mount and when checkedThingIds or selectedThingId changes, refetch data
   useEffect(() => {
+    navigation.setQueryParam.pageNumber(1); // reset to first page on filter change
     doRefetch();
   }, [
     navigation.getQueryParam.thingIds,
@@ -69,9 +68,12 @@ const useTicketTableHooks = (tableMode) => {
     navigation.getQueryParam.userId,
     navigation.getQueryParam.search,
     navigation.getQueryParam.ticketCategoryIds,
-    pageNumber,
     pageSize,
   ]);
+
+  useEffect(() => {
+    doRefetch();
+  }, [navigation.getQueryParam.ticketId]);
 
   // helper to get row class names in the table
   const getRowClassName = (record) => {
