@@ -19,6 +19,8 @@ const useTicketTableHooks = (tableMode) => {
     { lazy: true },
   );
 
+  console.log("data in useTicketTableHooks:", data);
+
   // set default table mode
   if (!tableMode) tableMode = "full"; // other option is "compact"
 

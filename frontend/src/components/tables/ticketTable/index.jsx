@@ -107,8 +107,20 @@ const getColumns = (mode = "full") => {
     key: 'updated_at',
     render: (text) => formatDate(text),
   }
-  columns.push(createdColumn);
-  columns.push(updatedColumn);
+  //columns.push(createdColumn);
+  //columns.push(updatedColumn);
+  const userColumn = {
+    title: 'Assigned User',
+    dataIndex: ['user', 'username'],
+    key: 'user',
+  }
+  const thingColumn = {
+    title: 'Thing',
+    dataIndex: ['thing', 'name'],
+    key: 'thing_name',
+  }
+  columns.push(userColumn);
+  columns.push(thingColumn);
   return columns;
 }
 

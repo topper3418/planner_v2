@@ -3,7 +3,7 @@ const useTicketQueryParams = (queryParams) => {
   const pageNumber = queryParams.pageNumber || 1;
   return {
     thing_ids: queryParams.thingIds,
-    include: ["thing", "category"],
+    include: ["thing", "category", "user"],
     search: queryParams.search || undefined,
     category_ids: queryParams.ticketCategoryIds || undefined,
     category_id: queryParams.ticketCategoryId || undefined,

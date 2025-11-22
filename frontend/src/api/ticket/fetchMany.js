@@ -5,7 +5,19 @@ const { useFetch } = apiUtils;
 const TICKETS_URL = "/api/tickets/";
 
 const useFetchTickets = (
-  { parent_id, include, thing_ids, open } = {},
+  {
+    parent_id,
+    include,
+    thing_ids,
+    open,
+    page_number,
+    page_size,
+    category_id,
+    search,
+    milestone_id,
+    schedule_id,
+    user_id,
+  } = {},
   { lazy = false } = {},
 ) => {
   const urlBuilder = (url, params) => {
@@ -88,7 +100,19 @@ const useFetchTickets = (
   const { data, count, loading, error, fetchData } = useFetch(
     TICKETS_URL,
     urlBuilder,
-    { parent_id, include, thing_ids },
+    {
+      parent_id,
+      include,
+      thing_ids,
+      open,
+      page_number,
+      page_size,
+      category_id,
+      search,
+      milestone_id,
+      schedule_id,
+      user_id,
+    },
     { lazy },
   );
 

@@ -37,7 +37,7 @@ const UserDropdown = (
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
       }
-      options={data ? data.map(user => ({
+      options={data ? [...data, { username: "No User", id: 0 }].map(user => ({
         label: user.username,
         value: user.id
       })) : []}

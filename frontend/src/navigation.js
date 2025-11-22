@@ -76,7 +76,7 @@ const useViewNavigation = () => {
     },
     userId: (userId) => {
       setSearchParms((prev) => {
-        if (!userId) {
+        if (!userId && userId !== 0) {
           prev.delete("userId");
           return prev;
         }

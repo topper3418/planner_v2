@@ -11,6 +11,7 @@ import MilestoneView from './views/milestones';
 import ScheduleView from './views/schedules';
 import UserView from './views/users';
 import Filters from './components/filters';
+import HomeView from './views/home';
 
 const { PlannerTitle } = components;
 
@@ -38,7 +39,7 @@ const App = () => {
             padding: '10px'
           }}>
             <Routes>
-              <Route path="/" element={<ThingView />} />
+              <Route path="/" element={<HomeView />} />
               <Route path="/tickets/" element={<TicketView />} />
               <Route path="/tickets/:ticketId" element={<TicketView />} />
               <Route path="/things/" element={<ThingView />} />

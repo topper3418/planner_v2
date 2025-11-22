@@ -1,7 +1,9 @@
 import UserTicketsPieChart from "./userTicketsPie";
+import TopThingTicketsPieChart from "./topThingTicketsPie";
 
 const Charts = {
-  userTicketsPie: UserTicketsPieChart,
+  UserTicketsPie: UserTicketsPieChart,
+  TopThingTicketsPie: TopThingTicketsPieChart,
 };
 
 export default Charts;
