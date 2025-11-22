@@ -36,6 +36,7 @@ const useViewNavigation = () => {
   const setQueryParam = {
     ticketId: (ticketId) => {
       setSearchParms((prev) => {
+        prev.delete("pageNumber");
         if (!ticketId) {
           prev.delete("ticketId");
           return prev;
@@ -46,6 +47,7 @@ const useViewNavigation = () => {
     },
     thingIds: (thingIds) => {
       setSearchParms((prev) => {
+        prev.delete("pageNumber");
         if (!thingIds) {
           prev.delete("thingIds");
           return prev;
@@ -56,6 +58,7 @@ const useViewNavigation = () => {
     },
     showClosed: (showClosed) => {
       setSearchParms((prev) => {
+        prev.delete("pageNumber");
         if (!showClosed) {
           prev.delete("showClosed");
           return prev;
@@ -66,6 +69,7 @@ const useViewNavigation = () => {
     },
     milestoneId: (milestoneId) => {
       setSearchParms((prev) => {
+        prev.delete("pageNumber");
         if (!milestoneId) {
           prev.delete("milestoneId");
           return prev;
@@ -76,6 +80,7 @@ const useViewNavigation = () => {
     },
     userId: (userId) => {
       setSearchParms((prev) => {
+        prev.delete("pageNumber");
         if (!userId && userId !== 0) {
           prev.delete("userId");
           return prev;
@@ -86,6 +91,7 @@ const useViewNavigation = () => {
     },
     ticketCategoryIds: (ticketCategoryIds) => {
       setSearchParms((prev) => {
+        prev.delete("pageNumber");
         if (!ticketCategoryIds) {
           prev.delete("ticketCategoryIds");
           return prev;
@@ -96,6 +102,7 @@ const useViewNavigation = () => {
     },
     ticketCategoryId: (ticketCategoryId) => {
       setSearchParms((prev) => {
+        prev.delete("pageNumber");
         if (!ticketCategoryId) {
           prev.delete("ticketCategoryId");
           return prev;
@@ -106,6 +113,7 @@ const useViewNavigation = () => {
     },
     search: (search) => {
       setSearchParms((prev) => {
+        prev.delete("pageNumber");
         if (!search) {
           prev.delete("search");
           return prev;
@@ -126,6 +134,7 @@ const useViewNavigation = () => {
     },
     pageSize: (pageSize) => {
       setSearchParms((prev) => {
+        prev.delete("pageNumber");
         if (!pageSize) {
           prev.delete("pageSize");
           return prev;

@@ -14,10 +14,8 @@ const useTicketTableHooks = (tableMode) => {
   const pageNumber = navigation.getQueryParam.pageNumber || 1;
   const queryParams = useTicketQueryParams(navigation.getQueryParam);
   // initialize state
-  const { data, count, loading, error, fetchData } = useApi.ticket.fetchMany(
-    queryParams,
-    { lazy: true },
-  );
+  const { data, count, loading, error, fetchData } =
+    useApi.ticket.fetchMany(queryParams);
 
   console.log("data in useTicketTableHooks:", data);
 

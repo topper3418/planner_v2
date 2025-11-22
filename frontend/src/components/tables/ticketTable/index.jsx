@@ -4,11 +4,8 @@ import useTicketTableHooks from "./hooks";
 
 
 const TicketTable = ({
-  checkedThingIds,
-  selectedThingId,
   tableMode,
   onRow,
-  selectedTicketId,
   beginAddTicket,
   scrollHeight
 }) => {
@@ -21,10 +18,7 @@ const TicketTable = ({
     pagination,
     getRowClassName,
   } = useTicketTableHooks(
-    checkedThingIds,
-    selectedThingId,
     tableMode,
-    selectedTicketId,
   );
 
   return (
