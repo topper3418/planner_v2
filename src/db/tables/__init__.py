@@ -21,6 +21,7 @@ Ticket.model_rebuild()
 Action.model_rebuild()
 Comment.model_rebuild()
 Schedule.model_rebuild()
+User.model_rebuild()
 
 
 class Controller:

@@ -79,6 +79,9 @@ class QueryBuilder:
             # children will be handled separately
             if model_str == "children":
                 continue
+            # things that end with _count will be handled separately
+            if model_str.endswith("_count"):
+                continue
             # get the relationship field that corresponds to this include
             relationship_field = relationship_fields.get(model_str)
             if not relationship_field:
@@ -115,6 +118,9 @@ class QueryBuilder:
         for include_str in include:
             # children will be handled separately
             if include_str == "children":
+                continue
+            # things that end with _count will be handled separately
+            if include_str.endswith("_count"):
                 continue
             # get the relationship field that corresponds to this include
             relationship_field = relationship_fields.get(include_str)

@@ -7,6 +7,8 @@ from .update import update
 from .get_by_id import get_by_id
 from .read import read, ReadUsersResponse
 from .delete import delete
+from .get_ticket_count import get_ticket_count
+from .populate_tickets import populate_tickets
 
 
 setattr(User, "create", create)
@@ -16,6 +18,9 @@ setattr(User, "update", update)
 setattr(User, "delete", as_staticmethod(delete))
 setattr(User, "add_ticket", update)
 setattr(User, "remove_ticket", update)
+setattr(User, "populate_tickets", populate_tickets)
+setattr(User, "get_ticket_count", get_ticket_count)
+
 User.__params_class__ = UserParams
 User.__table_name__ = "users"
 

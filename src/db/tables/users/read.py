@@ -35,4 +35,10 @@ def read(
     comments = core.run_list(query, params, User)
     count = core.run_scalar(count_query, params)
     logger.info(f"Total user found: {count}")
+    if filters and "tickets" in filters.include:
+        for user in comments:
+            user.populate_tickets()
+    if filters and "ticket_count" in filters.include:
+        for user in comments:
+            user.get_ticket_count()
     return ReadUsersResponse(data=comments, count=count)

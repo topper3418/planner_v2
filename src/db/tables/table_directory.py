@@ -6,6 +6,7 @@ from .categories import ActionType, ThingCategory, TicketCategory
 from .comments import Comment
 from .things import Thing
 from .tickets import Ticket
+from .users import User
 
 
 table_directory: dict[str, Type[TableModel]] = {
@@ -16,4 +17,5 @@ table_directory: dict[str, Type[TableModel]] = {
     "Comment": Comment,
     "Action": Action,
     "ActionType": ActionType,
+    "User": User,
 }

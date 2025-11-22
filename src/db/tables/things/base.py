@@ -28,6 +28,7 @@ class Thing(TableModel):
     parent_id: Optional[int] = ForeignKeyField(None, on="id")
 
     ticket_count: Optional[int] = None
+    recursive_ticket_count: Optional[int] = None
     category: Optional["ThingCategory"] = RelationshipField(
         table_model="ThingCategory"
     )

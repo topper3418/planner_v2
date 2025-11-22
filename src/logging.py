@@ -18,7 +18,6 @@ def setup_logging():
         # Console handler (togglable via env var)
         if settings.CONSOLE_LOGGING:
             console_handler = logging.StreamHandler()
-            console_handler.setLevel(logging.DEBUG)
             console_handler.setFormatter(formatter)
             logger.addHandler(console_handler)
 
@@ -26,7 +25,6 @@ def setup_logging():
         file_handler = RotatingFileHandler(
             "data/app.log", maxBytes=1000000, backupCount=5
         )
-        file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
 

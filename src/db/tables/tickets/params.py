@@ -59,6 +59,7 @@ class TicketParams(QueryParams):
     user_id: Optional[int] = FilterParam(
         default=None,
         where_clause="tickets.user_id = ?",
+        special_case=(0, "tickets.user_id IS NULL"),
     )
     exclude_ids: Optional[list[int]] = FilterParam(
         default=None, where_clause="tickets.id NOT IN ({})"

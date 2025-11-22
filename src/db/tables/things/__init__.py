@@ -5,6 +5,7 @@ from .base import Thing
 from .from_row import from_row
 from .populate_children import populate_children
 from .get_ticket_count import get_ticket_count
+from .get_recursive_ticket_count import get_recursive_ticket_count
 from .params import ThingParams
 from .create import create
 from .update import update
@@ -18,6 +19,7 @@ setattr(Thing, "create", create)
 setattr(Thing, "update", update)
 setattr(Thing, "populate_children", populate_children)
 setattr(Thing, "get_ticket_count", get_ticket_count)
+setattr(Thing, "get_recursive_ticket_count", get_recursive_ticket_count)
 setattr(Thing, "get_by_id", as_staticmethod(get_by_id))
 setattr(Thing, "read", as_staticmethod(read))
 setattr(Thing, "delete", as_staticmethod(delete))

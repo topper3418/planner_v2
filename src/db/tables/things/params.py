@@ -25,6 +25,14 @@ class ThingParams(QueryParams):
         repeat_arg=2,
         template="%{}%",
     )
-    include: list[Literal["category", "parent", "children"]] = []
+    include: list[
+        Literal[
+            "category",
+            "parent",
+            "children",
+            "ticket_count",
+            "recursive_ticket_count",
+        ]
+    ] = []
     page_number: Optional[int] = Field(default=1, ge=1)
     page_size: Optional[int] = Field(default=10, ge=1)

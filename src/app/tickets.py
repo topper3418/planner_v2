@@ -29,6 +29,15 @@ async def create_ticket(ticket: Ticket):
         raise HTTPException(status_code=400, detail=str(e))
 
 
+@router.get("/count")
+async def count_tickets(filters: TicketParams = Query()):
+    """
+    Count tickets with optional filters
+    """
+    count = Ticket.get_count(filters)
+    return {"count": count}
+
+
 @router.put("/{ticket_id}")
 async def update_ticket(ticket_id: int, ticket: Ticket):
     """
@@ -98,15 +107,6 @@ async def list_tickets(filters: TicketParams = Query()):
     List tickets with optional filters
     """
     return Ticket.read(filters)
-
-
-@router.get("/count")
-async def count_tickets(filters: TicketParams = Query()):
-    """
-    Count tickets with optional filters
-    """
-    count = Ticket.get_count(filters)
-    return {"count": count}
 
 
 @router.delete("/{ticket_id}")

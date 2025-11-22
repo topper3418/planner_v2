@@ -10,7 +10,6 @@ from .params import ThingParams
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 
 core = DbCore()
@@ -40,4 +39,10 @@ def read(
     if query_params and "children" in query_params.include:
         for thing in things:
             thing.populate_children()
+    if query_params and "ticket_count" in query_params.include:
+        for thing in things:
+            thing.get_ticket_count()
+    if query_params and "recursive_ticket_count" in query_params.include:
+        for thing in things:
+            thing.get_recursive_ticket_count()
     return ReadThingsResponse(data=things, count=count)
