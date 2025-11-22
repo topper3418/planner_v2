@@ -59,7 +59,6 @@ const useTicketTableHooks = (tableMode) => {
 
   // on mount and when checkedThingIds or selectedThingId changes, refetch data
   useEffect(() => {
-    navigation.setQueryParam.pageNumber(1); // reset to first page on filter change
     doRefetch();
   }, [
     navigation.getQueryParam.thingIds,
@@ -68,12 +67,9 @@ const useTicketTableHooks = (tableMode) => {
     navigation.getQueryParam.userId,
     navigation.getQueryParam.search,
     navigation.getQueryParam.ticketCategoryIds,
+    navigation.getQueryParam.pageNumber,
     pageSize,
   ]);
-
-  useEffect(() => {
-    doRefetch();
-  }, [navigation.getQueryParam.ticketId]);
 
   // helper to get row class names in the table
   const getRowClassName = (record) => {

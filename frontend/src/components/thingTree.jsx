@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Flex, Tree } from 'antd';
 import useApi from '../api/';
-import { useParams } from 'react-router-dom';
 import useViewNavigation from '../navigation';
 
 
