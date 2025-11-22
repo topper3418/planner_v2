@@ -30,7 +30,7 @@ const useThingViewHooks = () => {
         navigate(`/things/${thingId}/tickets/${newTicketId}`);
       } else {
         if (newTicketId === ticketId) {
-          navigate(`/`);
+          navigate(`/things`);
           return;
         }
         navigate(`/tickets/${newTicketId}`);
@@ -81,7 +81,17 @@ const useThingViewHooks = () => {
   }, [ticketId]);
 
   // Modal Control
-  const ticketModalControl = useTicketModalControl(api);
+  const ticketModalControl = useTicketModalControl(api, {
+    afterCreate: (createData) => {
+      if (createData && createData.id) {
+        if (thingId) {
+          navigate(`/things/${thingId}/tickets/${createData.id}`);
+          return;
+        }
+        navigate(`/tickets/${createData.id}`);
+      }
+    },
+  });
   const thingModalControl = useThingModalControl(api);
 
   return {

@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useTicketBuffer from "./ticketBuffer";
 import { useParams } from "react-router-dom";
 
-const useTicketModalControl = (api) => {
+const useTicketModalControl = (
+  api,
+  config = { afterCreate: (createData) => {}, afterUpdate: (updateData) => {} },
+) => {
   const [addTicketModalOpen, setAddTicketModalOpen] = useState(false);
   const [editTicketModalOpen, setEditTicketModalOpen] = useState(false);
   const params = useParams();
   const { ticketId, thingId } = params;
   const [mode, setMode] = useState("add"); // "add" or "edit"
   const ticketBuffer = useTicketBuffer();
+  useEffect(() => {
+    if (api.ticket.create.data) {
+      config.afterCreate(api.ticket.create.data);
+    }
+  }, [api.ticket.create.loading]);
+  useEffect(() => {
+    if (api.ticket.update.data) {
+      config.afterUpdate(api.ticket.update.data);
+    }
+  }, [api.ticket.update.loading]);
   const ticketModalControl = {
     error:
       api.ticket.selected.error ||
@@ -70,6 +83,7 @@ const useTicketModalControl = (api) => {
           schedule_id: ticketBuffer.scheduleId,
         });
         api.refreshAll();
+        config.afterUpdate();
         ticketBuffer.reset();
         setEditTicketModalOpen(false);
       },

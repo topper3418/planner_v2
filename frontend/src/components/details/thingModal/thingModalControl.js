@@ -28,7 +28,6 @@ const useThingModalControl = (api) => {
       },
       close: () => setAddThingModalOpen(false),
       submit: async () => {
-        console.log("api.thing:create: ", api.thing.create);
         await api.thing.create.create({
           name: thingBuffer.name,
           description: thingBuffer.description,
@@ -45,7 +44,6 @@ const useThingModalControl = (api) => {
       isOpen: editThingModalOpen,
       open: () => {
         setMode("edit");
-        console.log("moving to edit mode", api.thing.selected.data);
         thingBuffer.set.name(api.thing.selected.data?.name);
         thingBuffer.set.description(api.thing.selected.data?.description);
         thingBuffer.set.docsLink(api.thing.selected.data?.docs_link);

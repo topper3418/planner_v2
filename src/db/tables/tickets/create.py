@@ -16,8 +16,8 @@ core.logger = logger
 def create(ticket: Ticket) -> int:
     query = (
         "INSERT INTO tickets"
-        " (title, thing_id, category_id, description, open, user_id)"
-        " VALUES (?, ?, ?, ?, ?, ?)"
+        " (title, thing_id, category_id, description, open, user_id, schedule_id)"
+        " VALUES (?, ?, ?, ?, ?, ?, ?)"
     )
     params = (
         ticket.title,
@@ -25,6 +25,7 @@ def create(ticket: Ticket) -> int:
         ticket.category_id,
         ticket.description,
         ticket.open,
+        ticket.schedule_id,
         ticket.user_id,
     )
     exception_package = ExceptionPackage(

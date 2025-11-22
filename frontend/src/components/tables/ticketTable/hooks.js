@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import useViewNavigation from "../../../navigation";
 import useTicketQueryParams from "../../../queryParams/useTicketQueryParams";
 
-const useTicketTableHooks = (tableMode) => {
+const useTicketTableHooks = (tableMode, refreshTrigger) => {
   // navigation hook
   const navigation = useViewNavigation();
   // initialize query params for consistency throughout component
@@ -26,6 +26,11 @@ const useTicketTableHooks = (tableMode) => {
   const doRefetch = () => {
     fetchData(queryParams);
   };
+
+  // on refresh trigger, refresh
+  useEffect(() => {
+    doRefetch();
+  }, [refreshTrigger]);
 
   // onclick for the show closed button
   const handleShowClosedToggle = () => {

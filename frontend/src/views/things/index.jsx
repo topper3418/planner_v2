@@ -19,7 +19,6 @@ const ThingView = () => {
     api,
     select,
     checkedThingIds,
-    setCheckedThingIds,
     ticketModalControl,
     thingModalControl
   } = useThingViewHooks()
@@ -53,6 +52,7 @@ const ThingView = () => {
           checkedThingIds={thingId ? undefined : checkedThingIds}
           selectedThingId={thingId}
           tableMode={ticketId || thingId ? "compact" : "full"}
+          refreshTrigger={ticketModalControl.loading}
           selectedTicketId={ticketId}
           beginAddTicket={ticketModalControl.add.open}
           scrollHeight={500}

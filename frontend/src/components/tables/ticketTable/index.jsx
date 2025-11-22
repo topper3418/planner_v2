@@ -6,6 +6,7 @@ import useTicketTableHooks from "./hooks";
 const TicketTable = ({
   tableMode,
   onRow,
+  refreshTrigger,
   beginAddTicket,
   scrollHeight
 }) => {
@@ -19,6 +20,7 @@ const TicketTable = ({
     getRowClassName,
   } = useTicketTableHooks(
     tableMode,
+    refreshTrigger
   );
 
   return (
