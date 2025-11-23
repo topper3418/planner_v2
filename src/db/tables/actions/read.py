@@ -26,9 +26,11 @@ def read_actions(
     logger.debug(f"Listing actions with filters: {query_params}")
     from ..query_builder import QueryBuilder
 
+    print("query_params:", query_params)
     builder = QueryBuilder(Action, query_params)
     builder.build_full()
     query = builder.query
+    print("QUERY:", query)
     count_query = builder.count_query
     params = tuple(builder.args)
     logger.debug("Action Read Query: %s \n Args: %s", query, params)
