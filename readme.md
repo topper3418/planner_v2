@@ -12,6 +12,8 @@ and goals. It is suitable for a household with multiple users.
 - Goal tracking: Set and track milestones to group your tasks
 - Task management: Create, assign, and track tasks, assign to 
   assets, goals, and users
+- Scheduling: Scheduling of tasks based on day of month,
+  day of week, or day of year
 
 
 ## Installation
@@ -68,7 +70,13 @@ and goals. It is suitable for a household with multiple users.
     npm run dev
     ```
 
-6. Open your browser and navigate to `http://localhost:5173` to access
+6. (Optional) run the scheduler if you plan to leave this open long term
+
+   ```bash
+   python scheduler.py
+   ```
+
+7. Open your browser and navigate to `http://localhost:5173` to access
 
 
 ## Deployment

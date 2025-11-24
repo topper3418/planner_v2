@@ -90,6 +90,35 @@ instructions inside it.
    {"status":"ok"}
    ```
 
+## Configure scheduler service
+
+1. Edit the server/planner-scheduler-service-template.yaml file, following the
+instructions inside it.
+
+2. Copy the file to /etc/systemd/system/planner-scheduler.service
+
+   ```bash
+   sudo cp server/planner-scheduler-service-template.yaml /etc/systemd/system/planner-scheduler.service
+   ```
+
+3. Reload systemd to pick up the new service
+
+   ```bash
+   sudo systemctl daemon-reload
+   ```
+
+4. Enable the service to start on boot
+
+   ```bash
+   sudo systemctl enable planner-scheduler.service
+   ```
+
+5. Start the service
+
+   ```bash
+   sudo systemctl start planner-scheduler.service
+   ```
+
 ## Configure Nginx (in planner/)
 
 1. Copy the nginx config file to /etc/nginx/sites-available/planner
