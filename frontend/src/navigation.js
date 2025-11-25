@@ -22,6 +22,9 @@ const useViewNavigation = () => {
       milestoneId: urlParams.milestoneId || searchParams.get("milestoneId"),
       scheduleId: urlParams.scheduleId || searchParams.get("scheduleId"),
       userId: urlParams.userId || searchParams.get("userId"),
+      userIds: urlParams.userId
+        ? [urlParams.userId]
+        : searchParams.getAll("userIds"),
       ticketCategoryIds: searchParams.get("ticketCategoryIds"),
       ticketCategoryId:
         urlParams.ticketCategoryId || searchParams.get("ticketCategoryId"),
@@ -86,6 +89,19 @@ const useViewNavigation = () => {
           return prev;
         }
         prev.set("userId", userId);
+        return prev;
+      });
+    },
+    userIds: (userIds) => {
+      console.log("setting userIds to:", userIds);
+      setSearchParms((prev) => {
+        prev.delete("pageNumber");
+        if (!userIds || userIds.length === 0) {
+          console.log("deleting userIds from params");
+          prev.delete("userIds");
+          return prev;
+        }
+        prev.set("userIds", userIds);
         return prev;
       });
     },

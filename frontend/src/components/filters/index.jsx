@@ -1,7 +1,7 @@
 import { Button, Flex, Input } from "antd";
 import TicketCategoryDropdown from "../inputs/ticketCategoryDropdown";
 import MilestoneDropdown from "../inputs/milestoneDropdown";
-import UserDropdown from "../inputs/userDropdown";
+import UserMultiDropdown from "../inputs/userMultiDropdown";
 import useViewNavigation from "../../navigation";
 import { useState } from "react";
 
@@ -37,9 +37,9 @@ const Filters = () => {
         style={{ width: 100 }}
         value={navigation.getQueryParam.search || ''}
         onChange={onSearchChange} />
-      <UserDropdown
-        selectedUserId={navigation.getQueryParam.userId}
-        setSelectedUserId={navigation.setQueryParam.userId} />
+      <UserMultiDropdown
+        selectedUserIds={navigation.getQueryParam.userIds}
+        setSelectedUserIds={navigation.setQueryParam.userIds} />
       <MilestoneDropdown
         selectedMilestoneId={navigation.getQueryParam.milestoneId}
         setSelectedMilestoneId={navigation.setQueryParam.milestoneId} />

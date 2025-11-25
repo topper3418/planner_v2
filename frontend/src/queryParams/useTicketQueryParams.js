@@ -11,6 +11,9 @@ const useTicketQueryParams = (queryParams) => {
     milestone_id: queryParams.milestoneId || undefined,
     schedule_id: queryParams.scheduleId || undefined,
     user_id: queryParams.userId || undefined,
+    user_ids:
+      queryParams.userIds?.[0]?.split(",")?.map((id) => Number(id)) ||
+      undefined,
     page_number: pageNumber,
     page_size: pageSize,
   };

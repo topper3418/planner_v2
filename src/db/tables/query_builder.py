@@ -163,14 +163,6 @@ class QueryBuilder:
         for field_name, filter_param in filter_params.items():
             value = getattr(self.query_params, field_name)
             # if there's a special case, handle that if the value matches
-            if special_case := filter_param.json_schema_extra.get(
-                "special_case"
-            ):
-                print("special case detected:", special_case)
-                match_value, special_where = special_case
-                if value == match_value:
-                    self.where.append(special_where)
-                    continue
             if value is None:
                 continue
             if template := filter_param.json_schema_extra.get("template"):
@@ -188,7 +180,26 @@ class QueryBuilder:
                 ].format(placeholders)
                 self.where.append(where_clause)
                 self.args.extend(value)
+                if special_case := filter_param.json_schema_extra.get(
+                    "special_case"
+                ):
+                    print("special case detected:", special_case)
+                    match_value, special_where = special_case
+                    if match_value in value:
+                        last_where = self.where[-1]
+                        self.where[-1] = (
+                            f"({last_where} OR {special_where})"
+                        )
+                        continue
             else:
+                if special_case := filter_param.json_schema_extra.get(
+                    "special_case"
+                ):
+                    print("special case detected:", special_case)
+                    match_value, special_where = special_case
+                    if value == match_value:
+                        self.where.append(special_where)
+                        continue
                 self.where.append(
                     filter_param.json_schema_extra["where_clause"]
                 )

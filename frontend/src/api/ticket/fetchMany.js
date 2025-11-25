@@ -19,6 +19,7 @@ const useFetchTickets = (
     schedule_id,
     scheduled,
     user_id,
+    user_ids,
   } = {},
   { lazy = false } = {},
 ) => {
@@ -37,6 +38,7 @@ const useFetchTickets = (
       schedule_id,
       scheduled,
       user_id,
+      user_ids,
     } = params;
     if (parent_id !== undefined) {
       url.searchParams.append("parent_id", parent_id);
@@ -44,6 +46,13 @@ const useFetchTickets = (
 
     if (user_id !== undefined) {
       url.searchParams.append("user_id", user_id);
+    }
+    if (user_ids !== undefined) {
+      if (Array.isArray(user_ids)) {
+        user_ids.forEach((id) => url.searchParams.append("user_ids", id));
+      } else {
+        url.searchParams.append("user_ids", user_ids);
+      }
     }
 
     // set the include param if provided
@@ -134,6 +143,7 @@ const useFetchTickets = (
       schedule_id,
       scheduled,
       user_id,
+      user_ids,
     },
     { lazy },
   );

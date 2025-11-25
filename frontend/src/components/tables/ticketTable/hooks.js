@@ -13,6 +13,7 @@ const useTicketTableHooks = (tableMode, refreshTrigger) => {
   const pageSize = navigation.getQueryParam.pageSize || 25;
   const pageNumber = navigation.getQueryParam.pageNumber || 1;
   const queryParams = useTicketQueryParams(navigation.getQueryParam);
+  console.log("queryParams in useTicketTableHooks:", queryParams);
   // initialize state
   const { data, count, loading, error, fetchData } =
     useApi.ticket.fetchMany(queryParams);
@@ -70,6 +71,7 @@ const useTicketTableHooks = (tableMode, refreshTrigger) => {
     navigation.getQueryParam.showClosed,
     navigation.getQueryParam.milestoneId,
     navigation.getQueryParam.userId,
+    navigation.getQueryParam.userIds,
     navigation.getQueryParam.search,
     navigation.getQueryParam.ticketCategoryIds,
     pageNumber,
