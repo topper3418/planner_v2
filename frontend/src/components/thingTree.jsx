@@ -15,9 +15,9 @@ const ThingTree = ({
   // helper for selecting a thing
   const selectThing = (newThingId) => {
     if (newThingId && newThingId != thingId) {
-      navigation.navigate(`/things/${newThingId}`);
+      navigation.navigateWithParams(`/things/${newThingId}`);
     } else {
-      navigation.navigate(`/things/`);
+      navigation.navigateWithParams(`/things/`);
     }
   }
   const {

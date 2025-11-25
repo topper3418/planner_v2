@@ -1,7 +1,8 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useApi from "../../api/";
 import components from "../../components";
+import useViewNavigation from "../../navigation";
 
 const {
   details: {
@@ -12,28 +13,30 @@ const {
 const useThingViewHooks = () => {
   // URL state
   const { thingId, ticketId } = useParams();
-  const navigate = useNavigate();
+  const navigation = useViewNavigation();
   const select = {
     thing: (newThingId) => {
       if (newThingId) {
-        navigate(`/things/${newThingId}`);
+        navigation.navigateWithParams(`/things/${newThingId}`);
       } else {
-        navigate(`/`);
+        navigation.navigateWithParams(`/things/`);
       }
     },
     ticket: (newTicketId) => {
       if (thingId) {
         if (newTicketId == ticketId) {
-          navigate(`/things/${thingId}`);
+          navigation.navigateWithParams(`/things/${thingId}`);
           return;
         }
-        navigate(`/things/${thingId}/tickets/${newTicketId}`);
+        navigation.navigateWithParams(
+          `/things/${thingId}/tickets/${newTicketId}`,
+        );
       } else {
         if (newTicketId === ticketId) {
-          navigate(`/things`);
+          navigation.navigateWithParams(`/things`);
           return;
         }
-        navigate(`/tickets/${newTicketId}`);
+        navigation.navigateWithParams(`/tickets/${newTicketId}`);
       }
     },
   };
@@ -85,10 +88,12 @@ const useThingViewHooks = () => {
     afterCreate: (createData) => {
       if (createData && createData.id) {
         if (thingId) {
-          navigate(`/things/${thingId}/tickets/${createData.id}`);
+          navigation.navigateWithParams(
+            `/things/${thingId}/tickets/${createData.id}`,
+          );
           return;
         }
-        navigate(`/tickets/${createData.id}`);
+        navigation.navigateWithParams(`/tickets/${createData.id}`);
       }
     },
   });

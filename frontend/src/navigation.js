@@ -179,9 +179,15 @@ const useViewNavigation = () => {
     },
   };
 
+  const navigateWithParams = (path) => {
+    const fullPath = `${path}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
+    navigate(fullPath);
+  };
+
   return {
     getQueryParam,
     setQueryParam,
+    navigateWithParams,
     location,
     urlParams,
     searchParams,

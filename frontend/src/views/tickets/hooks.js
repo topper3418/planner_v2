@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useApi from "../../api";
 import components from "../../components";
+import useViewNavigation from "../../navigation";
 
 const {
   details: {
@@ -12,17 +13,16 @@ const {
 const useTicketViewHooks = () => {
   // URL state
   const { ticketId } = useParams();
+  const navigation = useViewNavigation();
   const select = {
     ticket: (newTicketId) => {
       if (newTicketId == ticketId) {
-        navigate(`/tickets/`);
+        navigation.navigateWithParams(`/tickets/`);
         return;
       }
-      navigate(`/tickets/${newTicketId}`);
+      navigation.navigateWithParams(`/tickets/${newTicketId}`);
     },
   };
-  // component state
-  const navigate = useNavigate();
   // API object
   const api = {
     ticket: {
