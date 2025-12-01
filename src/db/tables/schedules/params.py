@@ -15,4 +15,4 @@ class ScheduleParams(QueryParams):
         repeat_arg=2,
     )
     page_number: Optional[int] = Field(1, ge=1)
-    page_size: Optional[int] = Field(10, ge=1, le=100)
+    page_size: Optional[int] = Field(10, ge=1, le=10000)

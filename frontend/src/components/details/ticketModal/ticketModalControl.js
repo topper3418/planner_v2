@@ -14,12 +14,12 @@ const useTicketModalControl = (
   const ticketBuffer = useTicketBuffer();
   useEffect(() => {
     if (api.ticket.create.data) {
-      config.afterCreate(api.ticket.create.data);
+      config?.afterCreate?.(api.ticket.create.data);
     }
   }, [api.ticket.create.loading]);
   useEffect(() => {
     if (api.ticket.update.data) {
-      config.afterUpdate(api.ticket.update.data);
+      config?.afterUpdate?.(api.ticket.update.data);
     }
   }, [api.ticket.update.loading]);
   const ticketModalControl = {
@@ -83,7 +83,6 @@ const useTicketModalControl = (
           schedule_id: ticketBuffer.scheduleId,
         });
         api.refreshAll();
-        config.afterUpdate();
         ticketBuffer.reset();
         setEditTicketModalOpen(false);
       },

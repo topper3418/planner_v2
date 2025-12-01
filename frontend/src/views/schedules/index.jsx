@@ -19,7 +19,7 @@ const ScheduleView = () => {
     <Flex style={{ height: '100%' }} gap="10px">
       <ScheduleList
         scheduleId={scheduleId}
-        schedules={api.schedule.list.data || []}
+        scheduleApi={api}
         loading={api.schedule.list.loading}
         createLoading={api.schedule.create.loading}
         createCallback={() => modalControl.add.open()}

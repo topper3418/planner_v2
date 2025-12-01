@@ -1,9 +1,22 @@
-import { Button, Card, List } from "antd";
+import { Button, Card, Flex, List, Pagination } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
 
 const ScheduleList = (
-  { scheduleId, schedules, loading, createLoading, createCallback, selectSchedule }
+  { scheduleId, scheduleApi, loading, createLoading, createCallback, selectSchedule }
 ) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+  const onPageChange = (page) => {
+    setCurrentPage(page);
+  }
+  useEffect(() => {
+    scheduleApi.schedule.list.fetchData({
+      pageNumber: currentPage,
+      pageSize: pageSize,
+    });
+  }, [currentPage]);
+  console.log("scheduleApi: ", scheduleApi);
   return (
     <Card
       title="Schedules"
@@ -15,22 +28,30 @@ const ScheduleList = (
         onClick={createCallback}
       />}
     >
-      <List
-        loading={loading}
-        dataSource={schedules || []}
-        renderItem={(schedule) => (
-          <List.Item
-            style={{
-              cursor: 'pointer',
-              padding: '10px',
-              backgroundColor: scheduleId == schedule.id ? 'lightblue' : 'transparent',
-            }}
-            onClick={() => selectSchedule(schedule.id)}
-          >
-            {schedule.name}
-          </List.Item>
-        )}
-      />
+      <Card.Meta style={{ height: '100%' }} />
+      <Flex vertical style={{ overflowY: 'auto', height: '100%' }}>
+        <List
+          loading={loading}
+          dataSource={scheduleApi.schedule.list.data || []}
+          renderItem={(schedule) => (
+            <List.Item
+              style={{
+                cursor: 'pointer',
+                padding: '10px',
+                backgroundColor: scheduleId == schedule.id ? 'lightblue' : 'transparent',
+              }}
+              onClick={() => selectSchedule(schedule.id)}
+            >
+              {schedule.name}
+            </List.Item>
+          )}
+        />
+        <Pagination
+          current={currentPage}
+          pageSize={pageSize}
+          total={scheduleApi.schedule.list.count || 0}
+          onChange={onPageChange} />
+      </Flex>
     </Card>
   )
 }

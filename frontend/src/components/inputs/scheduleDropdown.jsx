@@ -7,8 +7,8 @@ const ScheduleDropdown = (
 ) => {
   const params = {
     ...filters,
-    page_size: filters?.page_size || 10000,
-    page_number: 1
+    pageSize: filters?.page_size || 10000,
+    pageNumber: 1
   }
   const { data, loading, error, fetchData } = useApi.schedule.fetchMany(params);
 
