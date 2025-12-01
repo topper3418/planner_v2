@@ -44,7 +44,7 @@ const useTicketModalControl = (
         await api.ticket.create.create({
           title: ticketBuffer.title,
           description: ticketBuffer.description,
-          open: ticketBuffer.open,
+          open: ticketBuffer.scheduleId ? false : true,
           thing_id: thingId || ticketBuffer.thingId,
           category_id: ticketBuffer.categoryId,
           user_id: ticketBuffer.userId,
