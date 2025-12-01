@@ -24,7 +24,7 @@ const ScheduleDropdown = (
   return (
     <Select
       showSearch
-      style={{ width: "150px" }}
+      style={{ width: "300px" }}
       placeholder={placeholder}
       allowClear
       error={error}
