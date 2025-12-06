@@ -44,8 +44,20 @@ const CompletedThisWeek = () => {
       legend: {
         // no legend
         display: false,
-      },
+      }
     },
+    scales: {
+      x: {
+        ticks: { color: 'white' },        // X axis label color
+        grid: { color: 'white' },         // X grid lines
+        border: { color: 'white' }        // X axis line color (v3.7+)
+      },
+      y: {
+        ticks: { color: 'white' },        // Y axis label color
+        grid: { color: 'white' },
+        border: { color: 'white' }        // Y axis line color
+      }
+    }
   };
 
   // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];

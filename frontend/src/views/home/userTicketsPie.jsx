@@ -62,7 +62,17 @@ const UserTicketsPieChart = () => {
       },
     ],
   };
-  return <Pie data={data} />;
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        labels: {
+          color: 'white', // Set the font color
+        },
+      },
+    },
+  };
+  return <Pie data={data} options={options} />;
 }
 
 export default UserTicketsPieChart;
