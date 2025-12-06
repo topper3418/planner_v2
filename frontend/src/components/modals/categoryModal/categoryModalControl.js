@@ -10,17 +10,12 @@ const useCategoryModalControl = (api, categoryName, categoryId) => {
   const categoryApi = api[categoryName];
 
   const modalControl = {
-    error:
-      categoryApi.selected.error ||
-      categoryApi.create.error ||
-      categoryApi.update.error,
-    loading:
-      categoryApi.selected.loading ||
-      categoryApi.create.loading ||
-      categoryApi.update.loading,
+    error: categoryApi.create.error || categoryApi.update.error,
+    loading: categoryApi.create.loading || categoryApi.update.loading,
     mode,
     category: buffer,
     add: {
+      title: `Add ${categoryName}`,
       isOpen: addModalOpen,
       open: () => {
         setMode("add");
@@ -40,16 +35,20 @@ const useCategoryModalControl = (api, categoryName, categoryId) => {
       },
     },
     edit: {
+      title: `Edit ${categoryName}`,
       isOpen: editModalOpen,
-      open: () => {
+      open: (category) => {
         setMode("edit");
-        buffer.set.username(categoryApi.selected.data.username);
+        buffer.set.id(category.id);
+        buffer.set.name(category.name);
+        buffer.set.description(category.description);
+        buffer.set.color(category.color);
         setEditModalOpen(true);
       },
       close: () => setEditModalOpen(false),
       submit: async () => {
         await categoryApi.update.update({
-          id: categoryId,
+          id: buffer.id,
           name: buffer.name,
           description: buffer.description,
           color: buffer.color,

@@ -9,6 +9,8 @@ const CategoryModal = ({ modalControl }) => {
       submit();
     }
   }
+  console.log("modal control:", modalControl);
+  console.log("title in modal:", title);
   return (
     <Modal
       title={title}

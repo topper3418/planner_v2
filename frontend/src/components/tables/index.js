@@ -1,3 +1,4 @@
+import CategoryTable from "./categoryTable";
 import ChilrenTable from "./childrenTable";
 import MilestoneList from "./milestoneList";
 import ScheduleList from "./scheduleList";
@@ -8,6 +9,7 @@ import UserList from "./userList";
 const tables = {
   TicketTable,
   ChilrenTable,
+  CategoryTable,
   MilestoneList,
   ScheduleList,
   TicketList,

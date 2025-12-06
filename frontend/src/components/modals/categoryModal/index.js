@@ -1,6 +1,6 @@
 import CategoryModal from "./categoryModal";
 import useCategoryBuffer from "./categoryBuffer";
-import useCategoryModalControl from "./categofyModalControl";
+import useCategoryModalControl from "./categoryModalControl";
 
 export default {
   CategoryModal,
