@@ -1,5 +1,6 @@
 import inputs from "./inputs";
 import details from "./details";
+import modals from "./modals";
 import tables from "./tables";
 import NavBar from "./navbar";
 import NewThingModal from "./newThingModel";
@@ -12,6 +13,7 @@ import Filters from "./filters";
 const components = {
   inputs,
   details,
+  modals,
   tables,
   Filters,
   NavBar,

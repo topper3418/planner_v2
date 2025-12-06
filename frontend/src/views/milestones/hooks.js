@@ -6,7 +6,7 @@ import useTicketQueryParams from "../../queryParams/useTicketQueryParams";
 import useViewNavigation from "../../navigation";
 
 const {
-  details: {
+  modals: {
     controllers: { useMilestoneModalControl },
   },
 } = components;

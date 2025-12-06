@@ -9,7 +9,7 @@ import CompletedThisWeek from "./completedThisWeek";
 const HomeView = () => {
   return (
     <Flex vertical gap="10px">
-      <Flex gap="10px">
+      <Flex gap="10px" style={{ overflowY: 'auto', flexWrap: 'wrap' }}>
         <Card
           title="Open Tickets by User"
           style={{ minHeight: "400px" }}>
@@ -21,8 +21,6 @@ const HomeView = () => {
           <TopThingTicketsPie />
         </Card>
         <CompletedThisWeek />
-      </Flex>
-      <Flex gap="10px">
         <OpenScheduledTicketTable />
         <MilestonePastDueTickets />
       </Flex>

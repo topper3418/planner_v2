@@ -1,15 +1,8 @@
 import { useEffect, useState } from "react";
 
 import useApi from "../../api";
-import components from "../../components";
 import useTicketQueryParams from "../../queryParams/useTicketQueryParams";
 import useViewNavigation from "../../navigation";
-
-const {
-  details: {
-    controllers: { useMilestoneModalControl },
-  },
-} = components;
 
 const useHomeViewHooks = () => {
   // URL State

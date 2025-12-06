@@ -8,7 +8,8 @@ const {
   CommentPanel,
   ActionPanel,
   tables: { TicketTable },
-  details: { ThingDetails, TicketDetails, TicketModal, ThingModal }
+  details: { ThingDetails, TicketDetails },
+  modals: { TicketModal, ThingModal }
 } = components;
 
 const ThingView = () => {
@@ -24,7 +25,7 @@ const ThingView = () => {
   } = useThingViewHooks()
 
   return (<>
-    <Flex gap="10px" style={{ overflowY: 'hidden', height: '100%' }}>
+    <Flex gap="10px" style={{ overflowY: 'hidden', height: '100%', flexWrap: 'wrap' }}>
       <ThingTree
         refreshTrigger={ticketId}
         beginAddThing={thingModalControl.add.open} />

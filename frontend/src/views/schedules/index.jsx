@@ -5,7 +5,8 @@ import useScheduleViewHooks from "./hooks";
 
 const {
   tables: { ScheduleList, TicketList },
-  details: { ScheduleDetails, ScheduleModal },
+  details: { ScheduleDetails },
+  modals: { ScheduleModal }
 } = components;
 
 const ScheduleView = () => {
@@ -16,7 +17,7 @@ const ScheduleView = () => {
     modalControl,
   } = useScheduleViewHooks();
   return (<>
-    <Flex style={{ height: '100%' }} gap="10px">
+    <Flex style={{ height: '100%', flexWrap: 'wrap' }} gap="10px">
       <ScheduleList
         scheduleId={scheduleId}
         scheduleApi={api}

@@ -7,7 +7,7 @@ import useViewNavigation from "../../navigation";
 import useTicketQueryParams from "../../queryParams/useTicketQueryParams";
 
 const {
-  details: {
+  modals: {
     controllers: { useUserModalControl } },
 } = components;
 

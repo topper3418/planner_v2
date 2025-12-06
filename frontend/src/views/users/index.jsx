@@ -5,7 +5,7 @@ import useUserViewHooks from "./hooks";
 
 const {
   tables: { TicketList, UserList },
-  details: { UserModal },
+  modals: { UserModal },
 } = components;
 
 const UserView = () => {
@@ -16,7 +16,7 @@ const UserView = () => {
     modalControl,
   } = useUserViewHooks();
   return (<>
-    <Flex style={{ height: '100%' }} gap="10px">
+    <Flex style={{ height: '100%', flexWrap: 'wrap' }} gap="10px">
       <UserList
         userId={userId}
         users={api.user.list.data || []}

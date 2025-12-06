@@ -2,18 +2,19 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Flex, Layout } from 'antd';
 
-const { Header, Content } = Layout;
-import components from './components';
-import NavBar from './components/navbar';
 import TicketView from './views/tickets';
 import ThingView from './views/things';
 import MilestoneView from './views/milestones';
 import ScheduleView from './views/schedules';
 import UserView from './views/users';
-import Filters from './components/filters';
 import HomeView from './views/home';
+import ConfigView from './views/config';
 
-const { PlannerTitle } = components;
+import PlannerTitle from './components/plannerTitle';
+import Filters from './components/filters';
+
+
+const { Header, Content } = Layout;
 
 const App = () => {
 
@@ -30,7 +31,6 @@ const App = () => {
             alignItems: 'center'
           }}>
             <PlannerTitle />
-            <NavBar />
             <Filters />
           </Header>
           <Content style={{
@@ -51,6 +51,7 @@ const App = () => {
               <Route path="/schedules/:scheduleId" element={<ScheduleView />} />
               <Route path="/users" element={<UserView />} />
               <Route path="/users/:userId" element={<UserView />} />
+              <Route path="/config" element={<ConfigView />} />
             </Routes>
           </Content>
         </Layout>

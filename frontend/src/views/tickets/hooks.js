@@ -5,7 +5,7 @@ import components from "../../components";
 import useViewNavigation from "../../navigation";
 
 const {
-  details: {
+  modals: {
     controllers: { useTicketModalControl },
   },
 } = components;

@@ -1,6 +1,7 @@
-import { Button, Flex, Input } from "antd";
+import { Button, Card, Dropdown, Flex, Input } from "antd";
 import TicketCategoryDropdown from "../inputs/ticketCategoryDropdown";
 import MilestoneDropdown from "../inputs/milestoneDropdown";
+import { FilterOutlined } from "@ant-design/icons";
 import UserMultiDropdown from "../inputs/userMultiDropdown";
 import useViewNavigation from "../../navigation";
 import { useState } from "react";
@@ -32,27 +33,42 @@ const Filters = () => {
     navigation.getQueryParam.showClosed ? "Hide Closed" : "Show Closed",
   );
 
+  const Overlay = () => (
+    <Card title="Filters">
+      <Flex vertical gap="10px">
+        <Input
+          placeholder="Search"
+          style={{ width: 100 }}
+          value={navigation.getQueryParam.search || ''}
+          onChange={onSearchChange} />
+        <UserMultiDropdown
+          selectedUserIds={navigation.getQueryParam.userIds}
+          setSelectedUserIds={navigation.setQueryParam.userIds} />
+        <MilestoneMultiDropdown
+          selectedMilestoneIds={navigation.getQueryParam.milestoneIds}
+          setSelectedMilestoneIds={navigation.setQueryParam.milestoneIds} />
+        <TicketCategoryMultiDropdown
+          selectedCategoryIds={navigation.getQueryParam.ticketCategoryIds}
+          setSelectedCategoryIds={navigation.setQueryParam.ticketCategoryIds} />
+        <Button
+          onClick={handleShowClosedToggle}>
+          {showClosedToggleText}
+        </Button>
+      </Flex >
+    </Card>
+  )
+
   return (
-    <Flex gap="10px">
-      <Input
-        placeholder="Search"
-        style={{ width: 100 }}
-        value={navigation.getQueryParam.search || ''}
-        onChange={onSearchChange} />
-      <UserMultiDropdown
-        selectedUserIds={navigation.getQueryParam.userIds}
-        setSelectedUserIds={navigation.setQueryParam.userIds} />
-      <MilestoneMultiDropdown
-        selectedMilestoneIds={navigation.getQueryParam.milestoneIds}
-        setSelectedMilestoneIds={navigation.setQueryParam.milestoneIds} />
-      <TicketCategoryMultiDropdown
-        selectedCategoryIds={navigation.getQueryParam.ticketCategoryIds}
-        setSelectedCategoryIds={navigation.setQueryParam.ticketCategoryIds} />
+    <Dropdown
+      popupRender={() => <Overlay />}
+      trigger={['click']}
+      placement="bottomLeft"
+    >
       <Button
-        onClick={handleShowClosedToggle}>
-        {showClosedToggleText}
-      </Button>
-    </Flex >
+        icon={<FilterOutlined />}
+        style={{ marginLeft: 'auto' }}
+      />
+    </Dropdown>
   )
 }
 
