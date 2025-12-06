@@ -1,6 +1,6 @@
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Flex, Layout } from 'antd';
+import { ConfigProvider, Flex, Layout, theme } from 'antd';
 
 import TicketView from './views/tickets';
 import ThingView from './views/things';
@@ -19,44 +19,54 @@ const { Header, Content } = Layout;
 const App = () => {
 
   return (
-    <BrowserRouter>
-      <Flex style={{ width: "100vw" }}>
-        <Layout style={{
-          minHeight: '100vh',
-          paddingLeft: '0'
-        }}>
-          <Header style={{
-            paddingLeft: '20px',
-            display: 'flex',
-            alignItems: 'center'
+    <ConfigProvider
+      theme={{
+        // 1. Use dark algorithm
+        algorithm: theme.darkAlgorithm,
+
+        // 2. Combine dark algorithm and compact algorithm
+        // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
+      }}
+    >
+      <BrowserRouter>
+        <Flex style={{ width: "100vw" }}>
+          <Layout style={{
+            minHeight: '100vh',
+            paddingLeft: '0'
           }}>
-            <PlannerTitle />
-            <Filters />
-          </Header>
-          <Content style={{
-            height: 'calc(100vh - 64px)',
-            overflow: 'auto',
-            padding: '10px'
-          }}>
-            <Routes>
-              <Route path="/" element={<HomeView />} />
-              <Route path="/tickets/" element={<TicketView />} />
-              <Route path="/tickets/:ticketId" element={<TicketView />} />
-              <Route path="/things/" element={<ThingView />} />
-              <Route path="/things/:thingId" element={<ThingView />} />
-              <Route path="/things/:thingId/tickets/:ticketId" element={<ThingView />} />
-              <Route path="/milestones" element={<MilestoneView />} />
-              <Route path="/milestones/:milestoneId" element={<MilestoneView />} />
-              <Route path="/schedules" element={<ScheduleView />} />
-              <Route path="/schedules/:scheduleId" element={<ScheduleView />} />
-              <Route path="/users" element={<UserView />} />
-              <Route path="/users/:userId" element={<UserView />} />
-              <Route path="/config" element={<ConfigView />} />
-            </Routes>
-          </Content>
-        </Layout>
-      </Flex>
-    </BrowserRouter>
+            <Header style={{
+              paddingLeft: '20px',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+              <PlannerTitle />
+              <Filters />
+            </Header>
+            <Content style={{
+              height: 'calc(100vh - 64px)',
+              overflow: 'auto',
+              padding: '10px'
+            }}>
+              <Routes>
+                <Route path="/" element={<HomeView />} />
+                <Route path="/tickets/" element={<TicketView />} />
+                <Route path="/tickets/:ticketId" element={<TicketView />} />
+                <Route path="/things/" element={<ThingView />} />
+                <Route path="/things/:thingId" element={<ThingView />} />
+                <Route path="/things/:thingId/tickets/:ticketId" element={<ThingView />} />
+                <Route path="/milestones" element={<MilestoneView />} />
+                <Route path="/milestones/:milestoneId" element={<MilestoneView />} />
+                <Route path="/schedules" element={<ScheduleView />} />
+                <Route path="/schedules/:scheduleId" element={<ScheduleView />} />
+                <Route path="/users" element={<UserView />} />
+                <Route path="/users/:userId" element={<UserView />} />
+                <Route path="/config" element={<ConfigView />} />
+              </Routes>
+            </Content>
+          </Layout>
+        </Flex>
+      </BrowserRouter>
+    </ConfigProvider>
   );
 }
 
