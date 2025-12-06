@@ -32,7 +32,6 @@ const TicketTable = ({
     <Card
       title={`Tickets (${count ? count : 0})`}
       style={{
-        marginTop: "10px",
         width: tableMode === "compact" ? 450 : 1100,
       }}
       extra={

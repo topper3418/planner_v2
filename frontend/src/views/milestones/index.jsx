@@ -17,7 +17,7 @@ const MilestoneView = () => {
     modalControl,
   } = useMilestoneViewHooks();
   return (<>
-    <Flex style={{ height: '100%' }} gap="10px">
+    <Flex style={{ height: '100%', flexWrap: 'wrap' }} gap="10px">
       <MilestoneList
         milestoneId={milestoneId}
         milestones={api.milestone.list.data || []}

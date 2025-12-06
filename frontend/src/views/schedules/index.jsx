@@ -17,7 +17,7 @@ const ScheduleView = () => {
     modalControl,
   } = useScheduleViewHooks();
   return (<>
-    <Flex style={{ height: '100%' }} gap="10px">
+    <Flex style={{ height: '100%', flexWrap: 'wrap' }} gap="10px">
       <ScheduleList
         scheduleId={scheduleId}
         scheduleApi={api}

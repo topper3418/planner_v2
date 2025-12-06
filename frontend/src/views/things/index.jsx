@@ -25,7 +25,7 @@ const ThingView = () => {
   } = useThingViewHooks()
 
   return (<>
-    <Flex gap="10px" style={{ overflowY: 'hidden', height: '100%' }}>
+    <Flex gap="10px" style={{ overflowY: 'hidden', height: '100%', flexWrap: 'wrap' }}>
       <ThingTree
         refreshTrigger={ticketId}
         beginAddThing={thingModalControl.add.open} />

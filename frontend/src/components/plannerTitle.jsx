@@ -12,7 +12,7 @@ const PlannerTitle = () => {
     <Dropdown
       menu={navBarProps}
       placement="bottomLeft"
-      trigger={['hover']}>
+      trigger={['click', 'hover']}>
       <Typography.Title
         style={{
           color: 'white',
@@ -21,7 +21,6 @@ const PlannerTitle = () => {
           cursor: 'pointer',
         }}
         level={3}
-        onClick={() => navigation.navigate('/')}
       >
         {"Planner - " + pageName.charAt(0).toUpperCase() + pageName.slice(1)}
       </Typography.Title>
