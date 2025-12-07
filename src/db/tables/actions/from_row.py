@@ -31,5 +31,7 @@ def from_row(cls, **row) -> Action:
             id=row["action_type_id"],
             name=row.get("action_type_name", None),
             description=row.get("action_type_description", None),
+            is_default=row.get("action_type_is_default", False),
+            color=row.get("action_type_color", None),
         )
     return action

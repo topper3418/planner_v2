@@ -51,6 +51,13 @@ const ActionPanel = ({ ticketId, refreshAll }) => {
                 title: 'Type',
                 dataIndex: ['action_type', 'name'],
                 key: 'action_type',
+                render: (text, record) => {
+                  return (
+                    <span style={{ backgroundColor: record.action_type.color, padding: '2px 6px', borderRadius: '4px' }}>
+                      {text}
+                    </span>
+                  )
+                }
               },
               {
                 title: 'Action',
