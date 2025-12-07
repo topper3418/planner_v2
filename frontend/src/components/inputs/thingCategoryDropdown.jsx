@@ -1,5 +1,4 @@
 import { Select } from "antd";
-import { useEffect } from "react";
 import useApi from "../../api/";
 
 const ThingCategoryDropdown = ({ selectedThingCategoryId, setSelectedThingCategoryId }) => {
@@ -23,9 +22,15 @@ const ThingCategoryDropdown = ({ selectedThingCategoryId, setSelectedThingCatego
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
       }
+      optionRender={(option) => (
+        <div style={{ backgroundColor: option.data.color, padding: '5px 12px' }}>
+          {option.data.label}
+        </div>
+      )}
       options={data ? data.map(thingCategory => ({
         label: thingCategory.name,
-        value: thingCategory.id
+        value: thingCategory.id,
+        color: thingCategory.color,
       })) : []}
     />
   );

@@ -1,6 +1,7 @@
 import { Button, Flex, Select, Typography } from "antd";
 import useCategoryViewHooks from "./hooks";
 import components from "../../components";
+import CategoryTypeDropdown from "./categoryTypeDropdown";
 
 const {
   tables: { CategoryTable },
@@ -17,15 +18,9 @@ const ConfigView = () => {
   return (<>
     <Flex vertical gap="10px">
       <Flex justify="space-between">
-        <Select
-          value={categoryName}
-          onChange={(value) => setCategoryName(value)}
-          style={{ width: '200px' }}
-          options={[
-            { label: 'Action Types', value: 'actionType' },
-            { label: 'Ticket Categories', value: 'ticketCategory' },
-            { label: 'Thing Categories', value: 'thingCategory' },
-          ]} />
+        <CategoryTypeDropdown
+          selectedType={categoryName}
+          onTypeChange={setCategoryName} />
         <Button
           href="https://github.com/topper3418/planner_v2/issues"
           target="_blank"

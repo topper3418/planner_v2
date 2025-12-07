@@ -25,6 +25,20 @@ const getColumns = (cols = ["Title", "Thing", "Category"]) => {
       title: "Category",
       dataIndex: ["category", "name"],
       key: "category_name",
+      render: (text, record) => {
+        console.log("Rendering category:", record);
+        return (
+          <span
+            style={{
+              backgroundColor: record.category?.color,
+              padding: "2px 6px",
+              borderRadius: "4px",
+            }}
+          >
+            {text}
+          </span>
+        );
+      },
     },
     Created: {
       title: "Created",

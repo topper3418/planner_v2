@@ -1,4 +1,4 @@
-import { Select, version } from "antd";
+import { Select } from "antd";
 import useApi from "../../api/";
 
 const ActionTypeDropdown = ({ selectedActionTypeId, setSelectedActionTypeId }) => {
@@ -23,9 +23,15 @@ const ActionTypeDropdown = ({ selectedActionTypeId, setSelectedActionTypeId }) =
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
       }
+      optionRender={(option) => (
+        <div style={{ backgroundColor: option.data.color, padding: '5px 12px' }}>
+          {option.data.label}
+        </div>
+      )}
       options={data ? data.map(actionType => ({
         label: actionType.name,
-        value: actionType.id
+        value: actionType.id,
+        color: actionType.color,
       })) : []}
     />
   );
