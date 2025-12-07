@@ -52,4 +52,8 @@ class Scheduler:
                 ticket_id=ticket.id,
                 action_text="Ticket reopened by scheduler.",
             )
+            # if the ticket is already open, it's overdue
+            if ticket.open:
+                ticket.overdue = True
+                ticket.update()
             Action.create(reopen_action)

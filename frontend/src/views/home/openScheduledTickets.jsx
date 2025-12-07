@@ -36,6 +36,9 @@ const OpenScheduledTicketTable = () => {
         <Table
           dataSource={data ? data : []}
           columns={getColumns(["Title", "Thing", "Category", "Assigned User"])}
+          rowClassName={(record, index) =>
+            record.overdue ? "overdue-ticket" : ""
+          }
           onRow={onRow}
           rowHoverable={false}
           scroll={{ y: 400 }}

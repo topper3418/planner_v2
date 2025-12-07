@@ -49,6 +49,7 @@ def create(action: Action) -> int:
         if ticket is None:
             raise ValueError(f"Ticket with ID {ticket_id} not found")
         ticket.open = False
+        ticket.overdue = False
         ticket.completed_at = datetime.now()
         ticket.update()
 
