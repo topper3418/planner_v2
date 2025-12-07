@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS tickets (
     description TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     open BOOLEAN DEFAULT 1,
+    overdue BOOLEAN DEFAULT 0,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     completed_at DATETIME,
     FOREIGN KEY(thing_id) REFERENCES things(id),

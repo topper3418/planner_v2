@@ -7,6 +7,7 @@ def from_row(cls, **row) -> Ticket:
         title=row["title"],
         description=row["description"],
         open=row["open"],
+        overdue=row["overdue"],
         thing_id=row["thing_id"],
         category_id=row["category_id"],
         parent_id=row["parent_id"],

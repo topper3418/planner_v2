@@ -8,7 +8,8 @@ import { formatDate } from "../util/formatting";
 const ActionPanel = ({ ticketId, refreshAll }) => {
   const fetchParams = {
     ticket_id: ticketId,
-    include: 'action_type'
+    include: 'action_type',
+    page_size: 10000
   };
   const {
     data,

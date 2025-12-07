@@ -47,9 +47,17 @@ class Scheduler:
             logger.info(
                 f"Reopening ticket {ticket.title} (ID: {ticket.id})"
             )
+            ticket_already_open = ticket.open
             reopen_action = Action(
                 action_type_id=reopen_action_type.id,
                 ticket_id=ticket.id,
                 action_text="Ticket reopened by scheduler.",
             )
             Action.create(reopen_action)
+            # if the ticket is already open, it's overdue
+            if ticket_already_open:
+                print(
+                    f"Ticket {ticket.title} is already open, marking as overdue."
+                )
+                ticket.overdue = True
+                ticket.update()

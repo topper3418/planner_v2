@@ -22,6 +22,7 @@ def update(ticket: Ticket) -> None:
         " category_id = ?,"
         " description = ?,"
         " open = ?,"
+        " overdue = ?,"
         " updated_at = CURRENT_TIMESTAMP,"
         " completed_at = ?,"
         " user_id = ?,"
@@ -34,6 +35,7 @@ def update(ticket: Ticket) -> None:
         ticket.category_id,
         ticket.description,
         ticket.open,
+        ticket.overdue,
         ticket.completed_at,
         ticket.user_id,
         ticket.schedule_id,

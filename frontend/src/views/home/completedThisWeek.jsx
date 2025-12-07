@@ -36,8 +36,6 @@ const CompletedThisWeek = () => {
     }
   }
 
-  console.log("CompletedThisWeek actions:", api.action.list.data);
-
   const options = {
     responsive: true,
     plugins: {

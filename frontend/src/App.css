@@ -6,6 +6,10 @@
   background-color: #0958d9; /* Light blue background for selected row */
 }
 
+.overdue-ticket {
+  background-color: #ff4d4f; 
+}
+
 
 
 .ant-table-cell {

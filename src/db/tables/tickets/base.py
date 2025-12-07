@@ -23,6 +23,7 @@ class Ticket(TableModel):
     title: Optional[str] = ColumnField(None)
     description: Optional[str] = ColumnField(None)
     open: Optional[bool] = ColumnField(True)
+    overdue: Optional[bool] = ColumnField(False)
 
     created_at: Optional[datetime] = ColumnField(None)
     updated_at: Optional[datetime] = ColumnField(None)
