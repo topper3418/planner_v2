@@ -25,6 +25,13 @@ const OpenScheduledTicketTable = () => {
       style: { cursor: 'pointer' },
     };
   };
+  console.log("data in table:", data);
+
+  for (const ticket of data || []) {
+    if (ticket.overdue) {
+      console.log(`ticket ${ticket.title} is overdue`);
+    }
+  }
 
   return (
     <Card

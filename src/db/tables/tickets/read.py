@@ -33,7 +33,6 @@ def read(
     count_query = builder.count_query
     args = tuple(builder.args)
     logger.debug("Ticket Read Query: %s \n Args: %s", query, args)
-    print("Ticket Read Query:", query, "\n Args:", args)
     tickets = core.run_list(query, args, Ticket.from_row)
     count = core.run_scalar(count_query, args)
     if query_params and "children" in query_params.include:

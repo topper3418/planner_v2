@@ -40,7 +40,6 @@ const MilestonePastDueTickets = () => {
   };
 
   useEffect(() => {
-    console.log("Fetched milestones:", api.milestones.list.data);
     if (api.milestones.list.data) {
       setMilestoneIds(
         api.milestones.list.data.map((m) => m.id),
@@ -50,7 +49,6 @@ const MilestonePastDueTickets = () => {
 
   useEffect(() => {
     if (milestoneIds.length > 0) {
-      console.log("Fetching past due tickets for milestones:", milestoneIds);
       api.tickets.pastDue.fetchData({
         ...openPastDueTicketParams,
         milestone_ids: milestoneIds,
