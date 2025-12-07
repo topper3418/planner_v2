@@ -6,6 +6,8 @@ import useUpdateTicket from "./update";
 import useFetchTicketCount from "./fetchCount";
 import useAddMilestoneToTicket from "./addMilestone";
 import useRemoveMilestoneFromTicket from "./removeMilestone";
+import useCreateTicketCategory from "./createCategory";
+import useUpdateTicketCategory from "./updateCategory";
 
 const ticketApi = {
   create: useCreateTicket,
@@ -16,6 +18,8 @@ const ticketApi = {
   fetchCategories: useFetchTicketCategories,
   addMilestone: useAddMilestoneToTicket,
   removeMilestone: useRemoveMilestoneFromTicket,
+  createCategory: useCreateTicketCategory,
+  updateCategory: useUpdateTicketCategory,
 };
 
 export default ticketApi;

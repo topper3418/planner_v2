@@ -11,6 +11,7 @@ ReadActions = Controller.Responses.ReadActions
 
 
 router = APIRouter(prefix="/actions", tags=["actions"])
+router.include_router(action_types_router)
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
@@ -68,6 +69,3 @@ async def delete_action(action_id: int):
         return {"message": "Action deleted"}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-
-
-router.include_router(action_types_router)

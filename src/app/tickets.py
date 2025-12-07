@@ -14,6 +14,7 @@ MilestonesResponse = Controller.Responses.ReadMilestones
 
 
 router = APIRouter(prefix="/tickets", tags=["tickets"])
+router.include_router(categories_router)
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
@@ -119,6 +120,3 @@ async def delete_ticket(ticket_id: int):
         return {"message": "Ticket deleted"}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-
-
-router.include_router(categories_router)

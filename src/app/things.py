@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 router = APIRouter(prefix="/things", tags=["things"])
+router.include_router(categories_router)
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
@@ -89,6 +90,3 @@ async def delete_thing(thing_id: int):
         return {"message": "Thing deleted"}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-
-
-router.include_router(categories_router)

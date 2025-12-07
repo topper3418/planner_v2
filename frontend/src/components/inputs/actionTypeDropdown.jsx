@@ -1,8 +1,8 @@
-import { Select } from "antd";
+import { Select, version } from "antd";
 import useApi from "../../api/";
 
 const ActionTypeDropdown = ({ selectedActionTypeId, setSelectedActionTypeId }) => {
-  const { data, loading, error, refetch } = useApi.action.fetchTypes();
+  const { data, loading, error } = useApi.action.fetchTypes();
 
   const handleChange = (value) => {
     console.log("value selected in ActionTepeDropdown:", value);
@@ -16,6 +16,7 @@ const ActionTypeDropdown = ({ selectedActionTypeId, setSelectedActionTypeId }) =
       placeholder="Select a type"
       optionFilterProp="children"
       error={error}
+      loading={loading}
       onChange={handleChange}
       value={selectedActionTypeId ? Number(selectedActionTypeId) : undefined}
       allowClear

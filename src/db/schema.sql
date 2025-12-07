@@ -1,7 +1,25 @@
 CREATE TABLE IF NOT EXISTS thing_categories (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
-    description TEXT
+    description TEXT,
+    is_default BOOLEAN DEFAULT 0,
+    color TEXT
+);
+
+CREATE TABLE IF NOT EXISTS action_types (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    description TEXT,
+    is_default BOOLEAN DEFAULT 0,
+    color TEXT
+);
+
+CREATE TABLE IF NOT EXISTS ticket_categories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    description TEXT,
+    is_default BOOLEAN DEFAULT 0,
+    color TEXT
 );
 
 CREATE TABLE IF NOT EXISTS things (
@@ -13,12 +31,6 @@ CREATE TABLE IF NOT EXISTS things (
     parent_id INTEGER,
     FOREIGN KEY(category_id) REFERENCES categories(id),
     FOREIGN KEY(parent_id) REFERENCES things(id)
-);
-
-CREATE TABLE IF NOT EXISTS ticket_categories (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL UNIQUE,
-    description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS schedules (
@@ -55,12 +67,6 @@ CREATE TABLE IF NOT EXISTS comments (
     content TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(ticket_id) REFERENCES tickets(id)
-);
-
-CREATE TABLE IF NOT EXISTS action_types (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL UNIQUE,
-    description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS actions (

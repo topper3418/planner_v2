@@ -13,6 +13,8 @@ class Category(TableModel):
     id: Optional[int] = PrimaryKeyField(None)
     name: Optional[str] = ColumnField(None)
     description: Optional[str] = ColumnField(None)
+    is_default: bool = ColumnField(False)
+    color: Optional[str] = ColumnField(None)
 
     class Config:
         from_attributes = True
