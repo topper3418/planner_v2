@@ -28,7 +28,6 @@ const useFetchActions = (
       page_number,
       page_size,
     } = params;
-    console.log("getting actions with params:", params);
     if (ticket_id !== undefined) {
       url.searchParams.append("ticket_id", ticket_id);
     }

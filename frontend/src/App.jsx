@@ -17,6 +17,7 @@ import Filters from './components/filters';
 const { Header, Content } = Layout;
 
 const App = () => {
+  const isDev = process.env.NODE_ENV == "development"
 
   return (
     <ConfigProvider
@@ -36,6 +37,11 @@ const App = () => {
               alignItems: 'center'
             }}>
               <PlannerTitle />
+              {isDev &&
+                <div style={{ marginLeft: '20px', color: 'orange' }}>
+                  Development Mode
+                </div>
+              }
               <Filters />
             </Header>
             <Content style={{

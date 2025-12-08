@@ -29,6 +29,7 @@ const TicketTable = ({
       title={`Tickets (${ticketListApi.count ? ticketListApi.count : 0})`}
       style={{
         width: tableMode === "compact" ? 450 : 1100,
+        height: '100%'
       }}
       extra={
         <Flex gap="10px">
