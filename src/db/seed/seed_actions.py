@@ -35,7 +35,7 @@ def seed_actions(ticket_id_lookup={}, dev=True):
             True,
             "#f07007",
         ),
-        ("Comment", "Added a comment to the ticket", True, "#a3a3c2"),
+        ("Comments", "Added a comment to the ticket", True, "#a3a3c2"),
     ]
     for name, description, is_default, color in action_types:
         add_action_type(name, description, is_default, color)
@@ -111,6 +111,36 @@ def seed_actions(ticket_id_lookup={}, dev=True):
             "Replaced faulty router",
             "Fix network latency",
             "Repaired",
+        ),
+        (
+            "Fix leaking pool pump",
+            "Inspected the pump, found a cracked seal that needs replacement.",
+            "Comments",
+        ),
+        (
+            "Fix leaking pool pump",
+            "Ordered new seal, expected delivery in 3 days.",
+            "Comments",
+        ),
+        (
+            "Upgrade laptop RAM",
+            "Verified current RAM is 8GB, planning to upgrade to 16GB.",
+            "Comments",
+        ),
+        (
+            "Upgrade laptop RAM",
+            "Purchased compatible 16GB RAM modules.",
+            "Comments",
+        ),
+        (
+            "Optimize database indexes",
+            "Analyzed query performance, identified missing indexes.",
+            "Comments",
+        ),
+        (
+            "Optimize database indexes",
+            "Created new indexes, running performance tests now.",
+            "Comments",
         ),
     ]
     for action_text, ticket_title, action_type_name in actions:

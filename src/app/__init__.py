@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .actions import router as actions_router
-from .comments import router as comments_router
 from .things import router as things_router
 from .tickets import router as tickets_router
 from .milestones import router as milestones_router
@@ -21,7 +20,6 @@ app.add_middleware(
 )
 
 app.include_router(actions_router)
-app.include_router(comments_router)
 app.include_router(things_router)
 app.include_router(tickets_router)
 app.include_router(milestones_router)

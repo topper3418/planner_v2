@@ -62,14 +62,6 @@ CREATE TABLE IF NOT EXISTS tickets (
     FOREIGN KEY(schedule_id) REFERENCES schedules(id)
 );
 
-CREATE TABLE IF NOT EXISTS comments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    ticket_id INTEGER,
-    content TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(ticket_id) REFERENCES tickets(id)
-);
-
 CREATE TABLE IF NOT EXISTS actions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     ticket_id INTEGER,

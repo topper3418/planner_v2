@@ -5,7 +5,6 @@ import useThingViewHooks from './hooks';
 
 const {
   ThingTree,
-  CommentPanel,
   ActionPanel,
   tables: { TicketTable },
   details: { ThingDetails, TicketDetails },
@@ -66,18 +65,7 @@ const ThingView = () => {
           vertical
           gap="10px"
           style={{ flex: 1, height: "100%" }}>
-          <Flex style={{
-            maxHeight: '50%',
-            minHeight: '50%'
-          }}>
-            <CommentPanel ticketId={ticketId} />
-          </Flex>
-          <Flex style={{
-            maxHeight: '50%',
-            minHeight: '50%'
-          }}>
-            <ActionPanel ticketId={ticketId} refreshAll={api.refreshAll} />
-          </Flex>
+          <ActionPanel ticketId={ticketId} refreshAll={api.refreshAll} />
         </Flex>
         }
       </Flex>

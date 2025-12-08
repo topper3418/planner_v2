@@ -23,7 +23,7 @@ class ReadSchedulesResponse(BaseModel):
 def read(
     filters: Optional[ScheduleParams] = None,
 ) -> ReadSchedulesResponse:
-    logger.info(f"Listing Comments with filters: {filters}")
+    logger.info(f"Listing Schedules with filters: {filters}")
     from ..query_builder import QueryBuilder
 
     builder = QueryBuilder(Schedule, filters)
@@ -32,7 +32,7 @@ def read(
     params = tuple(builder.args)
     count_query = builder.count_query
     logger.debug("Schedule Read Query: %s \n Params: %s", query, params)
-    comments = core.run_list(query, params, Schedule)
+    schedules = core.run_list(query, params, Schedule)
     count = core.run_scalar(count_query, params)
     logger.info(f"Total schedule found: {count}")
-    return ReadSchedulesResponse(data=comments, count=count)
+    return ReadSchedulesResponse(data=schedules, count=count)

@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Input, Table } from "antd";
+import { Button, Card, Flex, Input, Select, Table } from "antd";
 import useApi from "../api";
 import { useEffect, useState } from "react";
 import ActionTypeDropdown from "./inputs/actionTypeDropdown";
@@ -11,6 +11,8 @@ const ActionPanel = ({ ticketId, refreshAll }) => {
     include: 'action_type',
     page_size: 10000
   };
+  const [selectedActionType, setSelectedActionType] = useState(null);
+  const [filteredActions, setFilteredActions] = useState([]);
   const {
     data,
     loading,
@@ -31,43 +33,42 @@ const ActionPanel = ({ ticketId, refreshAll }) => {
   const [newActionText, setNewActionText] = useState("");
   const [newActionTypeId, setNewActionTypeId] = useState(null);
 
+  const allActionTypes = data?.reduce((types, action) => {
+    if (action.action_type && !types.find(t => t.id === action.action_type.id)) {
+      types.push(action.action_type);
+    }
+    return types;
+  }, []);
+
+  useEffect(() => {
+    let filtered = data || [];
+    if (data) {
+      if (selectedActionType) {
+        filtered = data.filter(action => action.action_type && action.action_type.id === selectedActionType);
+      }
+    }
+    //reverse it to show latest first
+    setFilteredActions(filtered.slice().sort((a, b) => new Date(b.performed_at) - new Date(a.performed_at)));
+  }, [data, selectedActionType]);
+
   return (
-    <Card title="Actions" style={{ height: '325px', width: '450px' }}>
-      <Flex vertical justify="space-between">
-        <Flex vertical style={{ overflowY: 'auto', flex: 1 }}>
-          <Table
-            showHeader={false}
-            dataSource={data}
-            loading={loading}
-            scroll={{ y: 150 }}
-            columns={[
-              {
-                title: 'Time',
-                dataIndex: 'performed_at',
-                key: 'performed_at',
-                render: formatDate
-              },
-              {
-                title: 'Type',
-                dataIndex: ['action_type', 'name'],
-                key: 'action_type',
-                render: (text, record) => {
-                  return (
-                    <span style={{ backgroundColor: record.action_type.color, padding: '2px 6px', borderRadius: '4px' }}>
-                      {text}
-                    </span>
-                  )
-                }
-              },
-              {
-                title: 'Action',
-                dataIndex: 'action_text',
-                key: 'action_text',
-              },
-            ]}
-            pagination={false} />
-        </Flex>
-        <Flex gap="10px">
+    <Card
+      title="Actions"
+      style={{ width: '450px', height: "100%" }}
+      extra={<Select
+        style={{ width: 150 }}
+        placeholder="Type"
+        allowClear
+        onChange={(value) => {
+          setSelectedActionType(value);
+        }}
+        options={allActionTypes?.map(type => ({
+          label: type.name,
+          value: type.id
+        }))} />}
+    >
+      <Flex vertical justify="space-between" style={{ height: "100%" }}>
+        <Flex gap="10px" style={{ padding: "10px", borderBottom: "1px solid #f0f0f0" }}>
           <Input.TextArea
             value={newActionText}
             onChange={(e) => setNewActionText(e.target.value)}
@@ -95,8 +96,41 @@ const ActionPanel = ({ ticketId, refreshAll }) => {
               setSelectedActionTypeId={setNewActionTypeId} />
           </Flex>
         </Flex>
+        <Flex vertical style={{ paddingTop: "10px", overflowY: 'auto', flex: 1, height: "100%" }}>
+          <Table
+            showHeader={false}
+            dataSource={filteredActions}
+            loading={loading}
+            columns={[
+              {
+                title: 'Time',
+                dataIndex: 'performed_at',
+                key: 'performed_at',
+                render: formatDate
+              },
+              {
+                title: 'Type',
+                dataIndex: ['action_type', 'name'],
+                key: 'action_type',
+                render: (text, record) => {
+                  return (
+                    <span style={{ backgroundColor: record.action_type.color, padding: '2px 6px', borderRadius: '4px' }}>
+                      {text}
+                    </span>
+                  )
+                }
+              },
+              {
+                title: 'Action',
+                dataIndex: 'action_text',
+                key: 'action_text',
+              },
+            ]}
+            scroll={{ y: 460 }}
+            pagination={false} />
+        </Flex>
       </Flex>
-    </Card>
+    </Card >
   )
 }
 

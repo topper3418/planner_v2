@@ -4,7 +4,6 @@ import components from "../../components";
 import useTicketViewHooks from "./hooks";
 
 const {
-  CommentPanel,
   ActionPanel,
   tables: { TicketTable },
   details: { TicketDetails },
@@ -76,18 +75,7 @@ const TicketView = () => {
           vertical
           gap="10px"
           style={{ flex: 1, height: "100%" }}>
-          <Flex style={{
-            maxHeight: '50%',
-            minHeight: '50%'
-          }}>
-            <CommentPanel ticketId={ticketId} />
-          </Flex>
-          <Flex style={{
-            maxHeight: '50%',
-            minHeight: '50%'
-          }}>
-            <ActionPanel ticketId={ticketId} refreshAll={api.refreshAll} />
-          </Flex>
+          <ActionPanel ticketId={ticketId} refreshAll={api.refreshAll} />
         </Flex>
       </>}
     </Flex>

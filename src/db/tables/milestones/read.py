@@ -23,7 +23,7 @@ class ReadMilestonesResponse(BaseModel):
 def read(
     filters: Optional[MilestoneParams] = None,
 ) -> ReadMilestonesResponse:
-    logger.info(f"Listing Comments with filters: {filters}")
+    logger.info(f"Listing milestones with filters: {filters}")
     from ..query_builder import QueryBuilder
 
     builder = QueryBuilder(Milestone, filters)
@@ -32,7 +32,7 @@ def read(
     params = tuple(builder.args)
     count_query = builder.count_query
     logger.debug("Milestone Read Query: %s \n Params: %s", query, params)
-    comments = core.run_list(query, params, Milestone)
+    milestones = core.run_list(query, params, Milestone)
     count = core.run_scalar(count_query, params)
     logger.info(f"Total milestone found: {count}")
-    return ReadMilestonesResponse(data=comments, count=count)
+    return ReadMilestonesResponse(data=milestones, count=count)

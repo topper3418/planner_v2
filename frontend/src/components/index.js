@@ -5,7 +5,6 @@ import tables from "./tables";
 import NavBar from "./navbar";
 import NewThingModal from "./newThingModel";
 import ThingTree from "./thingTree";
-import CommentPanel from "./commentPanel";
 import ActionPanel from "./actionPanel";
 import PlannerTitle from "./plannerTitle";
 import Filters from "./filters";
@@ -19,7 +18,6 @@ const components = {
   NavBar,
   NewThingModal,
   ThingTree,
-  CommentPanel,
   ActionPanel,
   PlannerTitle,
 };

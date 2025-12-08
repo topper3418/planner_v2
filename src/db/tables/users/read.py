@@ -32,13 +32,13 @@ def read(
     params = tuple(builder.args)
     count_query = builder.count_query
     logger.debug("User Read Query: %s \n Params: %s", query, params)
-    comments = core.run_list(query, params, User)
+    users = core.run_list(query, params, User)
     count = core.run_scalar(count_query, params)
     logger.info(f"Total user found: {count}")
     if filters and "tickets" in filters.include:
-        for user in comments:
+        for user in users:
             user.populate_tickets()
     if filters and "ticket_count" in filters.include:
-        for user in comments:
+        for user in users:
             user.get_ticket_count()
-    return ReadUsersResponse(data=comments, count=count)
+    return ReadUsersResponse(data=users, count=count)
