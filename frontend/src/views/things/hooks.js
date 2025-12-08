@@ -47,6 +47,7 @@ const useThingViewHooks = () => {
   const ticketTableQueryParams = useTicketQueryParams(navigation.getQueryParam);
   const api = {
     thing: {
+      tree: useApi.thing.fetchTree(),
       selected: useApi.thing.fetchOne(thingId),
       create: useApi.thing.create(),
       update: useApi.thing.update(),
@@ -65,6 +66,7 @@ const useThingViewHooks = () => {
     if (ticketId) {
       api.ticket.selected.fetchOne(ticketId);
     }
+    api.thing.tree.fetchTree();
     api.ticket.list.fetchData(ticketTableQueryParams);
   };
   api.thing.refresh = () => {

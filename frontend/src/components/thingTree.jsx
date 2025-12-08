@@ -5,9 +5,9 @@ import useViewNavigation from '../navigation';
 
 
 const ThingTree = ({
-  refreshTrigger,
-  beginAddThing,
+  api,
 }) => {
+  const { thing: thingApi } = api;
   const [expandedKeys, setExpandedKeys] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
   const navigation = useViewNavigation();
@@ -20,13 +20,6 @@ const ThingTree = ({
       navigation.navigateWithParams(`/things/`);
     }
   }
-  const {
-    data: treeData,
-    allIds,
-    loading: treeDataLoading,
-    error: treeDataError,
-    refetch: treeDataRefetch
-  } = useApi.thing.fetchTree();
 
   const checkedThingIds = navigation.getQueryParam.thingIds
 
@@ -40,15 +33,11 @@ const ThingTree = ({
   };
 
   useEffect(() => {
-    if (!treeDataLoading && initialLoad) {
-      setExpandedKeys(allIds);
+    if (!thingApi.tree.loading && initialLoad) {
+      setExpandedKeys(thingApi.tree.allIds);
       setInitialLoad(false);
     }
-  }, [treeDataLoading]);
-
-  useEffect(() => {
-    treeDataRefetch();
-  }, [refreshTrigger]);
+  }, [thingApi.tree.loading]);
 
   const onSelect = (selectedKeys) => {
     const newSelectedThingId = selectedKeys[selectedKeys.length - 1]
@@ -89,8 +78,8 @@ const ThingTree = ({
         onSelect={onSelect}
         height={600}
         multiple
-        error={treeDataError}
-        treeData={treeData}
+        error={thingApi.tree.error}
+        treeData={thingApi.tree.data}
         titleRender={(node) => {
           // show ticket count if expanded
           if (expandedKeys.includes(node.key)) {
