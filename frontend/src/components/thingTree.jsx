@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Flex, Tree } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import useApi from '../api/';
 import useViewNavigation from '../navigation';
 
 
 const ThingTree = ({
   api,
+  beginAddThing
 }) => {
   const { thing: thingApi } = api;
   const [expandedKeys, setExpandedKeys] = useState([]);

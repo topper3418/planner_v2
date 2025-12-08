@@ -25,7 +25,7 @@ const ThingView = () => {
 
   return (<>
     <Flex gap="10px" style={{ overflowY: 'hidden', height: '100%', flexWrap: 'wrap' }}>
-      <ThingTree api={api} />
+      <ThingTree api={api} beginAddThing={thingModalControl.add.open} />
       <Flex gap="10px" style={{
         height: '100%',
         minHeight: 0,
