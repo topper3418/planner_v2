@@ -28,6 +28,7 @@ const useFetchActions = (
       page_number,
       page_size,
     } = params;
+    console.log("getting actions with params:", params);
     if (ticket_id !== undefined) {
       url.searchParams.append("ticket_id", ticket_id);
     }
@@ -35,7 +36,7 @@ const useFetchActions = (
       url.searchParams.append("action_type_id", action_type_id);
     }
     if (action_type_name !== undefined) {
-      url.searchParams.append("aaction_type_name", action_type_name);
+      url.searchParams.append("action_type_name", action_type_name);
     }
     if (performed_before !== undefined) {
       url.searchParams.append("performed_before", performed_before);
