@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import useViewNavigation from "../../../navigation";
 import useTicketQueryParams from "../../../queryParams/useTicketQueryParams";
 
-const useTicketTableHooks = (tableMode, refreshTrigger) => {
+const useTicketTableHooks = (tableMode, ticketListApi) => {
   // navigation hook
   const navigation = useViewNavigation();
   // initialize query params for consistency throughout component
@@ -13,22 +13,14 @@ const useTicketTableHooks = (tableMode, refreshTrigger) => {
   const pageSize = navigation.getQueryParam.pageSize || 25;
   const pageNumber = navigation.getQueryParam.pageNumber || 1;
   const queryParams = useTicketQueryParams(navigation.getQueryParam);
-  // initialize state
-  const { data, count, loading, error, fetchData } =
-    useApi.ticket.fetchMany(queryParams);
 
   // set default table mode
   if (!tableMode) tableMode = "full"; // other option is "compact"
 
   //helper function
   const doRefetch = () => {
-    fetchData(queryParams);
+    ticketListApi.fetchData(queryParams);
   };
-
-  // on refresh trigger, refresh
-  useEffect(() => {
-    doRefetch();
-  }, [refreshTrigger]);
 
   // onclick for the show closed button
   const handleShowClosedToggle = () => {
@@ -48,7 +40,7 @@ const useTicketTableHooks = (tableMode, refreshTrigger) => {
     simple: true,
     size: "small",
     current: pageNumber,
-    total: count,
+    total: ticketListApi.count,
     onChange: (page) => {
       navigation.setQueryParam.pageNumber(page);
     },
@@ -86,10 +78,6 @@ const useTicketTableHooks = (tableMode, refreshTrigger) => {
 
   return {
     navigation,
-    data,
-    count,
-    loading,
-    error,
     doRefetch,
     pagination,
     handleShowClosedToggle,

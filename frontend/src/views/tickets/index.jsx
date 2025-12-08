@@ -25,6 +25,7 @@ const TicketView = () => {
       flexWrap: 'wrap'
     }}>
       <TicketTable
+        ticketListApi={api.ticket.list}
         tableMode={ticketId ? "compact" : "full"}
         selectedTicketId={ticketId}
         beginAddTicket={modalControl.add.open}

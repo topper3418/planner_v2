@@ -7,21 +7,17 @@ import getColumns from "../../../tableColumns/getTicketTableColumns"
 const TicketTable = ({
   tableMode,
   onRow,
-  refreshTrigger,
+  ticketListApi,
   beginAddTicket,
   scrollHeight
 }) => {
 
   const {
-    data,
-    count,
-    loading,
-    error,
     pagination,
     getRowClassName,
   } = useTicketTableHooks(
     tableMode,
-    refreshTrigger
+    ticketListApi,
   );
 
   const cols = tableMode === "compact" ?
@@ -30,7 +26,7 @@ const TicketTable = ({
 
   return (
     <Card
-      title={`Tickets (${count ? count : 0})`}
+      title={`Tickets (${ticketListApi.count ? ticketListApi.count : 0})`}
       style={{
         width: tableMode === "compact" ? 450 : 1100,
       }}
@@ -45,14 +41,14 @@ const TicketTable = ({
       }>
       <Flex vertical flex={1} >
         <Table
-          dataSource={data ? data : []}
+          dataSource={ticketListApi.data ? ticketListApi.data : []}
           columns={getColumns(cols)}
           pagination={pagination}
           rowClassName={getRowClassName}
           rowHoverable={false}
           scroll={{ y: scrollHeight ? scrollHeight : 400 }}
-          loading={loading}
-          error={error}
+          loading={ticketListApi.loading}
+          error={ticketListApi.error}
           onRow={onRow}
           rowKey="id" />
       </Flex>

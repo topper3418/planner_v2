@@ -52,7 +52,7 @@ const ThingView = () => {
           checkedThingIds={thingId ? undefined : checkedThingIds}
           selectedThingId={thingId}
           tableMode={ticketId || thingId ? "compact" : "full"}
-          refreshTrigger={ticketModalControl.loading}
+          ticketListApi={api.ticket.list}
           selectedTicketId={ticketId}
           beginAddTicket={ticketModalControl.add.open}
           scrollHeight={500}

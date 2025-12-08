@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useApi from "../../api/";
 import components from "../../components";
 import useViewNavigation from "../../navigation";
+import useTicketQueryParams from "../../queryParams/useTicketQueryParams";
 
 const {
   modals: {
@@ -43,6 +44,7 @@ const useThingViewHooks = () => {
   // component state
   const [checkedThingIds, setCheckedThingIds] = useState([]);
   // API object
+  const ticketTableQueryParams = useTicketQueryParams(navigation.getQueryParam);
   const api = {
     thing: {
       selected: useApi.thing.fetchOne(thingId),
@@ -50,6 +52,7 @@ const useThingViewHooks = () => {
       update: useApi.thing.update(),
     },
     ticket: {
+      list: useApi.ticket.fetchMany(ticketTableQueryParams),
       selected: useApi.ticket.fetchOne(ticketId),
       create: useApi.ticket.create(),
       update: useApi.ticket.update(),
@@ -62,6 +65,7 @@ const useThingViewHooks = () => {
     if (ticketId) {
       api.ticket.selected.fetchOne(ticketId);
     }
+    api.ticket.list.fetchData(ticketTableQueryParams);
   };
   api.thing.refresh = () => {
     if (thingId) {
@@ -72,6 +76,7 @@ const useThingViewHooks = () => {
     if (ticketId) {
       api.ticket.selected.fetchOne(ticketId);
     }
+    api.ticket.list.fetchData(ticketTableQueryParams);
   };
 
   // Effects to fetch data when IDs change

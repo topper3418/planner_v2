@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useApi from "../../api";
 import components from "../../components";
 import useViewNavigation from "../../navigation";
+import useTicketQueryParams from "../../queryParams/useTicketQueryParams";
 
 const {
   modals: {
@@ -24,8 +25,10 @@ const useTicketViewHooks = () => {
     },
   };
   // API object
+  const ticketTableQueryParams = useTicketQueryParams(navigation.getQueryParam);
   const api = {
     ticket: {
+      list: useApi.ticket.fetchMany(ticketTableQueryParams),
       selected: useApi.ticket.fetchOne(ticketId),
       create: useApi.ticket.create(),
       update: useApi.ticket.update(),
@@ -39,6 +42,7 @@ const useTicketViewHooks = () => {
   api.refreshTicket = () => {
     if (ticketId) {
       api.ticket.selected.fetchOne(ticketId);
+      api.ticket.list.fetchData(ticketTableQueryParams);
     }
   };
   api.refreshMilestones = () => {
