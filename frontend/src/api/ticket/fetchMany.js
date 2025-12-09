@@ -17,6 +17,8 @@ const useFetchTickets = (
     search,
     milestone_id,
     milestone_ids,
+    due_date_before,
+    due_date_after,
     schedule_id,
     scheduled,
     user_id,
@@ -37,6 +39,8 @@ const useFetchTickets = (
       search,
       milestone_id,
       milestone_ids,
+      due_date_before,
+      due_date_after,
       schedule_id,
       scheduled,
       user_id,
@@ -118,6 +122,15 @@ const useFetchTickets = (
       }
     }
 
+    // set due_date_before filter if provided
+    if (due_date_before !== undefined) {
+      url.searchParams.append("due_date_before", due_date_before);
+    }
+    // set due_date_after filter if provided
+    if (due_date_after !== undefined) {
+      url.searchParams.append("due_date_after", due_date_after);
+    }
+
     // set schedule_id filter if provided
     if (schedule_id !== undefined) {
       url.searchParams.append("schedule_id", schedule_id);
@@ -154,6 +167,8 @@ const useFetchTickets = (
       search,
       milestone_id,
       milestone_ids,
+      due_date_before,
+      due_date_after,
       schedule_id,
       scheduled,
       user_id,

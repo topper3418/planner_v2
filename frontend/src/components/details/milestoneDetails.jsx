@@ -19,8 +19,11 @@ const MilestoneDetails = ({ milestone, editCallback, style = { width: "300px", h
         <Descriptions.Item label="Description">
           {milestone?.description || 'N/A'}
         </Descriptions.Item>
+        <Descriptions.Item label="Start Date">
+          {milestone?.start_date?.split("T")[0] || 'N/A'}
+        </Descriptions.Item>
         <Descriptions.Item label="Due Date">
-          {milestone?.due_date || 'N/A'}
+          {milestone?.due_date?.split("T")[0] || 'N/A'}
         </Descriptions.Item>
       </Descriptions>
     </Card>

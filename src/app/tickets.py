@@ -44,6 +44,7 @@ async def update_ticket(ticket_id: int, ticket: Ticket):
     """
     Update a ticket by ID.
     """
+    print("Updating ticket:", ticket)
     ticket.id = ticket_id
     try:
         Ticket.update(ticket)
@@ -98,7 +99,6 @@ async def get_ticket(ticket_id: int):
     ticket = Ticket.get_by_id(ticket_id)
     if not ticket:
         raise HTTPException(status_code=404, detail="Ticket not found")
-    print("returning ticket", ticket)
     return ticket
 
 

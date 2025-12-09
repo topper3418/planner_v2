@@ -9,6 +9,7 @@ const useTicketBuffer = () => {
   const [parentId, setParentId] = useState(null);
   const [userId, setUserId] = useState(null);
   const [scheduleId, setScheduleId] = useState(null);
+  const [dueDate, setDueDate] = useState(null);
   const reset = () => {
     setTitle("");
     setDescription("");
@@ -18,6 +19,7 @@ const useTicketBuffer = () => {
     setParentId(null);
     setUserId(null);
     setScheduleId(null);
+    setDueDate(null);
   };
   const ticket = {
     title,
@@ -28,6 +30,7 @@ const useTicketBuffer = () => {
     parentId,
     userId,
     scheduleId,
+    dueDate,
     set: {
       title: setTitle,
       description: setDescription,
@@ -37,6 +40,7 @@ const useTicketBuffer = () => {
       parentId: setParentId,
       userId: setUserId,
       scheduleId: setScheduleId,
+      dueDate: setDueDate,
     },
     reset,
   };

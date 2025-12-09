@@ -1,4 +1,3 @@
-import useApi from "../../../api";
 import { useEffect, useState } from "react";
 import useViewNavigation from "../../../navigation";
 import useTicketQueryParams from "../../../queryParams/useTicketQueryParams";

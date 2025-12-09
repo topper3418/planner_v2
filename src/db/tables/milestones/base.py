@@ -13,6 +13,7 @@ class Milestone(TableModel):
     name: Optional[str] = ColumnField(None)
     description: Optional[str] = ColumnField(None)
     due_date: Optional[datetime] = ColumnField(None)
+    start_date: Optional[datetime] = ColumnField(None)
 
     class Config:
         from_attributes = True

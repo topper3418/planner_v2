@@ -28,6 +28,7 @@ class Ticket(TableModel):
     created_at: Optional[datetime] = ColumnField(None)
     updated_at: Optional[datetime] = ColumnField(None)
     completed_at: Optional[datetime] = ColumnField(None)
+    due_date: Optional[datetime] = ColumnField(None)
 
     thing_id: Optional[int] = ForeignKeyField(None, on="id")
     category_id: Optional[int] = ForeignKeyField(None, on="id")

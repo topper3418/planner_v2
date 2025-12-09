@@ -38,7 +38,7 @@ const ScheduleList = (
               style={{
                 cursor: 'pointer',
                 padding: '10px',
-                backgroundColor: scheduleId == schedule.id ? 'lightblue' : 'transparent',
+                backgroundColor: scheduleId == schedule.id ? '#0958d9' : 'transparent',
               }}
               onClick={() => selectSchedule(schedule.id)}
             >

@@ -2,6 +2,9 @@ from .base import Ticket
 
 
 def from_row(cls, **row) -> Ticket:
+    from pprint import pformat
+
+    print("from_row input:", pformat(row))
     ticket = cls(
         id=row["id"],
         title=row["title"],
@@ -14,6 +17,7 @@ def from_row(cls, **row) -> Ticket:
         created_at=row["created_at"],
         updated_at=row["updated_at"],
         completed_at=row["completed_at"],
+        due_date=row["due_date"],
         user_id=row["user_id"],
         schedule_id=row["schedule_id"],
     )
@@ -39,7 +43,7 @@ def from_row(cls, **row) -> Ticket:
             name=row.get("category_name", ""),
             description=row.get("category_description", None),
             is_default=row.get("category_is_default", False),
-            color=row.get("color", None),
+            color=row.get("category_color", None),
         )
     if "user_username" in row.keys():
         from ..users import User

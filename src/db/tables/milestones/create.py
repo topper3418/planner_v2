@@ -12,11 +12,12 @@ core.logger = logger
 
 def create(milestone: Milestone) -> int:
     logger.info(f"Creating new milestone: {milestone}")
-    query = "INSERT INTO milestones (name, description, due_date) VALUES (?, ?, ?);"
+    query = "INSERT INTO milestones (name, description, due_date, start_date) VALUES (?, ?, ?, ?);"
     params = (
         milestone.name,
         milestone.description,
         milestone.due_date,
+        milestone.start_date,
     )
     logger.info(f"Milestone Create Query: {query} \n Params: {params}")
     exception_package = ExceptionPackage()

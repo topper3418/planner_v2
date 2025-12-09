@@ -52,6 +52,8 @@ const useMilestoneViewHooks = () => {
   // Modal Control
   const modalControl = useMilestoneModalControl(api, milestoneId);
 
+  console.log("milestone selected data:", api.milestone.selected.data);
+
   // refresh all on milestoneId change
   useEffect(() => {
     if (milestoneId) {

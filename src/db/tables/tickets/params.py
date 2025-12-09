@@ -48,6 +48,12 @@ class TicketParams(QueryParams):
     completed_before: Optional[datetime] = FilterParam(
         default=None, where_clause="tickets.completed_at <= ?"
     )
+    due_date_before: Optional[datetime] = FilterParam(
+        default=None, where_clause="tickets.due_date <= ?"
+    )
+    due_date_after: Optional[datetime] = FilterParam(
+        default=None, where_clause="tickets.due_date >= ?"
+    )
     milestone_id: Optional[int] = FilterParam(
         default=None,
         where_clause="tickets.id in (SELECT ticket_id FROM ticket_milestones WHERE milestone_id = ?)",

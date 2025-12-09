@@ -4,12 +4,17 @@ import MilestonePastDueTickets from "./milestonePastDueTickets";
 import UserTicketsPie from "./userTicketsPie";
 import TopThingTicketsPie from "./topThingTicketsPie";
 import CompletedThisWeek from "./completedThisWeek";
+import DueTicketsCalendar from "./dueTicketsCalendar";
 
 
 const HomeView = () => {
   return (
     <Flex vertical gap="10px">
       <Flex gap="10px" style={{ overflowY: 'auto', flexWrap: 'wrap' }}>
+        <DueTicketsCalendar />
+        <CompletedThisWeek />
+        <OpenScheduledTicketTable />
+        <MilestonePastDueTickets />
         <Card
           title="Open Tickets by User"
           style={{ minHeight: "400px" }}>
@@ -20,9 +25,6 @@ const HomeView = () => {
           style={{ minHeight: "400px" }}>
           <TopThingTicketsPie />
         </Card>
-        <CompletedThisWeek />
-        <OpenScheduledTicketTable />
-        <MilestonePastDueTickets />
       </Flex>
     </Flex>
   );

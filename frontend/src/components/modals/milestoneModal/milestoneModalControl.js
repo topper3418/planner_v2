@@ -6,6 +6,7 @@ const useMilestoneModalControl = (api, milestoneId) => {
   const [editMilestoneModalOpen, setEditMilestoneModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
   const milestoneBuffer = useMilestoneBuffer();
+  console.log("milestone:", api.milestone.selected.data);
   const modalControl = {
     loading:
       api.milestone.selected.loading ||
@@ -32,7 +33,8 @@ const useMilestoneModalControl = (api, milestoneId) => {
         await api.milestone.create.create({
           name: milestoneBuffer.name,
           description: milestoneBuffer.description,
-          due_date: milestoneBuffer.due_date,
+          due_date: milestoneBuffer.dueDate,
+          start_date: milestoneBuffer.startDate,
         });
         api.refreshAll();
         milestoneBuffer.reset();
@@ -49,7 +51,8 @@ const useMilestoneModalControl = (api, milestoneId) => {
         milestoneBuffer.set.description(
           api.milestone.selected.data.description,
         );
-        milestoneBuffer.set.due_date(api.milestone.selected.data.due_date);
+        milestoneBuffer.set.dueDate(api.milestone.selected.data.due_date);
+        milestoneBuffer.set.startDate(api.milestone.selected.data.start_date);
         // then open the modal
         setEditMilestoneModalOpen(true);
       },
@@ -62,7 +65,8 @@ const useMilestoneModalControl = (api, milestoneId) => {
           id: milestoneId,
           name: milestoneBuffer.name,
           description: milestoneBuffer.description,
-          due_date: milestoneBuffer.due_date,
+          due_date: milestoneBuffer.dueDate,
+          start_date: milestoneBuffer.startDate,
         });
         api.refreshAll();
         milestoneBuffer.reset();

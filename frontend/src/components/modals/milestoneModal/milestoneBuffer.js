@@ -4,20 +4,25 @@ const useMilestoneBuffer = () => {
   const [mutateMilestoneName, setMutateMilestoneName] = useState("");
   const [mutateMilestoneDescription, setMutateMilestoneDescription] =
     useState("");
+  const [mutateMilestoneStartDate, setMutateMilestoneStartDate] =
+    useState(null);
   const [mutateMilestoneDueDate, setMutateMilestoneDueDate] = useState(null);
   const milestoneModalReset = () => {
     setMutateMilestoneName("");
     setMutateMilestoneDescription("");
     setMutateMilestoneDueDate(null);
+    setMutateMilestoneStartDate(null);
   };
   const mutateMilestone = {
     name: mutateMilestoneName,
     description: mutateMilestoneDescription,
-    due_date: mutateMilestoneDueDate,
+    dueDate: mutateMilestoneDueDate,
+    startDate: mutateMilestoneStartDate,
     set: {
       name: setMutateMilestoneName,
       description: setMutateMilestoneDescription,
-      due_date: setMutateMilestoneDueDate,
+      dueDate: setMutateMilestoneDueDate,
+      startDate: setMutateMilestoneStartDate,
     },
     reset: milestoneModalReset,
   };
