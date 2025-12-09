@@ -1,8 +1,9 @@
-import { Checkbox, Flex, Input, Modal, Descriptions } from "antd"
+import { Checkbox, Flex, Input, Modal, Descriptions, DatePicker } from "antd"
 import TicketCategoryDropdown from "../../inputs/ticketCategoryDropdown";
 import ThingDropdown from "../../inputs/thingDropdown";
 import UserDropdown from "../../inputs/userDropdown";
 import ScheduleDropdown from "../../inputs/scheduleDropdown";
+import dayjs from "dayjs";
 
 
 const TicketModal = ({ modalControl }) => {
@@ -58,6 +59,11 @@ const TicketModal = ({ modalControl }) => {
           <ScheduleDropdown
             selectedScheduleId={ticket.scheduleId}
             setSelectedScheduleId={(value) => ticket.set.scheduleId(value)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Due Date" >
+          <DatePicker
+            value={ticket.dueDate ? dayjs(ticket.dueDate) : null}
+            onChange={(date) => ticket.set.dueDate(date ? date.format('YYYY-MM-DDTHH:mm:ss') : null)} />
         </Descriptions.Item>
         <Descriptions.Item label="Description" >
           <Input.TextArea

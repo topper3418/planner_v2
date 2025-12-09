@@ -31,7 +31,7 @@ const UserList = (
             style={{
               cursor: 'pointer',
               padding: '10px',
-              backgroundColor: userId == user.id ? 'lightblue' : 'transparent',
+              backgroundColor: userId == user.id ? '#0958d9' : 'transparent',
             }}
             onClick={() => selectUser(user.id)}
           >

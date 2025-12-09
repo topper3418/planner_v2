@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS tickets (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     open BOOLEAN DEFAULT 1,
     overdue BOOLEAN DEFAULT 0,
+    due_date DATETIME,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     completed_at DATETIME,
     FOREIGN KEY(thing_id) REFERENCES things(id),
@@ -76,6 +77,7 @@ CREATE TABLE IF NOT EXISTS milestones (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
     description TEXT,
+    start_date DATETIME,
     due_date DATETIME
 );
 

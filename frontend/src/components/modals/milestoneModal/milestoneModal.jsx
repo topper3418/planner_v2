@@ -1,4 +1,5 @@
-import { Descriptions, Input, Modal } from "antd";
+import { DatePicker, Descriptions, Input, Modal } from "antd";
+import dayjs from "dayjs";
 
 const MilestoneModal = ({ modalControl }) => {
   const { title, isOpen, close, submit } = modalControl[modalControl.mode];
@@ -9,6 +10,7 @@ const MilestoneModal = ({ modalControl }) => {
       submit();
     }
   }
+  console.log("milestone modal render", milestone);
   return (
     <Modal
       title={title}
@@ -36,13 +38,15 @@ const MilestoneModal = ({ modalControl }) => {
             value={milestone.description}
             onChange={(e) => milestone?.set?.description(e.target.value)} />
         </Descriptions.Item>
+        <Descriptions.Item label="Start Date" >
+          <DatePicker
+            value={milestone.startDate ? dayjs(milestone.startDate) : null}
+            onChange={(date) => milestone.set.startDate(date ? date.format('YYYY-MM-DDTHH:mm:ss') : null)} />
+        </Descriptions.Item>
         <Descriptions.Item label="Due Date" >
-          <Input
-            type="date"
-            placeholder="Milestone Due Date"
-            onKeyDown={submitOnEnter}
-            value={milestone.due_date}
-            onChange={(e) => milestone?.set?.due_date(e.target.value)} />
+          <DatePicker
+            value={milestone.dueDate ? dayjs(milestone.dueDate) : null}
+            onChange={(date) => milestone.set.dueDate(date ? date.format('YYYY-MM-DDTHH:mm:ss') : null)} />
         </Descriptions.Item>
       </Descriptions>
     </Modal>

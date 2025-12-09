@@ -23,7 +23,7 @@ const MilestoneList = (
             style={{
               cursor: 'pointer',
               padding: '10px',
-              backgroundColor: milestoneId == milestone.id ? 'lightblue' : 'transparent',
+              backgroundColor: milestoneId == milestone.id ? '#0958d9' : 'transparent',
             }}
             onClick={() => selectMilestone(milestone.id)}
           >

@@ -49,6 +49,7 @@ const useTicketModalControl = (
           category_id: ticketBuffer.categoryId,
           user_id: ticketBuffer.userId,
           schedule_id: ticketBuffer.scheduleId,
+          due_date: ticketBuffer.dueDate,
         });
         api.refreshAll();
         ticketBuffer.reset();
@@ -67,11 +68,11 @@ const useTicketModalControl = (
         ticketBuffer.set.categoryId(api.ticket.selected.data?.category_id);
         ticketBuffer.set.userId(api.ticket.selected.data?.user_id);
         ticketBuffer.set.scheduleId(api.ticket.selected.data?.schedule_id);
+        ticketBuffer.set.dueDate(api.ticket.selected.data?.due_date);
         setEditTicketModalOpen(true);
       },
       close: () => setEditTicketModalOpen(false),
       submit: async () => {
-        console.log("update: ", api.ticket.update);
         await api.ticket.update.update({
           id: ticketId,
           title: ticketBuffer.title,
@@ -81,6 +82,7 @@ const useTicketModalControl = (
           category_id: ticketBuffer.categoryId,
           user_id: ticketBuffer.userId,
           schedule_id: ticketBuffer.scheduleId,
+          due_date: ticketBuffer.dueDate,
         });
         api.refreshAll();
         ticketBuffer.reset();

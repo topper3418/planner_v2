@@ -8,6 +8,9 @@ const TicketDetails = ({
   error,
   beginEdit
 }) => {
+  console.log("ticket:", ticket.due_date);
+  console.log("type of due date:", typeof ticket.due_date);
+
   const { thingId } = useParams();
   return (
     <Card
@@ -48,7 +51,7 @@ const TicketDetails = ({
             {ticket?.schedule ? ticket.schedule.name : ''}
           </Descriptions.Item>
           <Descriptions.Item label="Due Date">
-            {ticket?.due_date ? ticket.due_date?.split("T")[0] : ''}
+            {ticket?.due_date ? ticket.due_date : ''}
           </Descriptions.Item>
           <Typography.Paragraph style={{
             border: '1px solid #f0f0f0',
