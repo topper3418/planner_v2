@@ -1,6 +1,6 @@
 from pydantic import Field
 from typing import Literal, Optional
-from datetime import datetime
+from datetime import date, datetime
 from ..fields import FilterParam
 from ..query_params import QueryParams
 
@@ -53,6 +53,9 @@ class TicketParams(QueryParams):
     )
     due_date_after: Optional[datetime] = FilterParam(
         default=None, where_clause="tickets.due_date >= ?"
+    )
+    due_date: Optional[date] = FilterParam(
+        default=None, where_clause="tickets.due_date = ?"
     )
     milestone_id: Optional[int] = FilterParam(
         default=None,

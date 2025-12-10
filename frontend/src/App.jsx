@@ -9,6 +9,7 @@ import ScheduleView from './views/schedules';
 import UserView from './views/users';
 import HomeView from './views/home';
 import ConfigView from './views/config';
+import DueTicketsCalendar from './views/calendar';
 
 import PlannerTitle from './components/plannerTitle';
 import Filters from './components/filters';
@@ -51,6 +52,7 @@ const App = () => {
             }}>
               <Routes>
                 <Route path="/" element={<HomeView />} />
+                <Route path="/calendar" element={<DueTicketsCalendar />} />
                 <Route path="/tickets/" element={<TicketView />} />
                 <Route path="/tickets/:ticketId" element={<TicketView />} />
                 <Route path="/things/" element={<ThingView />} />

@@ -1,3 +1,4 @@
+from datetime import date
 import logging
 from ..db.tables import (
     ReadSchedulesResponse,
@@ -15,8 +16,10 @@ logger = logging.getLogger(__name__)
 
 class Scheduler:
 
-    def __init__(self):
+    def __init__(self, date_override: date | None = None):
         self.today = Today()
+        if date_override:
+            self.today.set_date(date_override)
         self.matching_schedules: list[Schedule] = []
         self.regen_tickets: list[Ticket] = []
 

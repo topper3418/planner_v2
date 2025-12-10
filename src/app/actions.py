@@ -1,3 +1,4 @@
+from datetime import date
 from fastapi import APIRouter, HTTPException, Query, status
 
 from ..db import Controller
@@ -67,5 +68,26 @@ async def delete_action(action_id: int):
     try:
         Action.delete(action_id)
         return {"message": "Action deleted"}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/completions/{date_str}", response_model=ReadActions)
+async def list_actions_by_completion_date(date_str: str):
+    """
+    List actions completed on a specific date.
+    """
+    try:
+        year, month, day = map(int, date_str.split("-"))
+        date_in = date(year, month, day)
+
+        actions = Action.read(
+            ActionParams(  # type: ignore
+                performed_on_day=date_in,
+                action_type_name="Completed",
+                page_size=1000,
+            )
+        )
+        return actions
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

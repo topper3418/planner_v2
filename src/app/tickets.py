@@ -1,5 +1,8 @@
+from datetime import date
 from fastapi import APIRouter, HTTPException, Query, status
 from pydantic import BaseModel
+
+from src.scheduler.scheduler import Scheduler
 
 from ..db import Controller
 from .ticket_categories import router as categories_router
@@ -118,5 +121,28 @@ async def delete_ticket(ticket_id: int):
     try:
         Ticket.delete(ticket_id)
         return {"message": "Ticket deleted"}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/todos/{date_str}", response_model=ReadTickets)
+async def get_todo_tickets(date_str: str):
+    """
+    Get tickets that are due on a specific date, by due date and schedules.
+    """
+    try:
+        year, month, day = map(int, date_str.split("-"))
+        date_in = date(year, month, day)
+        ticket_params = TicketParams(due_date=date_in)
+        tickets_due = Ticket.read(ticket_params)
+        scheduler = Scheduler(date_in)
+        scheduler.read()
+        scheduled_tickets_data = scheduler.regen_tickets
+        for ticket in scheduled_tickets_data:
+            if ticket not in tickets_due.data:
+                ticket.populate_category()  # type: ignore
+                tickets_due.data.append(ticket)
+                tickets_due.count += 1
+        return tickets_due
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

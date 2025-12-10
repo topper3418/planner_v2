@@ -1,9 +1,8 @@
 import { Card, Col, Flex, Row, Typography } from "antd";
 import useApi from "../../api";
+import CalendarDay from "./calendarDay";
 
 const DueTicketsCalendar = () => {
-
-
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -83,70 +82,10 @@ const DueTicketsCalendar = () => {
               const milestonesDueToday = milestonesDueDateMap[dayDate.toISOString().split("T")[0]] || [];
 
               return (
-                <Col span={3} key={day} style={{ minHeight: '100px', border: '1px solid #f0f0f0', padding: '8px' }}>
-                  <Typography.Text style={{ color: isCurrentMonth ? 'white' : 'gray' }}>
-                    {displayDate}
-                  </Typography.Text>
-                  <Flex vertical gap="4px" style={{ marginTop: '4px' }}>
-                    {ticketsForDay.map((ticket) => (
-                      <Typography.Paragraph
-                        key={ticket.id}
-                        ellipsis={{ rows: 1, expandable: false }}
-                        onClick={() => {
-                          window.location.href = `/tickets/${ticket.id}`;
-                        }}
-                        style={{
-                          backgroundColor: ticket.category ? ticket.category.color : '#d9d9d9',
-                          color: '#fff',
-                          cursor: 'pointer',
-                          padding: '2px 4px',
-                          borderRadius: '4px',
-                          fontSize: '12px',
-                          margin: 0,
-                        }}>
-                        {ticket.title}
-                      </Typography.Paragraph>
-                    ))}
-                    {milestonesStartingToday.map((milestone) => (
-                      <Typography.Paragraph
-                        key={milestone.id}
-                        ellipsis={{ rows: 1, expandable: false }}
-                        onClick={() => {
-                          window.location.href = `/milestones/${milestone.id}`;
-                        }}
-                        style={{
-                          backgroundColor: '#52c41a',
-                          color: '#fff',
-                          cursor: 'pointer',
-                          padding: '2px 4px',
-                          borderRadius: '4px',
-                          fontSize: '12px',
-                          margin: 0,
-                        }}>
-                        🚀 {milestone.name} (Start)
-                      </Typography.Paragraph>
-                    ))}
-                    {milestonesDueToday.map((milestone) => (
-                      <Typography.Paragraph
-                        key={milestone.id}
-                        ellipsis={{ rows: 1, expandable: false }}
-                        onClick={() => {
-                          window.location.href = `/milestones/${milestone.id}`;
-                        }}
-                        style={{
-                          backgroundColor: '#faad14',
-                          color: '#fff',
-                          cursor: 'pointer',
-                          padding: '2px 4px',
-                          borderRadius: '4px',
-                          fontSize: '12px',
-                          margin: 0,
-                        }}>
-                        ⏰ {milestone.name} (Due)
-                      </Typography.Paragraph>
-                    ))}
-                  </Flex>
-                </Col>
+                <CalendarDay
+                  dayDate={dayDate}
+                  month={month}
+                  key={dayDate.toISOString()} />
               );
             })}
           </Row>

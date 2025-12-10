@@ -6,7 +6,6 @@ import {
 
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import useViewNavigation from "../navigation";
 
 const getItems = (searchParams) => {
@@ -16,6 +15,11 @@ const getItems = (searchParams) => {
       label: 'Home',
       key: 'home',
       href: '/' + paramStr
+    },
+    {
+      label: 'Calendar',
+      key: 'calendar',
+      href: '/calendar' + paramStr
     },
     {
       label: 'Things',

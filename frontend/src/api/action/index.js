@@ -1,5 +1,6 @@
 import useCreateAction from "./create";
 import useCreateActionType from "./createActionType";
+import useFetchCompletionsOnDay from "./fetchCompletionsOnDay";
 import useFetchActions from "./fetchMany";
 import useFetchActionType from "./fetchType";
 import useFetchActionTypes from "./fetchTypes";
@@ -12,6 +13,7 @@ const actionApi = {
   fetchType: useFetchActionType,
   createType: useCreateActionType,
   updateType: useUpdateActionType,
+  fetchCompletionsOnDay: useFetchCompletionsOnDay,
 };
 
 export default actionApi;

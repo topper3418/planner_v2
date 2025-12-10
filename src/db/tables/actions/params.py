@@ -24,6 +24,9 @@ class ActionParams(QueryParams):
     performed_before: Optional[datetime] = FilterParam(
         default=None, where_clause="actions.performed_at <= ?"
     )
+    performed_on_day: Optional[date] = FilterParam(
+        default=None, where_clause="DATE(actions.performed_at) = ?"
+    )
     include: list[Literal["ticket", "action_type"]] = []
     page_number: Optional[int] = Field(1, ge=1)
     page_size: Optional[int] = Field(10, ge=1)
