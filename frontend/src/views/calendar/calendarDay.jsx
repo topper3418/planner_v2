@@ -20,13 +20,19 @@ const CalendarDay = ({
   const isCurrentMonth = dayDate.getMonth() === month;
 
   const completedTicketIds = completionsApi?.data?.map((completion) => completion.ticket_id) || [];
+  console.log("tickets for day", dayDate, tickets);
+  // filter tickets out if they were created after this day
+  const filteredTickets = tickets.filter((ticket) => {
+    const createdAt = new Date(ticket.created_at);
+    return createdAt <= dayEnd;
+  });
   return (
     <Col span={3} style={{ minHeight: '100px', border: '1px solid #f0f0f0', padding: '8px' }}>
       <Typography.Text style={{ color: isCurrentMonth ? 'white' : 'gray' }}>
         {displayDate}
       </Typography.Text>
       <Flex vertical gap="4px" style={{ marginTop: '4px' }}>
-        {tickets.map((ticket) => (
+        {filteredTickets.map((ticket) => (
           <Typography.Paragraph
             key={ticket.id}
             ellipsis={{ rows: 1, expandable: false }}
