@@ -16,7 +16,8 @@ const CalendarDay = ({
     performed_after: dayStart.toISOString(),
   })
   const tickets = (todosApi?.data || []).map((todo) => {
-    return { ...todo, isCompletedTicket: todo?.open === false }
+    const isCompletedTicket = todo?.open === false && todo.schedule_id === null;
+    return { ...todo, isCompletedTicket };
   });
   const displayDate = dayDate.getDate();
   const isCurrentMonth = dayDate.getMonth() === month;
