@@ -66,7 +66,7 @@ const useThingViewHooks = () => {
     if (ticketId) {
       api.ticket.selected.fetchOne(ticketId);
     }
-    api.thing.tree.fetchTree();
+    api.thing.tree.fetchData();
     api.ticket.list.fetchData(ticketTableQueryParams);
   };
   api.thing.refresh = () => {

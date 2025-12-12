@@ -28,7 +28,7 @@ const TicketTable = ({
     <Card
       title={`Tickets (${ticketListApi.count ? ticketListApi.count : 0})`}
       style={{
-        width: tableMode === "compact" ? 450 : 1100,
+        width: tableMode === "compact" ? 400 : 1100,
         height: '100%'
       }}
       extra={

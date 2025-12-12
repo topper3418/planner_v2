@@ -58,7 +58,7 @@ const useFetchThingTree = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  return { data, allIds, totalCount, loading, error, refetch: fetchData };
+  return { data, allIds, totalCount, loading, error, fetchData };
 };
 
 export default useFetchThingTree;

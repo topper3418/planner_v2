@@ -131,12 +131,15 @@ async def get_todo_tickets(date_str: str):
     Get tickets that are due on a specific date, by due date and schedules.
     """
     try:
+        # get the date as a datetime object
         year, month, day = map(int, date_str.split("-"))
         date_in = datetime(year, month, day, 0, 0, 0)
+        # fetch tickets due that day
         ticket_params = TicketParams(
             due_date=date_in, include=["category"]
         )
         tickets_due = Ticket.read(ticket_params)
+        # now get scheduled tickets
         scheduler = Scheduler(date_in)
         scheduler.read()
         scheduled_tickets_data = scheduler.regen_tickets

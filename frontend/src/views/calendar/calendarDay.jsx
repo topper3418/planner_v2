@@ -15,8 +15,9 @@ const CalendarDay = ({
     performed_before: dayEnd.toISOString(),
     performed_after: dayStart.toISOString(),
   })
-  console.log('completionsApi for day', dayDate, completionsApi);
-  const tickets = todosApi?.data || [];
+  const tickets = (todosApi?.data || []).map((todo) => {
+    return { ...todo, isCompletedTicket: todo?.open === false }
+  });
   const displayDate = dayDate.getDate();
   const isCurrentMonth = dayDate.getMonth() === month;
 
@@ -40,7 +41,7 @@ const CalendarDay = ({
               window.location.href = `/tickets/${ticket.id}`;
             }}
             style={{
-              backgroundColor: completedTicketIds.includes(ticket.id) ?
+              backgroundColor: (completedTicketIds.includes(ticket.id) || ticket.isCompletedTicket) ?
                 '#52c41a' :
                 (ticket.category ? ticket.category.color : '#d9d9d9'),
               color: '#fff',

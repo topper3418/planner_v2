@@ -13,49 +13,6 @@ const DueTicketsCalendar = () => {
   const offset = firstDayOfMonthOfWeek === 0 ? 6 : firstDayOfMonthOfWeek - 1;
   const firstDayInCalendar = new Date(year, month, 1 - offset);
   const weeks = 6; // Always show 6 weeks to cover all month lengths
-  // const lastDayInCalendar = new Date(year, month, 1 - offset + (weeks * 7) - 1);
-
-  // const ticketParams = {
-  //   due_date_after: firstDayInCalendar.toISOString(),
-  //   due_date_before: lastDayInCalendar.toISOString(),
-  //   open: true,
-  //   include: ['category'],
-  //   page_size: 10000,
-  // }
-  //
-  // const ticketsApi = useApi.ticket.fetchMany(ticketParams);
-  // const milestonesApi = useApi.milestone.fetchMany();
-  //
-  // const ticketsDateMap = ticketsApi?.data?.reduce((acc, ticket) => {
-  //   const dueDate = ticket.due_date ? ticket.due_date.split("T")[0] : null;
-  //   if (dueDate) {
-  //     if (!acc[dueDate]) {
-  //       acc[dueDate] = [];
-  //     }
-  //     acc[dueDate].push(ticket);
-  //   }
-  //   return acc;
-  // }, {}) || {};
-  // const milestonesStartDateMap = milestonesApi?.data?.reduce((acc, milestone) => {
-  //   const startDate = milestone.start_date ? milestone.start_date.split("T")[0] : null;
-  //   if (startDate) {
-  //     if (!acc[startDate]) {
-  //       acc[startDate] = [];
-  //     }
-  //     acc[startDate].push(milestone);
-  //   }
-  //   return acc;
-  // }, {}) || {};
-  // const milestonesDueDateMap = milestonesApi?.data?.reduce((acc, milestone) => {
-  //   const dueDate = milestone.due_date ? milestone.due_date.split("T")[0] : null;
-  //   if (dueDate) {
-  //     if (!acc[dueDate]) {
-  //       acc[dueDate] = [];
-  //     }
-  //     acc[dueDate].push(milestone);
-  //   }
-  //   return acc;
-  // }, {}) || {};
 
   let dayCursor = new Date(firstDayInCalendar);
 
