@@ -12,7 +12,7 @@ const PlannerTitle = () => {
     <Dropdown
       menu={navBarProps}
       placement="bottomLeft"
-      trigger={['click', 'hover']}>
+      trigger={['click']}>
       <Typography.Title
         style={{
           color: 'white',

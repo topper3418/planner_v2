@@ -19,15 +19,23 @@ ChartJS.register(
 );
 import useApi from "../../api";
 import { Card } from 'antd';
+import { formatDate } from '../../util/formatting';
 
 const CompletedThisWeek = () => {
   const lastWeek = new Date();
+  const endOfDay = new Date();
+  const tzOffset = lastWeek.getTimezoneOffset();
+  lastWeek.setMinutes(lastWeek.getMinutes() - tzOffset);
   lastWeek.setDate(lastWeek.getDate() - 7);
+  lastWeek.setHours(0, 0, 0, 0);
+  endOfDay.setMinutes(endOfDay.getMinutes() - tzOffset);
+  endOfDay.setHours(23, 59, 59, 999);
 
   const actionParams = {
     include: ["ticket"],
     action_type_name: "Completed",
     performed_after: lastWeek.toISOString(),
+    performed_before: endOfDay.toISOString(),
     page_size: 1000,
   }
   const api = {
@@ -58,49 +66,20 @@ const CompletedThisWeek = () => {
     }
   };
 
-  // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  // labels should be the last 7 day strings
-  const daysOfWeek = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ]
   const labels = [];
   for (let i = 6; i >= 0; i--) {
     const date = new Date();
     date.setDate(date.getDate() - i);
-    labels.push(daysOfWeek[date.getDay()]);
-  }
-  // Now matches data order: 6 days ago → today
-  // list of actions from api have date strings
-  // count the number of actions per day
-  const data = [];
-  const today = new Date();
-
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i);
-    const dateString = date.toISOString().split('T')[0];
-
-    const count = api.action.list.data?.filter(action => {
-      const actionDate = new Date(action.performed_at);
-      return actionDate.toISOString().split('T')[0] === dateString;
-    }).length ?? 0;
-
-    data.push(count);  // push in order: oldest → newest
+    labels.push(formatDate(date.toISOString(), true, true));
   }
 
   const datasetData = labels.map((_, index) => {
     const targetDate = new Date();
     targetDate.setDate(targetDate.getDate() - (6 - index));
-    const dateStr = targetDate.toISOString().split('T')[0];
+    const dateStr = formatDate(targetDate.toISOString(), false, true);
 
     return api.action.list.data?.filter(a =>
-      new Date(a.performed_at).toISOString().split('T')[0] === dateStr
+      formatDate(a.performed_at, false, true) === dateStr
     ).length ?? 0;
   });
 

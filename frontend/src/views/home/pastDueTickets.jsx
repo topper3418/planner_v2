@@ -16,15 +16,11 @@ const PastDueTickets = () => {
     due_date_before: new Date(today).toISOString().split('T')[0], // format as YYYY-MM-DD
   };
 
-  console.log("Fetching past due tickets with params:", openPastDueTicketParams);
-
   const api = {
     tickets: {
       pastDue: useApi.ticket.fetchMany(openPastDueTicketParams),
     },
   };
-
-  console.log("Past due tickets data:", api.tickets.pastDue.data);
 
   const navigate = useNavigate();
 

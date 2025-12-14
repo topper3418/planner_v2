@@ -36,6 +36,7 @@ def seed_actions(ticket_id_lookup={}, dev=True):
             "#f07007",
         ),
         ("Comments", "Added a comment to the ticket", True, "#a3a3c2"),
+        ("Cancelled", "Cancelled the ticket", True, "#ff0000"),
     ]
     for name, description, is_default, color in action_types:
         add_action_type(name, description, is_default, color)

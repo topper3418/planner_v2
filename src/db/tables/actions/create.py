@@ -67,4 +67,18 @@ def create(action: Action) -> int:
         ticket.completed_at = None
         ticket.update()
 
+    # if the action is a "Cancelled" action, update the ticket's completed_at and open
+    if action_type.name == "Cancelled":
+        logger.info("Action is 'Cancelled', updating ticket's state")
+        if ticket_id := action.ticket_id is None:
+            raise ValueError(
+                "ticket_id must be provided for 'Cancelled' action"
+            )
+        ticket: Ticket | None = Ticket.get_by_id(action.ticket_id)  # type: ignore
+        if ticket is None:
+            raise ValueError(f"Ticket with ID {ticket_id} not found")
+        ticket.open = False
+        ticket.completed_at = datetime.now()
+        ticket.update()
+
     return last_row_id
