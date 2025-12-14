@@ -47,7 +47,6 @@ const CalendarDay = ({
           content={
             <List
               size="small"
-              header={<Typography.Text strong>Completions</Typography.Text>}
               dataSource={completionsApi?.data || []}
               renderItem={(action) => (
                 <List.Item>

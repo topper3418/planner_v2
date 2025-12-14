@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Input, Select, Table } from "antd";
+import { Button, Card, Flex, Input, Select, Table, Typography } from "antd";
 import useApi from "../api";
 import { useEffect, useState } from "react";
 import ActionTypeDropdown from "./inputs/actionTypeDropdown";
@@ -105,18 +105,23 @@ const ActionPanel = ({ ticketId, refreshAll }) => {
               {
                 title: 'Time',
                 dataIndex: 'performed_at',
+                width: 120,
                 key: 'performed_at',
-                render: formatDate
-              },
-              {
-                title: 'Type',
-                dataIndex: ['action_type', 'name'],
-                key: 'action_type',
                 render: (text, record) => {
                   return (
-                    <span style={{ backgroundColor: record.action_type.color, padding: '2px 6px', borderRadius: '4px' }}>
-                      {text}
-                    </span>
+                    <Flex vertical align="center">
+                      <Typography.Text style={{ textAlign: 'center' }}>
+                        {formatDate(text)}
+                      </Typography.Text>
+                      <span
+                        style={{
+                          backgroundColor: record.action_type.color,
+                          padding: '2px 6px',
+                          borderRadius: '4px'
+                        }}>
+                        {record.action_type.name}
+                      </span>
+                    </Flex>
                   )
                 }
               },
