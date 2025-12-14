@@ -32,7 +32,7 @@ const useScheduleViewHooks = () => {
   const api = {
     schedule: {
       selected: useApi.schedule.fetchOne(scheduleId),
-      list: useApi.schedule.fetchMany(),
+      list: useApi.schedule.fetchMany({ pageSize: 10 }),
       create: useApi.schedule.create(),
       update: useApi.schedule.update(),
     },

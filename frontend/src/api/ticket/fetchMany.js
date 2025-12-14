@@ -156,8 +156,6 @@ const useFetchTickets = (
       url.searchParams.append("page_size", page_size);
     }
 
-    console.log("Built URL:", url.toString());
-
     return url;
   };
 

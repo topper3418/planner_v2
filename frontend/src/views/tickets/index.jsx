@@ -11,6 +11,7 @@ const {
   inputs: { MilestoneDropdown }
 } = components;
 
+
 const TicketView = () => {
   const {
     ticketId,
@@ -18,6 +19,8 @@ const TicketView = () => {
     api,
     modalControl
   } = useTicketViewHooks()
+  const cols = ticketId ? ["Title", "Thing", "Category", "Due Date"] :
+    ["Title", "Thing", "Category", "Assigned User", "Due Date"];
   return (<>
     <Flex gap="10px" style={{
       height: '100%',
@@ -31,6 +34,8 @@ const TicketView = () => {
         <TicketTable
           ticketListApi={api.ticket.list}
           tableMode={ticketId ? "compact" : "full"}
+          widthOverride={ticketId ? 600 : 1100}
+          colsOverride={cols}
           selectedTicketId={ticketId}
           beginAddTicket={modalControl.add.open}
           scrollHeight={500}

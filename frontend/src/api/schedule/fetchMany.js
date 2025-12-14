@@ -13,7 +13,6 @@ const useFetchSchedules = (params) => {
     if (pageSize !== undefined) {
       url.searchParams.append("page_size", pageSize);
     }
-    console.log("Built URL: ", url.toString());
     return url;
   };
   const { data, count, loading, error, fetchData } = useFetch(

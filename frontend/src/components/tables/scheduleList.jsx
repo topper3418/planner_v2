@@ -16,11 +16,13 @@ const ScheduleList = (
       pageSize: pageSize,
     });
   }, [currentPage]);
-  console.log("scheduleApi: ", scheduleApi);
   return (
     <Card
       title="Schedules"
-      style={{ width: '250px', height: '100%' }}
+      style={{
+        width: '300px',
+        height: '100%'
+      }}
       extra={<Button
         type="primary"
         icon={<PlusOutlined />}
@@ -28,9 +30,12 @@ const ScheduleList = (
         onClick={createCallback}
       />}
     >
-      <Card.Meta style={{ height: '100%' }} />
-      <Flex vertical style={{ overflowY: 'auto', height: '100%' }}>
+      <Flex vertical style={{
+        overflowY: 'auto',
+        height: '100%',
+      }}>
         <List
+          style={{ height: "100%" }}
           loading={loading}
           dataSource={scheduleApi.schedule.list.data || []}
           renderItem={(schedule) => (

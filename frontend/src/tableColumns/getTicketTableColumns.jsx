@@ -1,14 +1,6 @@
+import { formatDate } from "../util/formatting";
+
 const getColumns = (cols = ["Title", "Thing", "Category"]) => {
-  const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
 
   const configuredColumns = {
     Title: {
@@ -55,6 +47,12 @@ const getColumns = (cols = ["Title", "Thing", "Category"]) => {
       dataIndex: "updated_at",
       key: "updated_at",
       render: (text) => formatDate(text),
+    },
+    ["Due Date"]: {
+      title: "Due Date",
+      dataIndex: "due_date",
+      key: "due_date",
+      render: (text) => (text ? formatDate(text, false, true) : ""),
     },
   };
   return cols.map((col) => configuredColumns[col]);

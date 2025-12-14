@@ -6,10 +6,12 @@ import getColumns from "../../../tableColumns/getTicketTableColumns"
 
 const TicketTable = ({
   tableMode,
+  colsOverride,
   onRow,
   ticketListApi,
   beginAddTicket,
-  scrollHeight
+  scrollHeight,
+  widthOverride,
 }) => {
 
   const {
@@ -20,15 +22,18 @@ const TicketTable = ({
     ticketListApi,
   );
 
-  const cols = tableMode === "compact" ?
+  const cols = colsOverride ? colsOverride : tableMode === "compact" ?
     ["Title", "Thing", "Category"] :
     ["Title", "Thing", "Category", "Assigned User", "Updated"];
+
+  const width = widthOverride ? widthOverride :
+    tableMode === "compact" ? 400 : 1100;
 
   return (
     <Card
       title={`Tickets (${ticketListApi.count ? ticketListApi.count : 0})`}
       style={{
-        width: tableMode === "compact" ? 400 : 1100,
+        width,
         height: '100%'
       }}
       extra={
