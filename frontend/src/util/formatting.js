@@ -8,5 +8,9 @@ export const formatDate = (dateString, compact = false) => {
   if (!compact) {
     options.year = "numeric";
   }
-  return new Date(dateString).toLocaleDateString(undefined, options);
+  const date = new Date(dateString);
+  // adjust for tz
+  const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+  const localDate = new Date(date.getTime() - userTimezoneOffset);
+  return localDate.toLocaleString(undefined, options);
 };
