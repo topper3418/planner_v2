@@ -19,7 +19,7 @@ const DueTicketsCalendar = () => {
   return (
     <Card title={`${monthName} ${year}`} style={{ width: '1300px' }}>
       <Flex vertical>
-        <Row justify="space-between">
+        <Row justify="center">
           {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
             <Col span={3} key={day}>
               <Typography.Text strong>{day}</Typography.Text>
@@ -27,12 +27,13 @@ const DueTicketsCalendar = () => {
           ))}
         </Row>
         {Array.from({ length: weeks }).map((_, week) => (
-          <Row justify="space-between" key={week}>
+          <Row justify="center" key={week}>
             {Array.from({ length: 7 }).map(() => {
               const dayDate = new Date(dayCursor);
               dayCursor.setDate(dayCursor.getDate() + 1);
               return (
                 <CalendarDay
+                  currentDate={currentDate}
                   dayDate={dayDate}
                   month={month}
                   key={dayDate.toISOString()} />
