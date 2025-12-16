@@ -1,6 +1,6 @@
 import logging
 
-from ...core import DbCore, ExceptionPackage, InsertBuilder
+from ...core import DbCore, ExceptionPackage
 
 from .base import Milestone
 
@@ -12,7 +12,7 @@ core.logger = logger
 
 def create(milestone: Milestone) -> int:
     logger.info(f"Creating new milestone: {milestone}")
-    query, params = InsertBuilder(milestone).query
+    query, params = milestone.get_insert_query()
     logger.info(f"Milestone Create Query: {query} \n Params: {params}")
     exception_package = ExceptionPackage()
     last_row_id = core.run_create(query, params, exception_package)

@@ -1,6 +1,6 @@
 import logging
 
-from ...core import DbCore, ExceptionPackage, InsertBuilder
+from ...core import DbCore, ExceptionPackage
 
 from .base import Thing
 
@@ -14,7 +14,7 @@ core.logger = logger
 
 def create(thing: Thing) -> int:
     logger.info(f"Creating new Thing: {thing}")
-    query, params = InsertBuilder(thing).query
+    query, params = thing.get_insert_query()
     exception_package = ExceptionPackage(
         unique_constraint_error=f"Thing name '{thing.name}' already exists",
         foreign_key_constraint_error=f"Invalid category_id: {thing.category_id}",

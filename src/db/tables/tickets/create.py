@@ -1,6 +1,6 @@
 import logging
 
-from ...core import DbCore, ExceptionPackage, InsertBuilder
+from ...core import DbCore, ExceptionPackage
 
 
 from .base import Ticket
@@ -15,7 +15,7 @@ core.logger = logger
 
 def create(ticket: Ticket) -> int:
     logger.info(f"Creating new ticket: {ticket}")
-    query, params = InsertBuilder(ticket).query
+    query, params = ticket.get_insert_query()
     exception_package = ExceptionPackage(
         foreign_key_constraint_error=f"Invalid thing_id: {ticket.thing_id} or category_id: {ticket.category_id}"
     )

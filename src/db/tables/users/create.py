@@ -1,6 +1,6 @@
 import logging
 
-from ...core import DbCore, ExceptionPackage, InsertBuilder
+from ...core import DbCore, ExceptionPackage
 
 from .base import User
 
@@ -12,7 +12,7 @@ core.logger = logger
 
 def create(user: User) -> int:
     logger.info(f"Creating new user: {user}")
-    query, params = InsertBuilder(user).query
+    query, params = user.get_insert_query()
     exception_package = ExceptionPackage()
     last_row_id = core.run_create(query, params, exception_package)
     user.id = last_row_id

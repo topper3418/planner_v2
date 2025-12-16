@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 
-from ...core import DbCore, ExceptionPackage, InsertBuilder
+from ...core import DbCore, ExceptionPackage
 
 from .base import Action
 
@@ -24,8 +24,7 @@ def create(action: Action) -> int:
         raise ValueError(f"Invalid action_type_id: {type_id}")
 
     # insert the action
-    builder = InsertBuilder(action)
-    query, params = builder.query
+    query, params = action.get_insert_query()
     exception_package = ExceptionPackage(
         foreign_key_constraint_error=f"Invalid ticket_id: {action.ticket_id}"
     )
