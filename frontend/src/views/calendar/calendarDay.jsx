@@ -57,8 +57,12 @@ const CalendarDay = ({
     if (createdAt > dayEnd && !ticket.due_date) {
       return false;
     }
-    // filter tickets out if they are completed and this day is in the past
-    if (isInPast && ticket.open === false) {
+    // filter tickets out if they are completed
+    if (ticket.open === false) {
+      return false;
+    }
+    // filter out tickets that are in the completedTicketIds list
+    if (completedTicketIds.includes(ticket.id)) {
       return false;
     }
     return true;
