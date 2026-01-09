@@ -145,11 +145,17 @@ async def get_todo_tickets(date_str: str):
         scheduler = Scheduler(date_in)
         scheduler.read()
         scheduled_tickets_data = scheduler.regen_tickets
+        # loop through scheduled tickets and add any that aren't already in tickets_due
         for ticket in scheduled_tickets_data:
-            if ticket not in tickets_due.data:
-                ticket.populate_category()  # type: ignore
-                tickets_due.data.append(ticket)
-                tickets_due.count += 1
+            if ticket in tickets_due.data:
+                continue
+            # also dedupe for those with a completion action after the date_in
+            if ticket.has_been_completed_since(date_in.date()):  # type: ignore
+                continue
+            ticket.populate_category()  # type: ignore
+            tickets_due.data.append(ticket)
+            tickets_due.count += 1
+        # finally return the combined list
         return tickets_due
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

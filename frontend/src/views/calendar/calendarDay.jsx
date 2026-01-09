@@ -37,10 +37,6 @@ const CalendarDay = ({
       completionsApi.fetchData(completionsParams);
     }
   }
-  // debug print if it's the 12th day of the month
-  if (dayDate.getDate() === 12) {
-    console.log("todosApi data", todosApi?.data);
-  }
   const tickets = (todosApi?.data || []).map((todo) => {
     const isCompletedTicket = todo?.open === false && todo.schedule_id === null;
     return { ...todo, isCompletedTicket };
@@ -48,19 +44,29 @@ const CalendarDay = ({
   const displayDate = dayDate.getDate();
   const isCurrentMonth = dayDate.getMonth() === month;
   const isInPast = dayDate < currentDate
+  const isInFuture = dayDate > currentDate
 
   const completedTicketIds = completionsApi?.data?.map((completion) => completion.ticket_id) || [];
   const filteredTickets = tickets.filter((ticket) => {
+    // if we are in the future and the ticket is scheduled, it shows. 
+    if (isInFuture && ticket.schedule_id !== null) {
+      return true;
+    }
+    // filter tickets out if they are completed, but only if they are not scheduled
+    if (ticket.open === false) {
+      return false;
+    }
     // filter tickets out if they were created after this day
     // and it doesn't have a due date on this day
     const createdAt = new Date(ticket.created_at);
     if (createdAt > dayEnd && !ticket.due_date) {
       return false;
     }
-    // filter tickets out if they are completed and this day is in the past
-    if (isInPast && ticket.open === false) {
+    // filter out tickets that are in the completedTicketIds list
+    if (completedTicketIds.includes(ticket.id)) {
       return false;
     }
+    // if we are in the 
     return true;
   });
   const ticketModalControl = useTicketModalControl(api);
