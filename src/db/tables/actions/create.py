@@ -59,7 +59,6 @@ def create(action: Action) -> int:
         if ticket is None:
             raise ValueError(f"Ticket with ID {ticket_id} not found")
         ticket.open = True
-        ticket.completed_at = None
         ticket.update()
 
     # if the action is a "Cancelled" action, update the ticket's completed_at and open
