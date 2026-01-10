@@ -6,6 +6,7 @@ from src.scheduler.scheduler import Scheduler
 
 from ..db import Controller
 from .ticket_categories import router as categories_router
+from .ticket_link_types import router as ticket_link_types_router
 
 
 Ticket = Controller.Tables.Ticket
@@ -20,6 +21,7 @@ TicketLinkParams = Controller.Params.TicketLink
 
 router = APIRouter(prefix="/tickets", tags=["tickets"])
 router.include_router(categories_router)
+router.include_router(ticket_link_types_router)
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)

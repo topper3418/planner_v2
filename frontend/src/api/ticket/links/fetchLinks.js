@@ -2,8 +2,6 @@ import apiUtils from "../../util";
 
 const { useFetch } = apiUtils;
 
-const TICKETS_URL = "/api/tickets/";
-
 const useFetchLinks = (
   ticketId,
   { link_category_id } = {},
