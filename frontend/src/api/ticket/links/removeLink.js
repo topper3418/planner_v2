@@ -1,4 +1,4 @@
-import apiUtils from "../util";
+import apiUtils from "../../../util";
 
 const TICKETS_URL = "/api/tickets/";
 

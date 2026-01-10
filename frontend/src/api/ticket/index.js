@@ -9,9 +9,7 @@ import useRemoveMilestoneFromTicket from "./removeMilestone";
 import useCreateTicketCategory from "./createCategory";
 import useUpdateTicketCategory from "./updateCategory";
 import useFetchTicketTodos from "./fetchTodos";
-import useFetchLinks from "./fetchLinks";
-import useAddLinkToTicket from "./addLink";
-import useRemoveLinkFromTicket from "./removeLink";
+import ticketLinksApi from "./links";
 
 const ticketApi = {
   create: useCreateTicket,
@@ -25,9 +23,7 @@ const ticketApi = {
   createCategory: useCreateTicketCategory,
   updateCategory: useUpdateTicketCategory,
   fetchTodos: useFetchTicketTodos,
-  fetchLinks: useFetchLinks,
-  addLink: useAddLinkToTicket,
-  removeLink: useRemoveLinkFromTicket,
+  links: ticketLinksApi,
 };
 
 export default ticketApi;
