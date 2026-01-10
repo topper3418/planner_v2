@@ -4,6 +4,7 @@ from .categories import (
     ThingCategory,
     TicketCategory,
     ActionType,
+    TicketLinkType,
 )
 from .actions import Action, ActionParams, ReadActionsResponse
 from .things import Thing, ThingParams, ReadThingsResponse
@@ -11,6 +12,11 @@ from .tickets import Ticket, TicketParams, ReadTicketsResponse
 from .milestones import Milestone, MilestoneParams, ReadMilestonesResponse
 from .schedules import Schedule, ScheduleParams, ReadSchedulesResponse
 from .users import User, UserParams, ReadUsersResponse
+from .ticket_links import (
+    TicketLink,
+    TicketLinkParams,
+    ReadTicketLinkResponse,
+)
 
 from ..core import QueryBuilder
 
@@ -20,6 +26,7 @@ Ticket.model_rebuild()
 Action.model_rebuild()
 Schedule.model_rebuild()
 User.model_rebuild()
+TicketLink.model_rebuild()
 
 
 class Controller:
@@ -33,6 +40,8 @@ class Controller:
         Milestone = Milestone
         Schedule = Schedule
         User = User
+        TicketLink = TicketLink
+        TicketLinkType = TicketLinkType
 
     class Params:
         Thing = ThingParams
@@ -42,6 +51,7 @@ class Controller:
         Milestone = MilestoneParams
         Schedule = ScheduleParams
         User = UserParams
+        TicketLink = TicketLinkParams
 
     class Responses:
         ReadThings = ReadThingsResponse
@@ -51,5 +61,6 @@ class Controller:
         ReadMilestones = ReadMilestonesResponse
         ReadSchedules = ReadSchedulesResponse
         ReadUsers = ReadUsersResponse
+        ReadTicketLink = ReadTicketLinkResponse
 
     QueryBuilder = QueryBuilder

@@ -58,8 +58,8 @@ const App = () => {
               <Route path="/things/" element={<ThingView />} />
               <Route path="/things/:thingId" element={<ThingView />} />
               <Route path="/things/:thingId/tickets/:ticketId" element={<ThingView />} />
-              <Route path="/milestones" element={<MilestoneView />} />
-              <Route path="/milestones/:milestoneId" element={<MilestoneView />} />
+              {/* <Route path="/milestones" element={<MilestoneView />} /> */}
+              {/* <Route path="/milestones/:milestoneId" element={<MilestoneView />} /> */}
               <Route path="/schedules" element={<ScheduleView />} />
               <Route path="/schedules/:scheduleId" element={<ScheduleView />} />
               <Route path="/users" element={<UserView />} />

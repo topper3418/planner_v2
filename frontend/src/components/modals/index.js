@@ -4,6 +4,7 @@ import UserModalImports from "./userModal";
 import MilestoneModalImports from "./milestoneModal";
 import ScheduleModalImports from "./scheduleModal";
 import CategoryModalImports from "./categoryModal";
+import TicketLinkModalImports from "./ticketLinkModal";
 
 const modals = {
   MilestoneModal: MilestoneModalImports.MilestoneModal,
@@ -12,6 +13,7 @@ const modals = {
   TicketModal: TicketImports.TicketModal,
   ThingModal: ThingImports.ThingModal,
   CategoryModal: CategoryModalImports.CategoryModal,
+  TicketLinkModal: TicketLinkModalImports.TicketLinkModal,
   buffers: {
     useMilestoneBuffer: MilestoneModalImports.useMilestoneBuffer,
     useScheduleBuffer: ScheduleModalImports.useScheduleBuffer,
@@ -19,6 +21,7 @@ const modals = {
     useTicketBuffer: TicketImports.useTicketBuffer,
     useThingBuffer: ThingImports.useThingBuffer,
     useCategoryBuffer: CategoryModalImports.useCategoryBuffer,
+    useTicketLinkBuffer: TicketLinkModalImports.useTicketLinkBuffer,
   },
   controllers: {
     useMilestoneModalControl: MilestoneModalImports.useMilestoneModalControl,
@@ -27,6 +30,7 @@ const modals = {
     useTicketModalControl: TicketImports.useTicketModalControl,
     useThingModalControl: ThingImports.useThingModalControl,
     useCategoryModalControl: CategoryModalImports.useCategoryModalControl,
+    useTicketLinkModalControl: TicketLinkModalImports.useTicketLinkModalControl,
   },
 };
 

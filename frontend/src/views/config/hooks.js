@@ -12,7 +12,7 @@ const {
 } = components;
 
 const useCategoryViewHooks = () => {
-  // category names, actionType, ticketCategory, thingCategory
+  // category names, actionType, ticketCategory, thingCategory, ticketLinkType
   const [categoryName, setCategoryName] = useState("actionType");
   // API object
   const api = {
@@ -31,11 +31,17 @@ const useCategoryViewHooks = () => {
       create: useApi.thing.createCategory(),
       update: useApi.thing.updateCategory(),
     },
+    ticketLinkType: {
+      list: useApi.ticket.links.fetchTypes(),
+      create: useApi.ticket.links.createType(),
+      update: useApi.ticket.links.updateType(),
+    },
   };
   api.refreshAll = () => {
     api.actionType.list.fetchData();
     api.ticketCategory.list.fetchData();
     api.thingCategory.list.fetchData();
+    api.ticketLinkType.list.fetchData();
   };
   // Modal Control
   const modalControl = useCategoryModalControl(api, categoryName);

@@ -1,14 +1,14 @@
-import { Card, Flex, List, Button } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { Flex } from "antd";
 import components from "../../components";
 import useTicketViewHooks from "./hooks";
+// import MilestonesCard from "./milestonesCard";
 
 const {
   ActionPanel,
   tables: { TicketTable },
   details: { TicketDetails },
-  modals: { TicketModal },
-  inputs: { MilestoneDropdown }
+  modals: { TicketModal, TicketLinkModal },
+  TicketLinkPanel
 } = components;
 
 
@@ -37,7 +37,7 @@ const TicketView = () => {
           widthOverride={ticketId ? 600 : 1100}
           colsOverride={cols}
           selectedTicketId={ticketId}
-          beginAddTicket={modalControl.add.open}
+          beginAddTicket={modalControl.ticket.add.open}
           scrollHeight={500}
           onRow={(record) => {
             return {
@@ -45,40 +45,15 @@ const TicketView = () => {
             }
           }} />
         {ticketId &&
-          <Flex vertical gap="10px" style={{ height: '100%' }}>
+          <Flex vertical gap="10px" style={{ height: 'calc(100% - 20px)' }}>
             <TicketDetails
               ticket={api.ticket.selected.data}
               loading={api.ticket.selected.loading}
               error={api.ticket.selected.error}
-              beginEdit={modalControl.edit.open} />
-            <Card
-              title="Milestones"
-              style={{ width: '250px', height: '100%' }}
-              extra={<MilestoneDropdown
-                setSelectedMilestoneId={(milestoneId) => api.ticket.addMilestone.addMilestone(ticketId, milestoneId)}
-                placeholder="Add" />}
-            >
-              <List
-                loading={api.milestone.list.loading}
-                dataSource={api.milestone.list.data || []}
-                renderItem={(milestone) => (
-                  <List.Item
-                    style={{
-                      padding: '10px',
-                    }}
-                  >
-                    <Flex justify="space-between" style={{ width: '100%' }}>
-                      {milestone.name}
-                      <Button
-                        icon={<DeleteOutlined />}
-                        onClick={() =>
-                          api.ticket.removeMilestone.removeMilestone(ticketId, milestone.id)}
-                      />
-                    </Flex>
-                  </List.Item>
-                )}
-              />
-            </Card>
+              beginEdit={modalControl.ticket.edit.open}
+              height="60%"
+            />
+            <TicketLinkPanel api={api} beginAdd={modalControl.ticketLink.add.open} />
           </Flex>}
         {ticketId && <>
           <Flex
@@ -91,7 +66,9 @@ const TicketView = () => {
       </Flex>
     </Flex>
     <TicketModal
-      modalControl={modalControl} />
+      modalControl={modalControl.ticket} />
+    <TicketLinkModal
+      modalControl={modalControl.ticketLink} />
   </>)
 }
 

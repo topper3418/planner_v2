@@ -6,7 +6,8 @@ const TicketDetails = ({
   ticket,
   loading,
   error,
-  beginEdit
+  beginEdit,
+  height
 }) => {
   const { thingId } = useParams();
   return (
@@ -20,7 +21,8 @@ const TicketDetails = ({
       }
       style={{
         padding: '10px',
-        width: '250px',
+        width: '300px',
+        height: height || '100%'
       }}
     >
       <Flex vertical gap="10px">

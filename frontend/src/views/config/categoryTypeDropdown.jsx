@@ -11,6 +11,7 @@ const CategoryTypeDropdown = ({ selectedType, onTypeChange }) => {
         { label: 'Action Types', value: 'actionType' },
         { label: 'Ticket Categories', value: 'ticketCategory' },
         { label: 'Thing Categories', value: 'thingCategory' },
+        { label: 'Ticket Link Types', value: 'ticketLinkType' }
       ]} />
   )
 }
