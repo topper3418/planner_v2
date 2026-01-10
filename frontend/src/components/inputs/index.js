@@ -4,6 +4,7 @@ import ThingDropdown from "./thingDropdown";
 import TicketDropdown from "./ticketDropdown";
 import UserDropdown from "./userDropdown";
 import UserMultiDropdown from "./userMultiDropdown";
+import TicketLinkTypeDropdown from "./ticketLinkTypeDropdown";
 
 const inputs = {
   ThingDropdown,
@@ -12,6 +13,7 @@ const inputs = {
   UserDropdown,
   UserMultiDropdown,
   ScheduleDropdown,
+  TicketLinkTypeDropdown,
 };
 
 export default inputs;
