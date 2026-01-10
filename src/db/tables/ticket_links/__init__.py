@@ -16,7 +16,7 @@ setattr(TicketLink, "update", update)
 setattr(TicketLink, "delete", as_staticmethod(delete))
 setattr(TicketLink, "from_row", as_classmethod(from_row))
 TicketLink.__params_class__ = TicketLinkParams
-TicketLink.__table_name__ = "actions"
+TicketLink.__table_name__ = "ticket_links"
 
 
 __all__ = ["TicketLink", "TicketLinkParams", "ReadTicketLinkResponse"]

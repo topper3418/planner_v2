@@ -7,7 +7,10 @@ import useTicketQueryParams from "../../queryParams/useTicketQueryParams";
 
 const {
   modals: {
-    controllers: { useTicketModalControl },
+    controllers: { 
+      useTicketModalControl ,
+      useTicketLinkModalControl,
+    },
   },
 } = components;
 
@@ -34,25 +37,26 @@ const useTicketViewHooks = () => {
       update: useApi.ticket.update(),
       addMilestone: useApi.ticket.addMilestone(),
       removeMilestone: useApi.ticket.removeMilestone(),
-    },
-    milestone: {
-      list: useApi.milestone.fetchMany(),
+      links: {
+        list: useApi.ticket.links.fetchMany(ticketId, {
+          include: ["link_type"],
+        }),
+        create: useApi.ticket.links.create(ticketId),
+        remove: useApi.ticket.links.remove(ticketId),
+      },
     },
   };
   api.refreshTicket = () => {
     if (ticketId) {
       api.ticket.selected.fetchOne(ticketId);
       api.ticket.list.fetchData(ticketTableQueryParams);
-    }
-  };
-  api.refreshMilestones = () => {
-    if (ticketId) {
-      api.milestone.list.fetchData({ ticket_id: ticketId });
+      api.ticket.links.list.fetchData({
+        include: ["link_type"],
+      });
     }
   };
   api.refreshAll = () => {
     api.refreshTicket();
-    api.refreshMilestones();
   };
 
   // refresh all on ticketId change
@@ -61,12 +65,11 @@ const useTicketViewHooks = () => {
       api.refreshAll();
     }
   }, [ticketId]);
-  // refresh milestones on add/remove milestone
-  useEffect(() => {
-    api.refreshMilestones();
-  }, [api.ticket.addMilestone.data, api.ticket.removeMilestone.data]);
 
-  const modalControl = useTicketModalControl(api);
+  const modalControl = {
+    ticket: useTicketModalControl(api),
+    ticketLink: useTicketLinkModalControl(ticketId, api),
+  };
 
   return {
     ticketId,

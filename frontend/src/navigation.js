@@ -19,10 +19,10 @@ const useViewNavigation = () => {
         ? [urlParams.thingId]
         : searchParams.getAll("thingIds")?.[0]?.split(",")?.map(Number),
       showClosed: searchParams.get("showClosed") === "true",
-      milestoneId: urlParams.milestoneId || searchParams.get("milestoneId"),
-      milestoneIds: urlParams.milestoneId
-        ? [urlParams.milestoneId]
-        : searchParams.getAll("milestoneIds")?.[0]?.split(",")?.map(Number),
+      // milestoneId: urlParams.milestoneId || searchParams.get("milestoneId"),
+      // milestoneIds: urlParams.milestoneId
+      //   ? [urlParams.milestoneId]
+      //   : searchParams.getAll("milestoneIds")?.[0]?.split(",")?.map(Number),
       scheduleId: urlParams.scheduleId || searchParams.get("scheduleId"),
       userId: urlParams.userId || searchParams.get("userId"),
       userIds: urlParams.userId
@@ -76,28 +76,28 @@ const useViewNavigation = () => {
         return prev;
       });
     },
-    milestoneId: (milestoneId) => {
-      setSearchParms((prev) => {
-        prev.delete("pageNumber");
-        if (!milestoneId) {
-          prev.delete("milestoneId");
-          return prev;
-        }
-        prev.set("milestoneId", milestoneId);
-        return prev;
-      });
-    },
-    milestoneIds: (milestoneIds) => {
-      setSearchParms((prev) => {
-        prev.delete("pageNumber");
-        if (!milestoneIds || milestoneIds.length === 0) {
-          prev.delete("milestoneIds");
-          return prev;
-        }
-        prev.set("milestoneIds", milestoneIds);
-        return prev;
-      });
-    },
+    // milestoneId: (milestoneId) => {
+    //   setSearchParms((prev) => {
+    //     prev.delete("pageNumber");
+    //     if (!milestoneId) {
+    //       prev.delete("milestoneId");
+    //       return prev;
+    //     }
+    //     prev.set("milestoneId", milestoneId);
+    //     return prev;
+    //   });
+    // },
+    // milestoneIds: (milestoneIds) => {
+    //   setSearchParms((prev) => {
+    //     prev.delete("pageNumber");
+    //     if (!milestoneIds || milestoneIds.length === 0) {
+    //       prev.delete("milestoneIds");
+    //       return prev;
+    //     }
+    //     prev.set("milestoneIds", milestoneIds);
+    //     return prev;
+    //   });
+    // },
     userId: (userId) => {
       setSearchParms((prev) => {
         prev.delete("pageNumber");

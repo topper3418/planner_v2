@@ -6,7 +6,7 @@ import useUpdateTicketLinkType from "./updateTypes";
 import useFetchTicketLinkTypes from "./fetchTypes";
 
 const ticketLinksApi = {
-  renmove: useRemoveLinkFromTicket,
+  remove: useRemoveLinkFromTicket,
   create: useAddLinkToTicket,
   fetchMany: useFetchLinks,
   createType: useCreateTicketLinkType,

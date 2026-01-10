@@ -2,7 +2,7 @@ import { Select } from "antd";
 import useApi from "../../api/";
 
 const TicketLinkTypeDropdown = ({ selectedTypeId, setSelectedTypeId }) => {
-  const { data, loading, error } = useApi.ticket.links.fetchMany();
+  const { data, loading, error } = useApi.ticket.links.fetchTypes();
 
   const handleChange = (value) => {
     console.log("value selected in ActionTepeDropdown:", value);
@@ -12,7 +12,7 @@ const TicketLinkTypeDropdown = ({ selectedTypeId, setSelectedTypeId }) => {
   return (
     <Select
       showSearch
-      style={{ width: 150 }}
+      style={{ width: 250 }}
       placeholder="Select a type"
       optionFilterProp="children"
       error={error}

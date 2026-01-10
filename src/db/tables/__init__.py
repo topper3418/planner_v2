@@ -26,6 +26,7 @@ Ticket.model_rebuild()
 Action.model_rebuild()
 Schedule.model_rebuild()
 User.model_rebuild()
+TicketLink.model_rebuild()
 
 
 class Controller:

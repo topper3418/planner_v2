@@ -2,7 +2,7 @@ from .base import TicketLink
 
 
 def from_row(cls, **row) -> TicketLink:
-    action = cls(
+    ticket_link = cls(
         id=row["id"],
         ticket_id=row["ticket_id"],
         link_type_id=row["link_type_id"],
@@ -12,7 +12,7 @@ def from_row(cls, **row) -> TicketLink:
     if "ticket_title" in row.keys():
         from ..tickets import Ticket
 
-        action.ticket = Ticket(
+        ticket_link.ticket = Ticket(
             id=row["ticket_id"],
             title=row.get("ticket_title", None),
             description=row.get("ticket_description", None),
@@ -27,11 +27,11 @@ def from_row(cls, **row) -> TicketLink:
     if "link_type_name" in row.keys():
         from ..categories import TicketLinkType
 
-        action.action_type = TicketLinkType(
+        ticket_link.link_type = TicketLinkType(
             id=row["link_type_id"],
             name=row.get("link_type_name", None),
             description=row.get("link_type_description", None),
             is_default=row.get("link_type_is_default", False),
             color=row.get("link_type_color", None),
         )
-    return action
+    return ticket_link

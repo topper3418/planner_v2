@@ -173,8 +173,10 @@ async def get_ticket_links(
     Get links for a specific ticket.
     """
     try:
+        print("filters: ", filters)
         filters.ticket_id = ticket_id
         ticket_links = TicketLink.read(filters)
+        print("Fetched ticket links:", ticket_links)
         return ticket_links
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

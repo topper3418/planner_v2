@@ -9,7 +9,7 @@ const useAddLinkToTicket = (ticketId) => {
   const addLinkToTicket = (linkData) => {
     return create({
       ...linkData,
-      ticket_id: ticketId,
+      ticket_id: Number(ticketId),
     });
   };
   return { data, loading, error, create: addLinkToTicket };

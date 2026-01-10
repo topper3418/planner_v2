@@ -19,9 +19,9 @@ class TicketLink(TableModel):
     ticket_id: Optional[int] = ForeignKeyField(None, on="id")
     link_type_id: Optional[int] = ForeignKeyField(None, on="id")
     label: Optional[str] = ColumnField(None)
-    link: Optional[datetime] = ColumnField(None)
+    link: Optional[str] = ColumnField(None)
     ticket: Optional["Ticket"] = RelationshipField(table_model="Ticket")
-    ticket_link_type: Optional["TicketLinkType"] = RelationshipField(
+    link_type: Optional["TicketLinkType"] = RelationshipField(
         table_model="TicketLinkType"
     )
 

@@ -7,7 +7,7 @@ CategoryParams = Controller.Params.Category
 ReadCategories = Controller.Responses.ReadCategories
 
 
-router = APIRouter(prefix="/types", tags=["ticket_link_types"])
+router = APIRouter(prefix="/ticket_link_types", tags=["ticket_link_types"])
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)

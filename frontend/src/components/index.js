@@ -8,6 +8,7 @@ import ThingTree from "./thingTree";
 import ActionPanel from "./actionPanel";
 import PlannerTitle from "./plannerTitle";
 import Filters from "./filters";
+import TicketLinkPanel from "./ticketLinkPanel";
 
 const components = {
   inputs,
@@ -20,6 +21,7 @@ const components = {
   ThingTree,
   ActionPanel,
   PlannerTitle,
+  TicketLinkPanel,
 };
 
 export default components;

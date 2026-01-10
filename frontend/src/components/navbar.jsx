@@ -31,11 +31,11 @@ const getItems = (searchParams) => {
       key: 'tickets',
       href: '/tickets' + paramStr
     },
-    {
-      label: 'Milestones',
-      key: 'milestones',
-      href: '/milestones' + paramStr
-    },
+    // {
+    //   label: 'Milestones',
+    //   key: 'milestones',
+    //   href: '/milestones' + paramStr
+    // },
     {
       label: 'Schedules',
       key: 'schedules',
