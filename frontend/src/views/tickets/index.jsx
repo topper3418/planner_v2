@@ -45,15 +45,17 @@ const TicketView = () => {
             }
           }} />
         {ticketId &&
-          <Flex vertical gap="10px" style={{ height: '100%' }}>
+          <Flex vertical gap="10px" style={{ height: 'calc(100% - 20px)' }}>
             <TicketDetails
               ticket={api.ticket.selected.data}
               loading={api.ticket.selected.loading}
               error={api.ticket.selected.error}
-              beginEdit={modalControl.edit.open} />
+              beginEdit={modalControl.edit.open}
+              height="60%"
+            />
             <Card
               title="Milestones"
-              style={{ width: '250px', height: '100%' }}
+              style={{ width: '300px', height: '40%' }}
               extra={<MilestoneDropdown
                 setSelectedMilestoneId={(milestoneId) => api.ticket.addMilestone.addMilestone(ticketId, milestoneId)}
                 placeholder="Add" />}
