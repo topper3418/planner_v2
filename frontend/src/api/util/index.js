@@ -3,6 +3,7 @@ import useFetch from "./useFetch";
 import useFetchOne from "./useFetchOne";
 import useUpdate from "./useUpdate";
 import useFetchCount from "./useFetchCount";
+import useDelete from "./useDelete";
 
 const apiUtils = {
   useCreate,
@@ -10,6 +11,7 @@ const apiUtils = {
   useFetchOne,
   useUpdate,
   useFetchCount,
+  useDelete,
 };
 
 export default apiUtils;

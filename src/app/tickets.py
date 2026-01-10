@@ -197,7 +197,7 @@ async def delete_ticket_link(ticket_id: int, link_id: int):
     Delete a link from a specific ticket.
     """
     try:
-        TicketLink.delete(link_id, ticket_id)
+        TicketLink.delete(link_id)
         return {"message": "Ticket link deleted"}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
