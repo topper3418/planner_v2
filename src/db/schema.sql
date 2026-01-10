@@ -22,6 +22,14 @@ CREATE TABLE IF NOT EXISTS ticket_categories (
     color TEXT
 );
 
+CREATE TABLE IF NOT EXISTS ticket_link_types (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    description TEXT,
+    is_default BOOLEAN DEFAULT 0,
+    color TEXT
+);
+
 CREATE TABLE IF NOT EXISTS things (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     category_id INTEGER,
@@ -61,6 +69,16 @@ CREATE TABLE IF NOT EXISTS tickets (
     FOREIGN KEY(parent_id) REFERENCES tickets(id),
     FOREIGN KEY(user_id) REFERENCES users(id),
     FOREIGN KEY(schedule_id) REFERENCES schedules(id)
+);
+
+CREATE TABLE IF NOT EXISTS ticket_links (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ticket_id INTEGER,
+    link_type_id INTEGER,
+    label TEXT,
+    link TEXT,
+    FOREIGN KEY(ticket_id) REFERENCES tickets(id),
+    FOREIGN KEY(link_type_id) REFERENCES ticket_link_types(id)
 );
 
 CREATE TABLE IF NOT EXISTS actions (

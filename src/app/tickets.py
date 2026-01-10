@@ -14,6 +14,8 @@ ReadTickets = Controller.Responses.ReadTickets
 Milestone = Controller.Tables.Milestone
 MilestoneParams = Controller.Params.Milestone
 MilestonesResponse = Controller.Responses.ReadMilestones
+TicketLink = Controller.Tables.TicketLink
+TicketLinkParams = Controller.Params.TicketLink
 
 
 router = APIRouter(prefix="/tickets", tags=["tickets"])
@@ -157,5 +159,45 @@ async def get_todo_tickets(date_str: str):
             tickets_due.count += 1
         # finally return the combined list
         return tickets_due
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/{ticket_id}/links")
+async def get_ticket_links(
+    ticket_id: int, filters: TicketLinkParams = Query()
+):
+    """
+    Get links for a specific ticket.
+    """
+    try:
+        filters.ticket_id = ticket_id
+        ticket_links = TicketLink.read(filters)
+        return ticket_links
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post("/{ticket_id}/links")
+async def add_ticket_link(ticket_id: int, ticket_link: TicketLink):
+    """
+    Add a link to a specific ticket.
+    """
+    try:
+        ticket_link.ticket_id = ticket_id
+        link_id = ticket_link.create()
+        return {"id": link_id}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.delete("/{ticket_id}/links/{link_id}")
+async def delete_ticket_link(ticket_id: int, link_id: int):
+    """
+    Delete a link from a specific ticket.
+    """
+    try:
+        TicketLink.delete(link_id, ticket_id)
+        return {"message": "Ticket link deleted"}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
