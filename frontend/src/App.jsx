@@ -26,7 +26,7 @@ const App = () => {
         algorithm: theme.darkAlgorithm,
       }}
     >
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Layout style={{
           height: '100vh',
           width: '100vw',
