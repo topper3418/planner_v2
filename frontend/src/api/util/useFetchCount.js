@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import useFetchState from "../../util/useFetchState";
+import { withApiBase } from "../config";
 
 const useFetchCount = (
   rootUrl,
@@ -20,8 +21,9 @@ const useFetchCount = (
   const fetchCount = async (params = {}) => {
     // reset state
     reset();
-    // build url
-    const url = urlBuilder(new URL(rootUrl, window.location.origin), params);
+    // build url (withApiBase handles /api -> deployed api prefix)
+    const resolvedRoot = withApiBase(rootUrl);
+    const url = urlBuilder(new URL(resolvedRoot, window.location.origin), params);
     // fetch data, manage state
     try {
       const response = await fetch(url);

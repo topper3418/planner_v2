@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { withApiBase } from "../config";
 
 const useUpdate = (url) => {
+  const baseUrl = withApiBase(url);
   // initialize state
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -13,7 +15,7 @@ const useUpdate = (url) => {
     setError(null);
     try {
       // actual fetch
-      const response = await fetch(url + "/" + data.id, {
+      const response = await fetch(baseUrl + "/" + data.id, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

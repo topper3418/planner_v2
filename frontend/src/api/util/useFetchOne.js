@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { withApiBase } from "../config";
 
 const useFetchOne = (url, itemId = undefined, { lazy = false } = {}) => {
+  const baseUrl = withApiBase(url);
   // initialize state
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -13,7 +15,7 @@ const useFetchOne = (url, itemId = undefined, { lazy = false } = {}) => {
     setError(null);
     try {
       // actual fetch
-      const response = await fetch(url + "/" + itemId, {
+      const response = await fetch(baseUrl + "/" + itemId, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

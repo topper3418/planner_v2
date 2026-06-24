@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { withApiBase } from "../config";
 
 const useDelete = (url) => {
+  const baseUrl = withApiBase(url);
   // initialize state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -12,7 +14,7 @@ const useDelete = (url) => {
     setError(null);
     try {
       // actual fetch
-      const response = await fetch(url + "/" + id, {
+      const response = await fetch(baseUrl + "/" + id, {
         method: "DELETE",
       });
       // handle non-2xx status

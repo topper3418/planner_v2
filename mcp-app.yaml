@@ -1,0 +1,38 @@
+name: planner-v2
+description: "Task planner with users, tickets, milestones, schedules, asset tree and calendar"
+version: "2.0.0"
+icon: "📅"  # REQUIRED for New World icon grid UI
+
+backend:
+  type: python
+  command: "uvicorn src.app:app --host 0.0.0.0 --port 8000"
+  build: "pip install -r requirements.txt"
+  port: 8000
+  health_path: /health
+  writable_paths:
+    - data/
+  # Optional environment variables passed to the process.
+  # CORS_ALLOW_ORIGINS controls the FastAPI CORSMiddleware.
+  # - Comma separated list, or "*" (which forces credentials off).
+  # - In New World deploys this is often unnecessary (same-origin under /apps/<name>/).
+  # env:
+  #   CORS_ALLOW_ORIGINS: "http://devpi.local,https://devpi.local"
+  # required_files: []  # add any runtime config files here if needed
+
+frontend:
+  type: react
+  dir: frontend
+  build: "npm install && npm run build"
+  output_dir: frontend/dist
+  spa_mode: true
+
+resources:
+  databases:
+    - name: main
+      type: sqlite
+      db_name: data/database.db
+
+# scheduler can be run separately or declared as worker if desired
+# workers:
+#   - name: scheduler
+#     command: "python scheduler.py"

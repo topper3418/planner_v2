@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { withApiBase } from "../config";
 
 const useCreate = (url) => {
+  const baseUrl = withApiBase(url);
   // initialize state
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -13,8 +15,8 @@ const useCreate = (url) => {
     setError(null);
     try {
       // actual fetch
-      console.log("Creating data at:", url, "with data:", data);
-      const response = await fetch(url, {
+      console.log("Creating data at:", baseUrl, "with data:", data);
+      const response = await fetch(baseUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
