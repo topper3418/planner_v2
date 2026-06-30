@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Planner">
+  <rect width="32" height="32" rx="7" fill="#1677ff"/>
+  <rect x="5" y="9" width="22" height="18" rx="2.5" fill="#ffffff"/>
+  <rect x="5" y="7" width="22" height="7" rx="2.5" fill="#0958d9"/>
+  <circle cx="10" cy="7.5" r="1.2" fill="#ffffff"/>
+  <circle cx="22" cy="7.5" r="1.2" fill="#ffffff"/>
+  <rect x="8" y="14" width="4" height="3.5" rx="0.8" fill="#1677ff"/>
+  <rect x="14" y="14" width="4" height="3.5" rx="0.8" fill="#1677ff"/>
+  <rect x="20" y="14" width="4" height="3.5" rx="0.8" fill="#1677ff"/>
+  <rect x="8" y="19.5" width="4" height="3.5" rx="0.8" fill="#91caff"/>
+  <rect x="14" y="19.5" width="4" height="3.5" rx="0.8" fill="#91caff"/>
+  <rect x="20" y="19.5" width="4" height="3.5" rx="0.8" fill="#91caff"/>
+</svg>

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Dropdown, Typography } from "antd";
 import { useNavBarProps } from "./navbar";
 import useViewNavigation from "../navigation";
@@ -7,6 +8,11 @@ const PlannerTitle = () => {
   const navBarProps = useNavBarProps();
 
   const pageName = navigation.location.pathname.split('/')[1] || 'home';
+  const pageLabel = pageName.charAt(0).toUpperCase() + pageName.slice(1);
+
+  useEffect(() => {
+    document.title = `Planner - ${pageLabel}`;
+  }, [pageLabel]);
 
   return (
     <Dropdown
@@ -22,7 +28,7 @@ const PlannerTitle = () => {
         }}
         level={3}
       >
-        {"Planner - " + pageName.charAt(0).toUpperCase() + pageName.slice(1)}
+        {`Planner - ${pageLabel}`}
       </Typography.Title>
     </Dropdown>
   )
