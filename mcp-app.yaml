@@ -22,7 +22,8 @@ backend:
 frontend:
   type: react
   dir: frontend
-  build: "npm install && npm run build"
+  # Prebuilt in CI/local — egghead lacks npm; dist/ is committed for deploy.
+  build: "true"
   output_dir: frontend/dist
   spa_mode: true
 
