@@ -22,10 +22,10 @@ backend:
 frontend:
   type: react
   dir: frontend
-  # Prebuilt in CI/local — egghead lacks npm; dist/ is committed for deploy.
+  # Prebuilt locally — egghead lacks npm; dist/ is committed for deploy.
   build: "true"
   output_dir: frontend/dist
-  spa_mode: true
+  spa_mode: false
 
 resources:
   databases:
