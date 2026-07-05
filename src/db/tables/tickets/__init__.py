@@ -14,7 +14,10 @@ from .add_milestone import add_milestone
 from .remove_milestone import remove_milestone
 from .populate_milestones import populate_milestones
 from .populate_category import populate_category
-from .has_been_completed_since import has_been_completed_since
+from .should_show_scheduled_occurrence import (
+    get_most_recent_completion_date,
+    should_show_scheduled_occurrence,
+)
 
 
 # attach CRUD functions to Ticket class
@@ -30,7 +33,8 @@ setattr(Ticket, "add_milestone", add_milestone)
 setattr(Ticket, "remove_milestone", remove_milestone)
 setattr(Ticket, "populate_milestones", populate_milestones)
 setattr(Ticket, "populate_category", populate_category)
-setattr(Ticket, "has_been_completed_since", has_been_completed_since)
+setattr(Ticket, "get_most_recent_completion_date", get_most_recent_completion_date)
+setattr(Ticket, "should_show_scheduled_occurrence", should_show_scheduled_occurrence)
 Ticket.__params_class__ = TicketParams
 Ticket.__table_name__ = "tickets"
 

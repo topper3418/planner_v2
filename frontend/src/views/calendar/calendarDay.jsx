@@ -2,6 +2,10 @@ import { Button, Col, Flex, List, Popover, Typography } from "antd";
 import useApi from "../../api";
 import components from "../../components";
 import useViewNavigation from "../../navigation";
+import {
+  filterCalendarTickets,
+  getTicketChipStyle,
+} from "./calendarTicketUtils";
 
 const { TicketModal, controllers: { useTicketModalControl } } = components.modals;
 
@@ -9,7 +13,6 @@ const CalendarDay = ({
   dayDate, month, currentDate,
 }) => {
   const navigation = useViewNavigation();
-  // get locale-adjusted start and end stamps for the day
   const dayStart = new Date(dayDate);
   dayStart.setHours(0, 0, 0, 0);
   const dayEnd = new Date(dayDate);
@@ -45,32 +48,9 @@ const CalendarDay = ({
   });
   const displayDate = dayDate.getDate();
   const isCurrentMonth = dayDate.getMonth() === month;
-  const isInPast = dayDate < currentDate
-  const isInFuture = dayDate > currentDate
 
   const completedTicketIds = completionsApi?.data?.map((completion) => completion.ticket_id) || [];
-  const filteredTickets = tickets.filter((ticket) => {
-    // if we are in the future and the ticket is scheduled, it shows. 
-    if (isInFuture && ticket.schedule_id !== null) {
-      return true;
-    }
-    // filter tickets out if they are completed, but only if they are not scheduled
-    if (ticket.open === false) {
-      return false;
-    }
-    // filter tickets out if they were created after this day
-    // and it doesn't have a due date on this day
-    const createdAt = new Date(ticket.created_at);
-    if (createdAt > dayEnd && !ticket.due_date) {
-      return false;
-    }
-    // filter out tickets that are in the completedTicketIds list
-    if (completedTicketIds.includes(ticket.id)) {
-      return false;
-    }
-    // if we are in the 
-    return true;
-  });
+  const filteredTickets = filterCalendarTickets(tickets, { dayEnd, completedTicketIds });
   const ticketModalControl = useTicketModalControl(api);
   return (<>
     <Col span={3} style={{ minHeight: '100px', border: '1px solid #f0f0f0', padding: '8px' }}>
@@ -112,10 +92,7 @@ const CalendarDay = ({
             ellipsis={{ rows: 1, expandable: false }}
             onClick={() => navigation.navigate(`/tickets/${ticket.id}`)}
             style={{
-              backgroundColor: (completedTicketIds.includes(ticket.id) || ticket.isCompletedTicket) ?
-                '#52c41a' :
-                (ticket.category ? ticket.category.color : '#d9d9d9'),
-              color: '#fff',
+              ...getTicketChipStyle(ticket, { completedTicketIds, dayDate, currentDate }),
               cursor: 'pointer',
               padding: '2px 4px',
               borderRadius: '4px',

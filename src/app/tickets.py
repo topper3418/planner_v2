@@ -153,8 +153,7 @@ async def get_todo_tickets(date_str: str):
         for ticket in scheduled_tickets_data:
             if ticket in tickets_due.data:
                 continue
-            # also dedupe for those with a completion action after the date_in
-            if ticket.has_been_completed_since(date_in.date()):  # type: ignore
+            if not ticket.should_show_scheduled_occurrence(date_in.date()):  # type: ignore
                 continue
             ticket.populate_category()  # type: ignore
             tickets_due.data.append(ticket)
