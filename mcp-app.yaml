@@ -1,0 +1,31 @@
+name: planner-v2
+description: "Task planner with users, tickets, milestones, schedules, asset tree and calendar"
+version: "2.0.0"
+icon: "📅"
+
+backend:
+  type: python
+  command: "uvicorn src.app:app --host 0.0.0.0 --port 8000"
+  build: "pip install -r requirements.txt"
+  port: 8000
+  health_path: /health
+  writable_paths:
+    - data/
+
+frontend:
+  type: react
+  dir: frontend
+  build: "true"
+  output_dir: frontend/dist
+  spa_mode: false
+
+resources:
+  databases:
+    - name: main
+      type: sqlite
+      db_name: data/database.db
+
+workers:
+  - name: scheduler
+    command: "python -c \"from src.scheduler.run import run_scheduled_ticket_reopening; run_scheduled_ticket_reopening()\""
+    schedule: "0 3 * * *"
