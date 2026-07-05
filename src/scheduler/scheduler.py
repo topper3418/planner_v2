@@ -44,8 +44,9 @@ class Scheduler:
                 regen_tickets.append(ticket)
         return regen_tickets
 
-    def reopen_scheduled_tickets(self):
+    def reopen_scheduled_tickets(self) -> list[dict]:
         reopen_action_type = ActionType.get_by_name("Reopened")  # type: ignore
+        reopened: list[dict] = []
         for ticket in self.regen_tickets:
             logger.info(
                 f"Reopening ticket {ticket.title} (ID: {ticket.id})"
@@ -64,3 +65,10 @@ class Scheduler:
                 )
                 ticket.overdue = True
                 ticket.update()
+            reopened.append({
+                "id": ticket.id,
+                "title": ticket.title,
+                "was_open": ticket_already_open,
+                "marked_overdue": ticket_already_open,
+            })
+        return reopened

@@ -1,9 +1,18 @@
 import { Button, Card, Flex, List, Pagination } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlayCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
 const ScheduleList = (
-  { scheduleId, scheduleApi, loading, createLoading, createCallback, selectSchedule }
+  {
+    scheduleId,
+    scheduleApi,
+    loading,
+    createLoading,
+    createCallback,
+    runLoading,
+    runCallback,
+    selectSchedule,
+  }
 ) => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -23,12 +32,23 @@ const ScheduleList = (
         width: '300px',
         height: '100%'
       }}
-      extra={<Button
-        type="primary"
-        icon={<PlusOutlined />}
-        loading={createLoading}
-        onClick={createCallback}
-      />}
+      extra={(
+        <Flex gap="8px">
+          <Button
+            icon={<PlayCircleOutlined />}
+            loading={runLoading}
+            onClick={runCallback}
+          >
+            Run Today
+          </Button>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            loading={createLoading}
+            onClick={createCallback}
+          />
+        </Flex>
+      )}
     >
       <Flex vertical style={{
         overflowY: 'auto',

@@ -1,21 +1,20 @@
 import time
 from datetime import datetime
 
-from src.scheduler import Scheduler
+from src.scheduler.run import run_scheduled_ticket_reopening
 
 
 def match_and_reopen_tickets():
-    scheduler = Scheduler()
-    scheduler.read()
+    result = run_scheduled_ticket_reopening()
     print("MATCHING SCHEDULES:")
-    for schedule in scheduler.matching_schedules:
-        print(f"- {schedule.name} (ID: {schedule.id})")
+    for schedule in result["matching_schedules"]:
+        print(f"- {schedule['name']} (ID: {schedule['id']})")
 
     print("MATCHING TICKETS TO REOPEN:")
-    for ticket in scheduler.regen_tickets:
-        print(f"- {ticket.title} (ID: {ticket.id})")
+    for ticket in result["tickets"]:
+        print(f"- {ticket['title']} (ID: {ticket['id']})")
 
-    scheduler.reopen_scheduled_tickets()
+    return result
 
 
 if __name__ == "__main__":

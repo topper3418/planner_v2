@@ -1,5 +1,10 @@
+from datetime import date
+
 from fastapi import APIRouter, HTTPException, Query, status
+from pydantic import BaseModel
+
 from ..db import Controller
+from ..scheduler.run import run_scheduled_ticket_reopening
 
 Schedule = Controller.Tables.Schedule
 ScheduleParams = Controller.Params.Schedule
@@ -7,6 +12,24 @@ ReadSchedules = Controller.Responses.ReadSchedules
 
 
 router = APIRouter(prefix="/schedules", tags=["schedules"])
+
+
+class RunSchedulesResponse(BaseModel):
+    matching_schedules: list[dict]
+    tickets_processed: int
+    tickets: list[dict]
+
+
+@router.post("/run", response_model=RunSchedulesResponse)
+async def run_schedules(date: date | None = Query(default=None)):
+    """
+    Manually run the scheduler for today (or an optional date override).
+    Reopens tickets whose schedules match the target date.
+    """
+    try:
+        return run_scheduled_ticket_reopening(date)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)

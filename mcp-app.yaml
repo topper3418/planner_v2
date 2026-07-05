@@ -33,7 +33,7 @@ resources:
       type: sqlite
       db_name: data/database.db
 
-# scheduler can be run separately or declared as worker if desired
-# workers:
-#   - name: scheduler
-#     command: "python scheduler.py"
+workers:
+  - name: scheduler
+    command: "python -c \"from src.scheduler.run import run_scheduled_ticket_reopening; run_scheduled_ticket_reopening()\""
+    schedule: "0 3 * * *"

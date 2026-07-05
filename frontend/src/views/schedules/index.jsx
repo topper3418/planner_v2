@@ -1,4 +1,4 @@
-import { Flex } from "antd";
+import { Flex, message } from "antd";
 import components from "../../components";
 import useScheduleViewHooks from "./hooks";
 
@@ -16,6 +16,21 @@ const ScheduleView = () => {
     select,
     modalControl,
   } = useScheduleViewHooks();
+
+  const runSchedules = async () => {
+    try {
+      const result = await api.schedule.run.run();
+      const scheduleCount = result.matching_schedules?.length ?? 0;
+      const ticketCount = result.tickets_processed ?? 0;
+      message.success(
+        `Ran ${scheduleCount} matching schedule(s); processed ${ticketCount} ticket(s).`,
+      );
+      api.refreshAll();
+    } catch {
+      message.error("Failed to run schedules.");
+    }
+  };
+
   return (<>
     <Flex style={{ height: '100%', flexWrap: 'wrap' }} gap="10px">
       <ScheduleList
@@ -23,7 +38,9 @@ const ScheduleView = () => {
         scheduleApi={api}
         loading={api.schedule.list.loading}
         createLoading={api.schedule.create.loading}
+        runLoading={api.schedule.run.loading}
         createCallback={() => modalControl.add.open()}
+        runCallback={runSchedules}
         selectSchedule={(scheduleId) => select.schedule(scheduleId)} />
       {scheduleId &&
         <ScheduleDetails

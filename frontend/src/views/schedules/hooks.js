@@ -35,6 +35,7 @@ const useScheduleViewHooks = () => {
       list: useApi.schedule.fetchMany({ pageSize: 10 }),
       create: useApi.schedule.create(),
       update: useApi.schedule.update(),
+      run: useApi.schedule.run(),
     },
     ticket: {
       list: useApi.ticket.fetchMany(ticketParams),
