@@ -1,12 +1,14 @@
 import { Button, Col, Flex, List, Popover, Typography } from "antd";
 import useApi from "../../api";
 import components from "../../components";
+import useViewNavigation from "../../navigation";
 
 const { TicketModal, controllers: { useTicketModalControl } } = components.modals;
 
 const CalendarDay = ({
   dayDate, month, currentDate,
 }) => {
+  const navigation = useViewNavigation();
   // get locale-adjusted start and end stamps for the day
   const dayStart = new Date(dayDate);
   dayStart.setHours(0, 0, 0, 0);
@@ -89,7 +91,7 @@ const CalendarDay = ({
                 dataSource={completionsApi?.data || []}
                 renderItem={(action) => (
                   <List.Item>
-                    <ActionListItem action={action} />
+                    <ActionListItem action={action} navigation={navigation} />
                   </List.Item>
                 )}
                 style={{ maxHeight: '200px', overflowY: 'auto', width: '250px' }} />
@@ -108,9 +110,7 @@ const CalendarDay = ({
           <Typography.Paragraph
             key={ticket.id}
             ellipsis={{ rows: 1, expandable: false }}
-            onClick={() => {
-              window.location.href = `/tickets/${ticket.id}`;
-            }}
+            onClick={() => navigation.navigate(`/tickets/${ticket.id}`)}
             style={{
               backgroundColor: (completedTicketIds.includes(ticket.id) || ticket.isCompletedTicket) ?
                 '#52c41a' :
@@ -137,9 +137,7 @@ const ActionListItem = ({ action, navigation }) => {
     <Flex vertical>
       <Typography.Text
         style={{ cursor: 'pointer' }}
-        onClick={() => {
-          window.location.href = `/tickets/${action.ticket_id}`;
-        }}
+        onClick={() => navigation.navigate(`/tickets/${action.ticket_id}`)}
         strong>
         {action.ticket?.title || 'No Ticket'}
       </Typography.Text>
