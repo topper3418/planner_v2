@@ -1,10 +1,6 @@
-from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import logging
 import os
-
-from src.scheduler.run import ensure_scheduled_tickets_reopened_for_today
 
 from .actions import router as actions_router
 from .things import router as things_router
@@ -13,19 +9,7 @@ from .milestones import router as milestones_router
 from .schedules import router as schedules_router
 from .users import router as users_router
 
-logger = logging.getLogger(__name__)
-
-
-@asynccontextmanager
-async def lifespan(_app: FastAPI):
-    try:
-        ensure_scheduled_tickets_reopened_for_today()
-    except Exception:
-        logger.exception("Failed to run startup scheduled ticket reopening")
-    yield
-
-
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 
 def _get_cors_origins() -> list[str]:

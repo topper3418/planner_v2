@@ -44,21 +44,14 @@ class Scheduler:
                 regen_tickets.append(ticket)
         return regen_tickets
 
-    def reopen_scheduled_tickets(
-        self,
-        *,
-        reopen_only_closed: bool = False,
-    ) -> list[dict]:
+    def reopen_scheduled_tickets(self) -> list[dict]:
         reopen_action_type = ActionType.get_by_name("Reopened")  # type: ignore
         reopened: list[dict] = []
         for ticket in self.regen_tickets:
-            ticket_already_open = ticket.open
-            if reopen_only_closed and ticket_already_open:
-                continue
-
             logger.info(
                 f"Reopening ticket {ticket.title} (ID: {ticket.id})"
             )
+            ticket_already_open = ticket.open
             reopen_action = Action(
                 action_type_id=reopen_action_type.id,
                 ticket_id=ticket.id,
