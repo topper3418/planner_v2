@@ -1,5 +1,10 @@
 # Agent instructions
 
+## General
+
+- Do not commit without my consent or explicit instruction.
+- Use common sense: before making large architectural changes, describe your plan and wait for my response.
+
 ## Subpath-safe URLs
 
 This app is deployed under a configurable base path (e.g. `/apps/planner-v2/`) via `VITE_BASE` / `import.meta.env.BASE_URL`. `BrowserRouter` in `frontend/src/App.jsx` uses that value as `basename`.
