@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException, Query, status
 from pydantic import BaseModel
 
 from src.scheduler.scheduler import Scheduler
+from src.scheduler.run import ensure_scheduled_tickets_reopened_for_today
 
 from ..db import Controller
 from .ticket_categories import router as categories_router
@@ -138,6 +139,9 @@ async def get_todo_tickets(date_str: str):
         # get the date as a datetime object
         year, month, day = map(int, date_str.split("-"))
         date_in = datetime(year, month, day, 0, 0, 0)
+        target_date = date_in.date()
+        if target_date == date.today():
+            ensure_scheduled_tickets_reopened_for_today()
         print("Fetching todo tickets for date:", date_in)
         # fetch tickets due that day
         ticket_params = TicketParams(
@@ -146,7 +150,7 @@ async def get_todo_tickets(date_str: str):
 
         tickets_due = Ticket.read(ticket_params)
         # now get scheduled tickets
-        scheduler = Scheduler(date_in)
+        scheduler = Scheduler(target_date)
         scheduler.read()
         scheduled_tickets_data = scheduler.regen_tickets
         # loop through scheduled tickets and add any that aren't already in tickets_due

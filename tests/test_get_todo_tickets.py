@@ -25,10 +25,11 @@ def make_scheduled_ticket(*, open: bool = True, ticket_id: int = 106) -> Ticket:
 
 
 class TestGetTodoTicketsEndpoint:
+    @patch("src.app.tickets.ensure_scheduled_tickets_reopened_for_today")
     @patch("src.app.tickets.Scheduler")
     @patch("src.app.tickets.Ticket.read")
     def test_includes_scheduled_ticket_when_occurrence_should_show(
-        self, mock_ticket_read, mock_scheduler_cls
+        self, mock_ticket_read, mock_scheduler_cls, mock_ensure_scheduler
     ):
         due_response = ReadTicketsResponse(data=[], count=0)
         scheduled_ticket = make_scheduled_ticket(open=False)
@@ -51,10 +52,11 @@ class TestGetTodoTicketsEndpoint:
         )
         scheduled_ticket.populate_category.assert_called_once()
 
+    @patch("src.app.tickets.ensure_scheduled_tickets_reopened_for_today")
     @patch("src.app.tickets.Scheduler")
     @patch("src.app.tickets.Ticket.read")
     def test_excludes_scheduled_ticket_when_occurrence_should_hide(
-        self, mock_ticket_read, mock_scheduler_cls
+        self, mock_ticket_read, mock_scheduler_cls, mock_ensure_scheduler
     ):
         due_response = ReadTicketsResponse(data=[], count=0)
         scheduled_ticket = make_scheduled_ticket(open=False)
@@ -74,10 +76,11 @@ class TestGetTodoTicketsEndpoint:
         assert body["data"] == []
         scheduled_ticket.populate_category.assert_not_called()
 
+    @patch("src.app.tickets.ensure_scheduled_tickets_reopened_for_today")
     @patch("src.app.tickets.Scheduler")
     @patch("src.app.tickets.Ticket.read")
     def test_does_not_duplicate_ticket_already_due_that_day(
-        self, mock_ticket_read, mock_scheduler_cls
+        self, mock_ticket_read, mock_scheduler_cls, mock_ensure_scheduler
     ):
         scheduled_ticket = make_scheduled_ticket(open=True)
         scheduled_ticket.should_show_scheduled_occurrence.return_value = True
@@ -96,9 +99,12 @@ class TestGetTodoTicketsEndpoint:
         assert body["count"] == 1
         scheduled_ticket.populate_category.assert_not_called()
 
+    @patch("src.app.tickets.ensure_scheduled_tickets_reopened_for_today")
     @patch("src.app.tickets.Scheduler")
     @patch("src.app.tickets.Ticket.read")
-    def test_returns_400_for_invalid_date(self, mock_ticket_read, mock_scheduler_cls):
+    def test_returns_400_for_invalid_date(
+        self, mock_ticket_read, mock_scheduler_cls, mock_ensure_scheduler
+    ):
         response = client.get("/tickets/todos/not-a-date")
 
         assert response.status_code == 400
