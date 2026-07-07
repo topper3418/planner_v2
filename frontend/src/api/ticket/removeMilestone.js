@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withApiBase } from "../config";
 
 const TICKET_REMOVE_MILESTONE_URL = "/api/tickets/";
 
@@ -16,7 +17,7 @@ const useRemoveMilestoneFromTicket = () => {
     try {
       // actual fetch
       const response = await fetch(
-        TICKET_REMOVE_MILESTONE_URL + ticketId + "/remove_milestone",
+        withApiBase(`${TICKET_REMOVE_MILESTONE_URL}${ticketId}/remove_milestone`),
         {
           method: "POST",
           headers: {

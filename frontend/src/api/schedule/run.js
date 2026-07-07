@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { withApiBase } from "../config";
+import { buildApiUrl } from "../config";
 
 const SCHEDULES_RUN_URL = "/api/schedules/run";
 
@@ -12,7 +12,7 @@ const useRunSchedules = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(withApiBase(SCHEDULES_RUN_URL), {
+      const response = await fetch(buildApiUrl(SCHEDULES_RUN_URL), {
         method: "POST",
       });
       if (!response.ok) {

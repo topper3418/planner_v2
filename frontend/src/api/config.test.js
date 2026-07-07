@@ -16,4 +16,11 @@ describe('withApiBase', () => {
     const { withApiBase } = await import('./config.js');
     expect(withApiBase('/api/tickets/count')).toBe('/api/tickets/count');
   });
+
+  it('buildApiUrl returns an absolute URL with the deployed API prefix', async () => {
+    vi.stubEnv('VITE_API_BASE_URL', '/apps/planner-v2/api');
+    const { buildApiUrl } = await import('./config.js');
+    const url = buildApiUrl('/api/things/tree');
+    expect(url.pathname).toBe('/apps/planner-v2/api/things/tree');
+  });
 });

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { withApiBase } from "../config";
 
 const TICKET_ADD_MILESTONE_URL = "/api/tickets/";
 
@@ -16,7 +17,7 @@ const useAddMilestoneToTicket = () => {
     try {
       // actual fetch
       const response = await fetch(
-        TICKET_ADD_MILESTONE_URL + ticketId + "/add_milestone",
+        withApiBase(`${TICKET_ADD_MILESTONE_URL}${ticketId}/add_milestone`),
         {
           method: "POST",
           headers: {

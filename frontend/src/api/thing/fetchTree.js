@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { buildApiUrl } from "../config";
 
 const THING_TREE_URL = "/api/things/tree";
 
@@ -24,7 +25,7 @@ const useFetchThingTree = () => {
   const [allIds, setAllIds] = useState([]);
 
   const fetchData = async () => {
-    const url = new URL(THING_TREE_URL, window.location.origin);
+    const url = buildApiUrl(THING_TREE_URL);
     const allIdsPlaceholder = [];
     try {
       const response = await fetch(url);

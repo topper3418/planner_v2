@@ -16,3 +16,8 @@ export function withApiBase(path) {
   // already a full or other path
   return path.startsWith('/') ? path : '/' + path;
 }
+
+// Build an absolute URL for fetch(), honoring subpath deployment.
+export function buildApiUrl(path) {
+  return new URL(withApiBase(path), window.location.origin);
+}
