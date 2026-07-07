@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import useFetchState from "../../util/useFetchState";
-import { buildApiUrl } from "../config";
+import { useEffect, useState } from 'react';
+
+import { buildApiUrl } from '../config';
+import { apiFetch } from './apiFetch';
 
 const useFetch = (
   rootUrl,
@@ -21,17 +22,11 @@ const useFetch = (
   };
 
   const fetchData = async (params = {}) => {
-    // reset state
     reset();
-    // build url (withApiBase makes /api/... become the full deployed prefix e.g. /apps/name/api/...)
     const url = urlBuilder(buildApiUrl(rootUrl), params);
-    // fetch data, manage state
+
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error on fetch! status: ${response.status}`);
-      }
-      const result = await response.json();
+      const result = await apiFetch(url, { errorPrefix: 'HTTP error on fetch' });
       if (result.data !== undefined) {
         setData(result.data);
         if (result.count !== undefined) {

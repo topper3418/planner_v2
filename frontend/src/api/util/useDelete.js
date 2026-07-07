@@ -1,39 +1,11 @@
-import { useState } from "react";
-import { withApiBase } from "../config";
+import useMutation from './useMutation';
 
 const useDelete = (url) => {
-  const baseUrl = withApiBase(url);
-  // initialize state
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { loading, error, mutate: remove } = useMutation(
+    (id) => ({ path: `${url}/${id}` }),
+    { method: 'DELETE', json: false },
+  );
 
-  // delete function
-  const remove = async (id) => {
-    // reset state
-    setLoading(true);
-    setError(null);
-    try {
-      // actual fetch
-      const response = await fetch(baseUrl + "/" + id, {
-        method: "DELETE",
-      });
-      // handle non-2xx status
-      if (!response.ok) {
-        throw new Error(`HTTP error on delete! status: ${response.status}`);
-      }
-      // return success
-      return true;
-      // catch all errors
-    } catch (err) {
-      setError(err.message);
-      throw err;
-    } finally {
-      // reset loading state
-      setLoading(false);
-    }
-  };
-
-  // return state and the delete function
   return { loading, error, remove };
 };
 

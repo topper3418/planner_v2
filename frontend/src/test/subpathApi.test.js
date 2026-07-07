@@ -3,6 +3,7 @@ import { join, relative } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const SRC_ROOT = join(process.cwd(), 'src');
+const API_FETCH_FILE = 'api/util/apiFetch.js';
 
 function collectSourceFiles(dir) {
   const files = [];
@@ -23,16 +24,16 @@ function collectSourceFiles(dir) {
   return files;
 }
 
-function usesApiBaseHelper(source) {
-  return /withApiBase|buildApiUrl/.test(source);
+function isAllowedFetchFile(relativePath) {
+  return relativePath === API_FETCH_FILE;
 }
 
-function isUtilHookFile(relativePath) {
-  return relativePath.startsWith('api/util/');
+function usesApiClient(source) {
+  return /apiFetch|useMutation|useFetch|useFetchOne|useFetchCount|useCreate|useUpdate|useDelete|apiUtils/.test(source);
 }
 
 describe('subpath-safe API requests', () => {
-  it('routes every direct fetch() through withApiBase or buildApiUrl', () => {
+  it('keeps raw fetch() inside apiFetch only', () => {
     const violations = [];
 
     for (const filePath of collectSourceFiles(SRC_ROOT)) {
@@ -43,31 +44,29 @@ describe('subpath-safe API requests', () => {
         continue;
       }
 
-      if (isUtilHookFile(relativePath)) {
-        continue;
-      }
-
-      if (!usesApiBaseHelper(source)) {
-        violations.push(`${relativePath}: fetch() without withApiBase/buildApiUrl`);
+      if (!isAllowedFetchFile(relativePath)) {
+        violations.push(`${relativePath}: raw fetch() must go through apiFetch`);
       }
     }
 
     expect(violations).toEqual([]);
   });
 
-  it('does not build /api URLs with new URL() unless using buildApiUrl', () => {
+  it('routes API modules through the shared client helpers', () => {
     const violations = [];
 
-    for (const filePath of collectSourceFiles(SRC_ROOT)) {
+    for (const filePath of collectSourceFiles(join(SRC_ROOT, 'api'))) {
       const relativePath = relative(SRC_ROOT, filePath);
-      const source = readFileSync(filePath, 'utf8');
-
-      if (!/new URL\([^)]*['"`]\/api/.test(source)) {
+      if (relativePath === API_FETCH_FILE || relativePath.startsWith('api/util/')) {
+        continue;
+      }
+      if (relativePath === 'api/config.js' || relativePath === 'api/index.js') {
         continue;
       }
 
-      if (!usesApiBaseHelper(source)) {
-        violations.push(`${relativePath}: new URL(/api...) without buildApiUrl`);
+      const source = readFileSync(filePath, 'utf8');
+      if (!usesApiClient(source)) {
+        violations.push(`${relativePath}: API module not using shared client`);
       }
     }
 

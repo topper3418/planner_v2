@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
-import { buildApiUrl } from "../config";
+import { useEffect, useState } from 'react';
 
-const THING_TREE_URL = "/api/things/tree";
+import { apiFetch } from '../util/apiFetch';
 
-const dataToTree = (data) => {
-  return data.map((item) => {
+const THING_TREE_URL = '/api/things/tree';
+
+const dataToTree = (data) => (
+  data.map((item) => {
     const treeItem = {
       title: item.name,
       key: item.id,
@@ -14,7 +15,17 @@ const dataToTree = (data) => {
       treeItem.children = dataToTree(item.children);
     }
     return treeItem;
+  })
+);
+
+const extractIds = (nodes, ids = []) => {
+  nodes.forEach((node) => {
+    ids.push(node.key);
+    if (node.children) {
+      extractIds(node.children, ids);
+    }
   });
+  return ids;
 };
 
 const useFetchThingTree = () => {
@@ -25,30 +36,16 @@ const useFetchThingTree = () => {
   const [allIds, setAllIds] = useState([]);
 
   const fetchData = async () => {
-    const url = buildApiUrl(THING_TREE_URL);
-    const allIdsPlaceholder = [];
+    setLoading(true);
+    setError(null);
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(
-          `HTTP error on fetch tree view! status: ${response.status}`,
-        );
-      }
-      const result = await response.json();
-      const totalCount = result.count !== undefined ? result.count : null;
+      const result = await apiFetch(THING_TREE_URL, {
+        errorPrefix: 'HTTP error on fetch tree view',
+      });
       const treeData = dataToTree(result.data);
-      const extractIds = (nodes) => {
-        nodes.forEach((node) => {
-          allIdsPlaceholder.push(node.key);
-          if (node.children) {
-            extractIds(node.children);
-          }
-        });
-      };
-      extractIds(treeData);
-      setAllIds(allIdsPlaceholder);
+      setAllIds(extractIds(treeData));
       setData(treeData);
-      setTotalCount(totalCount);
+      setTotalCount(result.count !== undefined ? result.count : null);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -59,6 +56,7 @@ const useFetchThingTree = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
   return { data, allIds, totalCount, loading, error, fetchData };
 };
 
