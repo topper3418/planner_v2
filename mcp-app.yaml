@@ -15,6 +15,8 @@ backend:
 frontend:
   type: react
   dir: frontend
+  # Prebuilt locally with: npm run build:deploy
+  # (sets VITE_BASE and VITE_API_BASE_URL for /apps/planner-v2/)
   build: "true"
   output_dir: frontend/dist
   spa_mode: false
