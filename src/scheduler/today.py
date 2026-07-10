@@ -1,12 +1,13 @@
 from datetime import date
 
+from ..dates import app_today
 from ..db.tables import Schedule
 
 
 class Today:
 
     def __init__(self):
-        self._today = date.today()
+        self._today = app_today()
 
     def check_schedule(self, schedule: Schedule) -> bool:
         """Checks if the current date matches the given schedule"""

@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Any, Callable, Type, Union
 
 from pydantic import Field
@@ -14,9 +13,13 @@ def ColumnField(default: Any, nullable=True, *args, **kwargs):
 
 def DateTimeField(use_current_timestamp=False, *args, **kwargs):
     if use_current_timestamp:
+        # Lazy import avoids circular imports at module load; UTC-naive matches
+        # SQLite CURRENT_TIMESTAMP and src.dates storage convention.
+        from ...dates import utc_now_naive
+
         return ColumnField(
             default=...,
-            default_factory=lambda: datetime.now(),
+            default_factory=utc_now_naive,
             use_current_timestamp=True,
             *args,
             **kwargs,

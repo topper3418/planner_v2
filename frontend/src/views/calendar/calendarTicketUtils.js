@@ -1,11 +1,10 @@
-export const startOfDay = (date) => {
-  const result = new Date(date);
-  result.setHours(0, 0, 0, 0);
-  return result;
-};
+import { startOfLocalDay } from '../../util/dates';
+
+/** @deprecated Prefer startOfLocalDay from util/dates — re-exported for DRY. */
+export const startOfDay = startOfLocalDay;
 
 export const isDayInFuture = (dayDate, currentDate) => (
-  startOfDay(dayDate) > startOfDay(currentDate)
+  startOfLocalDay(dayDate) > startOfLocalDay(currentDate)
 );
 
 export const isScheduledTicket = (ticket) => ticket.schedule_id != null;

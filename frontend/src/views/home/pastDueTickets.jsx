@@ -2,18 +2,14 @@ import { Card, Flex, Table } from 'antd';
 import useApi from '../../api';
 import getColumns from '../../tableColumns/getTicketTableColumns';
 import { useNavigate } from 'react-router-dom';
+import { toLocalDateString } from '../../util/dates';
 
 const PastDueTickets = () => {
-  // get today's date to inform the due date before param, adjust for timezone
-  const timezoneOffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
-  const today = new Date().getTime() - timezoneOffset;
-
-
   const openPastDueTicketParams = {
     open: true,
     include: ['thing', 'user', 'category'],
     page_size: 10000,
-    due_date_before: new Date(today).toISOString().split('T')[0], // format as YYYY-MM-DD
+    due_date_before: toLocalDateString(new Date()),
   };
 
   const api = {

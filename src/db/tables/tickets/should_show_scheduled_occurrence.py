@@ -1,6 +1,7 @@
 import logging
-from datetime import date, datetime
+from datetime import date
 
+from ....dates import app_today, to_app_date
 from ...core import DbCore
 
 from .base import Ticket
@@ -36,9 +37,8 @@ def get_most_recent_completion_date(ticket_id: int) -> date | None:
         return None
 
     most_recent = max(performed_at_values)
-    if isinstance(most_recent, datetime):
-        return most_recent.date()
-    return most_recent
+    # Stored timestamps are naive UTC; convert to app calendar day.
+    return to_app_date(most_recent)
 
 
 def should_show_scheduled_occurrence(
@@ -47,7 +47,7 @@ def should_show_scheduled_occurrence(
     today: date | None = None,
 ) -> bool:
     if today is None:
-        today = date.today()
+        today = app_today()
 
     last_completed_on = get_most_recent_completion_date(ticket.id)  # type: ignore
 

@@ -1,6 +1,6 @@
-from datetime import datetime
 import logging
 
+from ....dates import utc_now_naive
 from ...core import DbCore, ExceptionPackage
 
 from .base import Action
@@ -22,6 +22,11 @@ def create(action: Action) -> int:
     action_type: ActionType | None = ActionType.get_by_id(type_id)  # type: ignore
     if action_type is None:
         raise ValueError(f"Invalid action_type_id: {type_id}")
+
+    # Always stamp UTC-naive performed_at so storage matches SQLite CURRENT_TIMESTAMP
+    # and calendar-day conversion stays consistent (see src.dates).
+    if action.performed_at is None:
+        action.performed_at = utc_now_naive()
 
     # insert the action
     query, params = action.get_insert_query()
@@ -45,7 +50,7 @@ def create(action: Action) -> int:
             raise ValueError(f"Ticket with ID {ticket_id} not found")
         ticket.open = False
         ticket.overdue = False
-        ticket.completed_at = datetime.now()
+        ticket.completed_at = action.performed_at or utc_now_naive()
         ticket.update()
 
     # if the action is a "Reopened" action, update the ticket's completed_at
@@ -72,7 +77,7 @@ def create(action: Action) -> int:
         if ticket is None:
             raise ValueError(f"Ticket with ID {ticket_id} not found")
         ticket.open = False
-        ticket.completed_at = datetime.now()
+        ticket.completed_at = action.performed_at or utc_now_naive()
         ticket.update()
 
     return last_row_id

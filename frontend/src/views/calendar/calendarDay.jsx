@@ -2,6 +2,7 @@ import { Button, Col, Flex, List, Popover, Typography } from "antd";
 import useApi from "../../api";
 import components from "../../components";
 import useViewNavigation from "../../navigation";
+import { endOfLocalDay, startOfLocalDay } from "../../util/dates";
 import {
   filterCalendarTickets,
   getTicketChipStyle,
@@ -13,10 +14,8 @@ const CalendarDay = ({
   dayDate, month, currentDate,
 }) => {
   const navigation = useViewNavigation();
-  const dayStart = new Date(dayDate);
-  dayStart.setHours(0, 0, 0, 0);
-  const dayEnd = new Date(dayDate);
-  dayEnd.setHours(23, 59, 59, 999);
+  const dayStart = startOfLocalDay(dayDate);
+  const dayEnd = endOfLocalDay(dayDate);
   const todosParams = {
     date: dayDate,
     page_size: 1000,

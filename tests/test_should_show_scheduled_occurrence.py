@@ -59,6 +59,30 @@ class TestGetMostRecentCompletionDate:
         assert get_most_recent_completion_date(1) == date(2026, 7, 7)
 
     @patch("src.db.tables.actions.Action.read")
+    def test_utc_evening_completion_maps_to_previous_local_day(self, mock_read):
+        """Regression: Pool Robot completed ~8:41pm CDT stored as UTC next day."""
+        mock_read.return_value = ReadActionsResponse(
+            data=[
+                # 2026-07-09 01:41 UTC == 2026-07-08 20:41 America/Chicago
+                make_completion_action(datetime(2026, 7, 9, 1, 41, 23)),
+            ],
+            count=1,
+        )
+
+        assert get_most_recent_completion_date(1) == date(2026, 7, 8)
+
+    @patch("src.db.tables.actions.Action.read")
+    def test_utc_evening_string_maps_to_previous_local_day(self, mock_read):
+        mock_read.return_value = ReadActionsResponse(
+            data=[
+                make_completion_action("2026-07-09T01:41:23"),  # type: ignore[arg-type]
+            ],
+            count=1,
+        )
+
+        assert get_most_recent_completion_date(1) == date(2026, 7, 8)
+
+    @patch("src.db.tables.actions.Action.read")
     def test_queries_completed_actions_for_ticket(self, mock_read):
         mock_read.return_value = ReadActionsResponse(data=[], count=0)
 
@@ -180,6 +204,30 @@ class TestShouldShowScheduledOccurrence:
         assert should_show_scheduled_occurrence(
             ticket, TODAY, today=TODAY
         ) is True
+
+    @patch("src.db.tables.actions.Action.read")
+    def test_pool_robot_regression_reopened_after_utc_evening_completion(
+        self, mock_read
+    ):
+        """
+        End-to-end of the calendar bug:
+        - Completion stored as UTC 2026-07-09T01:41:23 (local 7/8 8:41pm)
+        - Ticket reopened the next local morning (open=True)
+        - Calendar day 2026-07-09 must show the ticket
+        """
+        mock_read.return_value = ReadActionsResponse(
+            data=[make_completion_action(datetime(2026, 7, 9, 1, 41, 23))],
+            count=1,
+        )
+        ticket = make_ticket(open=True)
+
+        assert should_show_scheduled_occurrence(
+            ticket, date(2026, 7, 9), today=date(2026, 7, 9)
+        ) is True
+        # Still hidden on the local completion day itself
+        assert should_show_scheduled_occurrence(
+            ticket, date(2026, 7, 8), today=date(2026, 7, 9)
+        ) is False
 
     @patch(
         "src.db.tables.tickets.should_show_scheduled_occurrence.get_most_recent_completion_date"

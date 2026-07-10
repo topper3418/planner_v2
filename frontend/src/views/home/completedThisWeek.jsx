@@ -19,17 +19,12 @@ ChartJS.register(
 );
 import useApi from "../../api";
 import { Card } from 'antd';
-import { formatDate } from '../../util/formatting';
+import { endOfLocalDay, formatDate, startOfLocalDay } from '../../util/dates';
 
 const CompletedThisWeek = () => {
-  const lastWeek = new Date();
-  const endOfDay = new Date();
-  const tzOffset = lastWeek.getTimezoneOffset();
-  lastWeek.setMinutes(lastWeek.getMinutes() - tzOffset);
+  const lastWeek = startOfLocalDay(new Date());
   lastWeek.setDate(lastWeek.getDate() - 7);
-  lastWeek.setHours(0, 0, 0, 0);
-  endOfDay.setMinutes(endOfDay.getMinutes() - tzOffset);
-  endOfDay.setHours(23, 59, 59, 999);
+  const endOfDay = endOfLocalDay(new Date());
 
   const actionParams = {
     include: ["ticket"],
